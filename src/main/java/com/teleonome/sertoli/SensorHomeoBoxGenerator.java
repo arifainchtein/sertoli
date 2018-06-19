@@ -154,6 +154,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					denesJSONArray.put(uiDene);
 					
 					uiDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, valueName);
+					uiDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "@" + teleonomeName + ":Human Interface:" + humanInterfacePanel);
 					
 					JSONArray uiDeneWordsJSONArray = new JSONArray();
 					uiDene.put("DeneWords", uiDeneWordsJSONArray);
