@@ -64,7 +64,7 @@ public class Sertoli
 			System.exit(0);
 		}
 		JSONObject spermJSONObject = new JSONObject(stringFormSperm);
-		JSONObject purposeJSONObject = spermJSONObject.getJSONObject("Purpose");
+		JSONObject purposeJSONObject = spermJSONObject.getJSONObject("Sperm").getJSONObject("Purpose");
 
 		String teleonomeName = purposeJSONObject.getString("Teleonome Name");
 
