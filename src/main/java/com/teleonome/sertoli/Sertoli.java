@@ -190,7 +190,7 @@ public class Sertoli
 		//
 		// copy the Teleonome.denome from fertilizatin back to main Teleonome
 		//
-		File srcFile =  new File(srcFolderName +  "PreSertoli_" + spermFileName );
+		File srcFile =  new File(srcFolderName +  "/PreSertoli_" + spermFileName );
 		File destFile = new File(Utils.getLocalDirectory()+ spermFileName);
 		//
 		// First delete the file
