@@ -37,9 +37,6 @@ public class Sertoli
 	}
 
 	public void process(String selectedSpermFileName) {
-		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
-		PropertyConfigurator.configure(fileName);
-		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
 		//
 		// Load the Sperm
 		//String selectedDenomeFileName = "/home/pi/Teleonome.denome";
@@ -225,6 +222,11 @@ public class Sertoli
 	}
 	public static void main( String[] args )
 	{
+		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
+		PropertyConfigurator.configure(fileName);
+		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
+		
+		
 		if(args.length!=1){
 			System.out.println("Usage: Sertoli localSpermFileName ");
 			System.exit(-1);
