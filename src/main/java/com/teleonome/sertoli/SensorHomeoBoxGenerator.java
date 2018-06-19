@@ -1,6 +1,8 @@
 package com.teleonome.sertoli;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Hashtable;
 
 import org.apache.commons.io.FileUtils;
@@ -38,7 +40,24 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			homeBoxJSONObject.put("Name", homeBoxName);
 			JSONArray denesJSONArray = new JSONArray();
 			homeBoxJSONObject.put("Denes", denesJSONArray);
-
+			//
+			// create the metadata dene 
+			// 
+			JSONObject metaDataDene = new JSONObject();
+			denesJSONArray.put(metaDataDene);
+			metaDataDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "");
+			metaDataDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "Meta Data");
+			metaDataDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_DENE_TYPE_HOMEOBOX_METADATA);
+			SimpleDateFormat dateFormat = new SimpleDateFormat(TeleonomeConstants.SPERM_DATE_FORMAT);	
+			JSONArray deneWordsJSONArray = new JSONArray();
+			metaDataDene.put("DeneWords", deneWordsJSONArray);
+			JSONObject deneword = Utils.createDeneWordJSONObject("Created On", dateFormat.format(new Date()), null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneWordsJSONArray.put(deneword);
+			deneword = Utils.createDeneWordJSONObject("Description", "", null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+			
+			
+			
 			JSONObject sensorDene = new JSONObject();
 			denesJSONArray.put(sensorDene);
 			String sensorDeneTergetPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_SENSORS)).toString();	
@@ -48,9 +67,9 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			sensorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, sensorName);
 			sensorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_SENSOR);
 
-			JSONArray deneWordsJSONArray = new JSONArray();
+			 deneWordsJSONArray = new JSONArray();
 			sensorDene.put("DeneWords", deneWordsJSONArray);
-			JSONObject deneword = Utils.createDeneWordJSONObject("Pointer to Microcontroller", pointerToMicroController, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			 deneword = Utils.createDeneWordJSONObject("Pointer to Microcontroller", pointerToMicroController, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 			deneWordsJSONArray.put(deneword);
 			deneword = Utils.createDeneWordJSONObject("Codon", sensorName, null, TeleonomeConstants.DATATYPE_STRING, true);
 			deneWordsJSONArray.put(deneword);
@@ -192,6 +211,29 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				}
 			} // looping ver values
 			
+			//
+			// create the homeobox index dene
+			// 
+			JSONObject homeoboxDene = new JSONObject();
+			denesJSONArray.put(homeoboxDene);
+			homeoboxDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "");
+			homeoboxDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, TeleonomeConstants.SPERM_HOMEOBOX_INDEX);
+			homeoboxDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_HOMEOBOX_INDEX);
+			deneWordsJSONArray = new JSONArray();
+			homeoboxDene.put("DeneWords", deneWordsJSONArray);
+			String denePointer = "@Sperm:Hypothalamus:" ;
+			String deneName;
+			for(int i=0;i<denesJSONArray.length();i++) {
+				deneName = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE);
+				if(!deneName.equals("Meta Data")) {
+					denePointer = "@Sperm:Hypothalamus:" + homeBoxName + ":" + deneName;
+					deneword = Utils.createDeneWordJSONObject(deneName, denePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+					deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_HOX_DENE_POINTER);
+					deneWordsJSONArray.put(deneword);
+				}				
+			}
+			
+			denesJSONArray.put(homeoboxDene);
 			
 		return homeBoxJSONObject;
 	}
