@@ -82,6 +82,7 @@ public class Sertoli
 				try {
 					logger.debug("reading  " +files[i]);
 					stringFormHDS = FileUtils.readFileToString(files[i]);
+					logger.debug("stringFormHDS  " +stringFormHDS);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					logger.warn(Utils.getStringException(e));
