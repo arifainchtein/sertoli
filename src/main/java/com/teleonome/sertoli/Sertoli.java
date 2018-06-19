@@ -27,10 +27,7 @@ import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.exception.MissingDenomeException;
 import com.teleonome.framework.utils.Utils;
 
-/**
- * Hello world!
- *
- */
+
 public class Sertoli 
 {
 	public final static String BUILD_NUMBER="14/05/2018 08:26";
@@ -40,7 +37,9 @@ public class Sertoli
 	}
 
 	public void process(String selectedSpermFileName) {
-		logger = Logger.getLogger(getClass());
+		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
+		PropertyConfigurator.configure(fileName);
+		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
 		//
 		// Load the Sperm
 		//String selectedDenomeFileName = "/home/pi/Teleonome.denome";
