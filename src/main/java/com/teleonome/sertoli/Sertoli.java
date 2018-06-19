@@ -100,7 +100,8 @@ public class Sertoli
 					//
 					// now add the homebox to the sperm
 
-					JSONObject hypothalamusJSONObject = spermJSONObject.getJSONObject("Hypothalamus");
+					JSONObject hypothalamusJSONObject = spermJSONObject.getJSONObject("Sperm").getJSONObject("Hypothalamus");
+
 					JSONArray homeoboxes = hypothalamusJSONObject.getJSONArray("Homeoboxes");
 					homeoboxes.put(homeBoxJSONObject);
 					FileUtils.writeStringToFile(selectedSpermFile, spermJSONObject.toString());
