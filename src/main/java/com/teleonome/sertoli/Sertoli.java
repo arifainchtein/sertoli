@@ -104,7 +104,7 @@ public class Sertoli
 
 					JSONArray homeoboxes = hypothalamusJSONObject.getJSONArray("Homeoboxes");
 					homeoboxes.put(homeBoxJSONObject);
-					FileUtils.writeStringToFile(selectedSpermFile, spermJSONObject.toString());
+					FileUtils.writeStringToFile(selectedSpermFile, spermJSONObject.toString(4));
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -143,16 +143,7 @@ public class Sertoli
 		File destFolder = new File(destFolderName);
 		destFolder.mkdirs();
 		File srcFile = new File(srcFolderName + spermFileName);
-		File destFile =  new File(destFolderName + "PreSertoli_" + spermFileName + ".sperm");
-		try {
-			FileUtils.copyFile(srcFile, destFile);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		srcFile = new File(srcFolderName + spermFileName);
-		destFile =  new File(destFolderName + spermFileName);
+		File destFile =  new File(destFolderName + "PreSertoli_" + spermFileName );
 		try {
 			FileUtils.copyFile(srcFile, destFile);
 		} catch (IOException e) {
