@@ -224,6 +224,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			String deneName, deneType;
 			for(int i=0;i<denesJSONArray.length();i++) {
 				deneName = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE);
+				logger.debug("deneName="+ deneName);
 				deneType = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
 				if(!deneName.equals("Meta Data") &&
 					!deneType.equals(TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_CARRIER) &&
