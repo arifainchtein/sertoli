@@ -58,9 +58,22 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			deneWordsJSONArray.put(deneword);
 			deneword = Utils.createDeneWordJSONObject("Port", sensorPort, null, TeleonomeConstants.DATATYPE_STRING, true);
 			deneWordsJSONArray.put(deneword);
-			
+			//
+			// do the loop for values twice, once to add denewords to the sensor dene and another to add the actual value denes
 			JSONObject value;
 			String valueName;
+			for(int i=0;i<values.length();i++){
+				value = values.getJSONObject(i);
+				//
+				// first the data
+				//
+				valueName = value.getString("Name").replace(" ", "");
+				deneword = Utils.createDeneWordJSONObject(valueName + " Value", "@" + teleonomeName + ":" + TeleonomeConstants.NUCLEI_INTERNAL + ":" + TeleonomeConstants.DENECHAIN_SENSORS + ":" + valueName + " Value", null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_SENSOR_VALUE);
+				deneWordsJSONArray.put(deneword);
+				
+			}
+			
 			String denewordValuePointer,sensorValueReportingAddressPointer, sensorValueReportingAddressDenePointer;
 			Hashtable existingDeneWordCarrierForDeneIndex = new Hashtable();
 			JSONArray sensorValueDeneWordsJSONArray;
@@ -83,7 +96,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				valueName = value.getString("Name").replace(" ", "");
 				sensorValueUnits = value.getString("Units");
 				
-				sensorValueDataType = value.getString("Name");
+				sensorValueDataType = value.getString("Value Type");
 				sensorValueRequestPosition = value.getInt("Sensor Value Request Position");
 				sensorValueRangeMaximum = value.getDouble("Range Maximum");
 				sensorValueRangeMinimum = value.getDouble("Range Minimum");
@@ -119,7 +132,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				sensorValueDene = new JSONObject();
 				denesJSONArray.put(sensorValueDene);
-				sensorValueDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, sensorName);
+				sensorValueDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, sensorName + " Value");
 				sensorValueDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_SENSOR_VALUE_DEFINITION);
 
 				sensorValueDeneWordsJSONArray = new JSONArray();
