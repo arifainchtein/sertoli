@@ -153,7 +153,8 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				denesJSONArray.put(sensorValueDene);
 				sensorValueDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, sensorName + " Value");
 				sensorValueDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_SENSOR_VALUE_DEFINITION);
-
+				sensorValueDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, sensorDeneTergetPointer);
+				
 				sensorValueDeneWordsJSONArray = new JSONArray();
 				sensorValueDene.put("DeneWords", sensorValueDeneWordsJSONArray);
 				deneword = Utils.createDeneWordJSONObject("Codon", sensorName, null, TeleonomeConstants.DATATYPE_STRING, true);
