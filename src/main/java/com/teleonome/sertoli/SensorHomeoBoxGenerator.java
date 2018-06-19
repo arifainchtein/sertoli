@@ -142,7 +142,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				// do the purpose:sensor data
 				reportingValueDeneWord = Utils.createDeneWordJSONObject(valueName, sensorValueInitialValue, sensorValueUnits, sensorValueDataType, true);
-				reportingValueDeneWord.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET,sensorValueReportingAddressPointer);
+				//reportingValueDeneWord.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET,sensorValueReportingAddressPointer);
 				existingDeneWordCarrierForDeneWords.put(reportingValueDeneWord);
 				//
 				// finally check to see if there is Human Interface info
