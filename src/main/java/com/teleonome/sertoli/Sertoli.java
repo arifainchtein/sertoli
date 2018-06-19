@@ -193,18 +193,18 @@ public class Sertoli
 		//
 		// copy the Teleonome.denome from fertilizatin back to main Teleonome
 		//
-		File srcFile =  new File(srcFolderName +  "PreSertoli_" + spermFileName + ".sperm");
-		File destFile = new File(Utils.getLocalDirectory()+ spermFileName+ "sperm");
+		File srcFile =  new File(srcFolderName +  "PreSertoli_" + spermFileName );
+		File destFile = new File(Utils.getLocalDirectory()+ spermFileName);
 		//
 		// First delete the file
 		if(destFile.isFile()) {
-			logger.debug("Erasing existing " + spermFileName+ "sperm");
+			logger.debug("Erasing existing " + spermFileName);
 			destFile.delete();
 		}
 		
 		try {
 			FileUtils.copyFile(srcFile, destFile);
-			logger.debug("copying prefertilizartion to Teleonome.denome");
+			logger.debug("copying " +  srcFile + " " + destFile);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
