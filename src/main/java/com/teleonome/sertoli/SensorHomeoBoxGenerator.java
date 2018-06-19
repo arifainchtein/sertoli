@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,10 +14,14 @@ import com.teleonome.framework.utils.Utils;
 
 public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 
+	Logger logger;
+	
 	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement) {
 			//
 			// Getting the data
 			//
+		logger = Logger.getLogger(getClass());
+		
 		JSONObject sensorValueDene;
 			String homeBoxName  = homeboxSourceDataElement.getString("Homeobox Name");
 			String sensorName = homeboxSourceDataElement.getString("Sensor Name");
@@ -92,8 +97,9 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				// now create the actual value dene
 
-
+				logger.debug("sensorValueReportingAddressDenePointer=" + sensorValueReportingAddressDenePointer);
 				existingDeneWordCarrierForDene = (JSONObject) existingDeneWordCarrierForDeneIndex.get(sensorValueReportingAddressDenePointer);
+				logger.debug("existingDeneWordCarrierForDene=" + existingDeneWordCarrierForDene);
 				if(existingDeneWordCarrierForDene==null) {
 					existingDeneWordCarrierForDene = new JSONObject();
 					existingDeneWordCarrierForDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier For " + reportingValueDeneName);
@@ -140,12 +146,13 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				// finally check to see if there is Human Interface info
 				//
 				if(value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) && value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION)) {
+					logger.debug("found ui info, processing");
 					String humanInterfacePanel = value.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
 					int inPanelPosition = value.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION);
 					String uiDisplayName = value.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
 					JSONObject uiDene = new JSONObject();
 					denesJSONArray.put(uiDene);
-
+					
 					uiDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, valueName);
 					
 					JSONArray uiDeneWordsJSONArray = new JSONArray();
