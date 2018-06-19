@@ -104,9 +104,11 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					existingDeneWordCarrierForDene = new JSONObject();
 					existingDeneWordCarrierForDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier For " + reportingValueDeneName);
 					existingDeneWordCarrierForDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_CARRIER);
-					existingDeneWordCarrierForDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_HOX_DENE_TARGET);
+					existingDeneWordCarrierForDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, TeleonomeConstants.SPERM_HOX_DENE_TARGET);
 					existingDeneWordCarrierForDeneWords = new JSONArray();
 					existingDeneWordCarrierForDene.put("DeneWords",existingDeneWordCarrierForDeneWords);
+					existingDeneWordCarrierForDeneIndex.put(sensorValueReportingAddressDenePointer,existingDeneWordCarrierForDene);
+					denesJSONArray.put(existingDeneWordCarrierForDene);
 
 				}else{
 					existingDeneWordCarrierForDeneWords = existingDeneWordCarrierForDene.getJSONArray("DeneWords");
