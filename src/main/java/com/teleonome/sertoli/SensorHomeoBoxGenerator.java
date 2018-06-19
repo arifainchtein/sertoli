@@ -18,7 +18,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			// Getting the data
 			//
 		JSONObject sensorValueDene;
-			String homeBoxName  = homeboxSourceDataElement.getString("Homebox Name");
+			String homeBoxName  = homeboxSourceDataElement.getString("Homeobox Name");
 			String sensorName = homeboxSourceDataElement.getString("Sensor Name");
 			String sensorPort = homeboxSourceDataElement.getString("Port");
 			
