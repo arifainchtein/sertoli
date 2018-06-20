@@ -87,7 +87,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				// first the data
 				//
-				valueName = value.getString("Name").replace(" ", "");
+				valueName = value.getString("Name");
 				deneword = Utils.createDeneWordJSONObject(valueName + " Value", "@" + teleonomeName + ":" + TeleonomeConstants.NUCLEI_INTERNAL + ":" + TeleonomeConstants.DENECHAIN_SENSORS + ":" + valueName + " Value", null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_SENSOR_VALUE);
 				deneWordsJSONArray.put(deneword);
@@ -113,7 +113,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				// first the data
 				//
-				valueName = value.getString("Name").replace(" ", "");
+				valueName = value.getString("Name");
 				sensorValueUnits = value.getString("Units");
 				
 				sensorValueDataType = value.getString("Value Type");
