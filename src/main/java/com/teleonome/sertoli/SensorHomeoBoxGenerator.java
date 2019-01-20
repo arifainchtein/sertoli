@@ -127,8 +127,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				denewordValuePointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_SENSORS, valueName + " Value")).toString();	
 				deneword = Utils.createDeneWordJSONObject(valueName + " Value", denewordValuePointer, null, TeleonomeConstants.DENEWORD_TYPE_POINTER, true);
 
-				//
-				// now create the actual value dene
+				
 
 				logger.debug("sensorValueReportingAddressDenePointer=" + sensorValueReportingAddressDenePointer);
 				existingDeneWordCarrierForDene = (JSONObject) existingDeneWordCarrierForDeneIndex.get(sensorValueReportingAddressDenePointer);

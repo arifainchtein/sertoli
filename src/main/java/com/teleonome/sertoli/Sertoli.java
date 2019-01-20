@@ -235,13 +235,7 @@ public class Sertoli
 		
 		if(args.length>0 && args[0].equals("-v")) {
 			System.out.println("Sertoli Build " + BUILD_NUMBER);
-		}else {
-			new  Sertoli();
-		}
-		
-		
-		if(args.length>0 && args[0].equals("-v")) {
-			System.out.println("Sertoli Build " + BUILD_NUMBER);
+			System.exit(0);
 		}else if(args[0].equals("-u")) {
 			String previousStateDate = getLastSertolizationDate();
 			Scanner scanner = new Scanner(System.in);
@@ -251,7 +245,6 @@ public class Sertoli
 			
 			if(spermFileName.length()>0) {
 				System.out.println("Reverting to previous state");
-				
 				undoSertolization(spermFileName);
 			}else {
 				System.out.println("Goodbye");
@@ -260,13 +253,11 @@ public class Sertoli
 			scanner.close();
 		}else {
 			String spermFileName=args[0];
-			
 			File f = new File(spermFileName);
 			if(!f.isFile()){
 				System.out.println("Sperm file is invalid: " + spermFileName);
 				System.exit(-1);
 			}
-			
 			new Sertoli().process(spermFileName);
 		}
 	}
