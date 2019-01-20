@@ -32,7 +32,8 @@ public class Sertoli
 {
 	public final static String BUILD_NUMBER="14/05/2018 08:26";
 	static Logger logger;
-
+	String dataDirectory = Utils.getLocalDirectory() + "avocado/";
+	
 	public Sertoli() {
 	}
 
@@ -42,7 +43,9 @@ public class Sertoli
 		//String selectedDenomeFileName = "/home/pi/Teleonome.denome";
 		
 		String stringFormSperm="";
-		File selectedSpermFile = new File(Utils.getLocalDirectory() + selectedSpermFileName);
+		
+		
+		File selectedSpermFile = new File(dataDirectory + selectedSpermFileName);
 		try {
 
 			logger.debug("reading sperm from " +selectedSpermFileName);
@@ -67,7 +70,7 @@ public class Sertoli
 
 		String stringFormHDS="";
 		moveFiles(selectedSpermFileName);
-		File dir = new File(Utils.getLocalDirectory() );
+		File dir = new File(dataDirectory );
 		FileFilter fileFilter = new WildcardFileFilter("*.hsd");
 		File[] files = dir.listFiles(fileFilter);
 		if(files.length>0) {
@@ -135,11 +138,11 @@ public class Sertoli
 
 	private void moveFiles(String spermFileName) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(TeleonomeConstants.SPERM_DATE_FORMAT);
-		String srcFolderName=Utils.getLocalDirectory();
-		String destFolderName=Utils.getLocalDirectory() + "Sertolization/" + dateFormat.format(new Timestamp(System.currentTimeMillis())) + "/";
+		
+		String destFolderName=dataDirectory + "Sertolization/" + dateFormat.format(new Timestamp(System.currentTimeMillis())) + "/";
 		File destFolder = new File(destFolderName);
 		destFolder.mkdirs();
-		File srcFile = new File(srcFolderName + spermFileName);
+		File srcFile = new File(dataDirectory + spermFileName);
 		File destFile =  new File(destFolderName + "PreSertoli_" + spermFileName );
 		try {
 			FileUtils.copyFile(srcFile, destFile);
@@ -258,6 +261,7 @@ public class Sertoli
 				System.out.println("Sperm file is invalid: " + spermFileName);
 				System.exit(-1);
 			}
+			
 			new Sertoli().process(spermFileName);
 		}
 	}
