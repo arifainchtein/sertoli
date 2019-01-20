@@ -29,7 +29,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			String sensorName = homeboxSourceDataElement.getString("Sensor Name");
 			String sensorPort = homeboxSourceDataElement.getString("Port");
 			
-			String pointerToMicroController = homeboxSourceDataElement.getString("MicroController Pointer");
+			String pointerToMicroController = homeboxSourceDataElement.getString("Microcontroller Pointer");
 			String sourceAddress = homeboxSourceDataElement.getString("Provider");
 			JSONArray values = homeboxSourceDataElement.getJSONArray("Values");
 			
