@@ -32,7 +32,7 @@ public class Sertoli
 {
 	public final static String BUILD_NUMBER="14/05/2018 08:26";
 	static Logger logger;
-	String dataDirectory = Utils.getLocalDirectory() + "avocado/";
+	static String dataDirectory = Utils.getLocalDirectory() + "avocado/";
 	
 	public Sertoli() {
 	}
@@ -256,9 +256,9 @@ public class Sertoli
 			scanner.close();
 		}else {
 			String spermFileName=args[0];
-			File f = new File(spermFileName);
+			File f = new File(dataDirectory + spermFileName);
 			if(!f.isFile()){
-				System.out.println("Sperm file is invalid: " + spermFileName);
+				System.out.println("Sperm file is invalid: " + dataDirectory + spermFileName);
 				System.exit(-1);
 			}
 			
