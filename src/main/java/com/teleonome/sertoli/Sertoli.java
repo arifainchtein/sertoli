@@ -225,7 +225,7 @@ public class Sertoli
 	}
 	public static void main( String[] args )
 	{
-		String fileName =  dataDirectory + "lib/Log4J.properties";
+		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
 		PropertyConfigurator.configure(fileName);
 		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
 		
