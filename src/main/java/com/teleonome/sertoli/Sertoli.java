@@ -60,7 +60,7 @@ public class Sertoli
 
 		if(stringFormSperm.equals("")){
 			Hashtable info = new Hashtable();
-			logger.warn("The sperm file was not found in " + Utils.getLocalDirectory() + " , ending.");
+			logger.warn("The sperm file was not found in " + dataDirectory + " , ending.");
 			System.exit(0);
 		}
 		JSONObject spermJSONObject = new JSONObject(stringFormSperm);
@@ -153,7 +153,7 @@ public class Sertoli
 	}
 	
 	private static String getLastSertolizationDate() {
-		File srcFolder= new File(Utils.getLocalDirectory()+"Sertolization");
+		File srcFolder= new File( dataDirectory +"Sertolization");
 		File[] files = srcFolder.listFiles();
 		Arrays.sort(files, new Comparator<File>(){
 		    public int compare(File f1, File f2)
@@ -170,11 +170,11 @@ public class Sertoli
 	
 	private static void undoSertolization(String spermFileName) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(TeleonomeConstants.SPERM_DATE_FORMAT);
-		String destFolderName=Utils.getLocalDirectory();//"/home/pi/Teleonome/" ;
+		String destFolderName=dataDirectory;//"/home/pi/Teleonome/" ;
 		
 		//
 		// first identify the folrders 
-		File srcFolder= new File(Utils.getLocalDirectory() + "Sertolization"); //"/home/pi/Teleonome/Sperm_Fert");
+		File srcFolder= new File(dataDirectory + "Sertolization"); //"/home/pi/Teleonome/Sperm_Fert");
 				
 		File[] files = srcFolder.listFiles();
 
@@ -194,7 +194,7 @@ public class Sertoli
 		// copy the Teleonome.denome from fertilizatin back to main Teleonome
 		//
 		File srcFile =  new File(srcFolderName +  "/PreSertoli_" + spermFileName );
-		File destFile = new File(Utils.getLocalDirectory()+ spermFileName);
+		File destFile = new File(dataDirectory+ spermFileName);
 		//
 		// First delete the file
 		if(destFile.isFile()) {
@@ -225,7 +225,7 @@ public class Sertoli
 	}
 	public static void main( String[] args )
 	{
-		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
+		String fileName =  dataDirectory + "lib/Log4J.properties";
 		PropertyConfigurator.configure(fileName);
 		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
 		
