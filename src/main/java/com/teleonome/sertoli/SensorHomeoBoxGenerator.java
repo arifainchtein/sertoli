@@ -126,9 +126,10 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 						) {
 					sensorValueRangeMaximum = value.getDouble("Range Maximum");
 					sensorValueRangeMinimum = value.getDouble("Range Minimum");
+					sensorValueInitialValue = value.getDouble("Initial Value");
 				}
 				
-				sensorValueInitialValue = value.getDouble("Initial Value");
+				
 				reportingValueDeneName = value.getString("Reporting Value Dene Name");
 				sensorValueReportingAddressPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA,reportingValueDeneName, valueName)).toString();	
 				sensorValueReportingAddressDenePointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA, reportingValueDeneName)).toString();	
@@ -186,9 +187,15 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				}
 				//
 				// do the purpose:sensor data
+				
+				if( sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER) ||
+						sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER)
+						) {
 				reportingValueDeneWord = Utils.createDeneWordJSONObject(valueName, sensorValueInitialValue, sensorValueUnits, sensorValueDataType, true);
-				//reportingValueDeneWord.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET,sensorValueReportingAddressPointer);
 				existingDeneWordCarrierForDeneWords.put(reportingValueDeneWord);
+				}
+				
+				
 				//
 				// finally check to see if there is Human Interface info
 				//
