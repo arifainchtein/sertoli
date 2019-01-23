@@ -118,8 +118,16 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				
 				sensorValueDataType = value.getString("Value Type");
 				sensorValueRequestPosition = value.getInt(TeleonomeConstants.DENEWORD_SENSOR_REQUEST_QUEUE_POSITION);
-				sensorValueRangeMaximum = value.getDouble("Range Maximum");
-				sensorValueRangeMinimum = value.getDouble("Range Minimum");
+				sensorValueRangeMaximum = -9999;
+				sensorValueRangeMinimum = -9999;
+				
+				if( sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER) ||
+						sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER)
+						) {
+					sensorValueRangeMaximum = value.getDouble("Range Maximum");
+					sensorValueRangeMinimum = value.getDouble("Range Minimum");
+				}
+				
 				sensorValueInitialValue = value.getDouble("Initial Value");
 				reportingValueDeneName = value.getString("Reporting Value Dene Name");
 				sensorValueReportingAddressPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA,reportingValueDeneName, valueName)).toString();	
@@ -168,10 +176,14 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				sensorValueDeneWordsJSONArray.put(deneword);
 				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_REPORTING_ADDRESS, sensorValueReportingAddressPointer, null, TeleonomeConstants.DATATYPE_STRING, true);
 				sensorValueDeneWordsJSONArray.put(deneword);
-				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SENSOR_VALUE_RANGE_MAXIMUM, sensorValueRangeMaximum, null, TeleonomeConstants.DATATYPE_STRING, true);
-				sensorValueDeneWordsJSONArray.put(deneword);
+				if( sensorValueRangeMaximum>-9999) {
+					deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SENSOR_VALUE_RANGE_MAXIMUM, sensorValueRangeMaximum, null, TeleonomeConstants.DATATYPE_STRING, true);
+					sensorValueDeneWordsJSONArray.put(deneword);
+				}
+				if( sensorValueRangeMinimum>-9999) {
 				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SENSOR_VALUE_RANGE_MINIMUM, sensorValueRangeMinimum, null, TeleonomeConstants.DATATYPE_STRING, true);
 				sensorValueDeneWordsJSONArray.put(deneword);
+				}
 				//
 				// do the purpose:sensor data
 				reportingValueDeneWord = Utils.createDeneWordJSONObject(valueName, sensorValueInitialValue, sensorValueUnits, sensorValueDataType, true);
