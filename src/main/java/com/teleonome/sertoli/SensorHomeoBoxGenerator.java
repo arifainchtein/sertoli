@@ -143,6 +143,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				
 				
 				reportingValueDeneName = value.getString("Reporting Value Dene Name");
+				logger.debug("line 146 reportingValueDeneName=" + reportingValueDeneName);
 				sensorValueReportingAddressPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA,reportingValueDeneName, valueName)).toString();	
 				sensorValueReportingAddressDenePointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA, reportingValueDeneName)).toString();	
 				denewordValuePointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_SENSORS, valueName + " Value")).toString();	
@@ -157,7 +158,9 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					existingDeneWordCarrierForDene = new JSONObject();
 					existingDeneWordCarrierForDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier For " + reportingValueDeneName);
 					existingDeneWordCarrierForDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_CARRIER);
-					existingDeneWordCarrierForDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "@" + teleonomeName + ":" + TeleonomeConstants.NUCLEI_PURPOSE + ":" + TeleonomeConstants.DENECHAIN_SENSOR_DATA);
+					String hoxDeneTarget="@" + teleonomeName + ":" + TeleonomeConstants.NUCLEI_PURPOSE + ":" + TeleonomeConstants.DENECHAIN_SENSOR_DATA + ":" + reportingValueDeneName;
+					logger.debug("line 162, hoxDeneTarget=" + hoxDeneTarget);
+					existingDeneWordCarrierForDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, hoxDeneTarget);
 					existingDeneWordCarrierForDeneWords = new JSONArray();
 					existingDeneWordCarrierForDene.put("DeneWords",existingDeneWordCarrierForDeneWords);
 					existingDeneWordCarrierForDeneIndex.put(sensorValueReportingAddressDenePointer,existingDeneWordCarrierForDene);

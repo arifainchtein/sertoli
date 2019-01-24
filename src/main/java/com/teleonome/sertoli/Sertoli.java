@@ -134,7 +134,8 @@ public class Sertoli
 						
 						if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
 							actionsJSONArray.put(actionJSONObject);
-							currentActionValue++;
+							currentActionValue=actionsJSONArray.length();
+							
 							existing.add(newActionName + newActionTarget + newActionDeneType);
 						}
 					}
