@@ -215,7 +215,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					String humanInterfacePanel = value.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
 					int inPanelPosition = value.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION);
 					String uiDisplayName = value.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
-					
+					logger.debug("humanInterfacePanel=" + humanInterfacePanel + " inPanelPosition=" + inPanelPosition + " uiDisplayName=" + uiDisplayName);
 					
 					//
 					// create an action that creates a denechain
