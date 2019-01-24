@@ -72,18 +72,29 @@ public class Sertoli
 		
 		JSONArray actionsJSONArray = hypothalamusJSONObject.getJSONArray(TeleonomeConstants.SPERM_HYPOTHALAMUS_ACTIONS);
 		int currentActionValue=actionsJSONArray.length();
+		JSONObject homeBoxProcessingResultJSONObject,homeoBoxJSONObject,actionJSONObject;
+		JSONArray homeBoxProcessingActionsJSONArray;
+		String newActionName="", newActionTarget="", newActionDeneType="";
+		ArrayList<String> existing = new ArrayList();
+		
+		for(int j=0;j<actionsJSONArray.length();j++) {
+			actionJSONObject = actionsJSONArray.getJSONObject(j);
+			newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
+			newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET);
+			newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
+			existing.add(newActionName + newActionTarget + newActionDeneType);
+			actionsJSONArray.put(actionJSONObject);
+			currentActionValue++;
+		}
+		
 		
 		purposeJSONObject.put("Teleonome Name", teleonomeName);
-
-		
-		
 		String stringFormHDS="";
 		moveFiles(selectedSpermFileName);
 		File dir = new File(dataDirectory );
 		FileFilter fileFilter = new WildcardFileFilter("*.hsd");
 		File[] files = dir.listFiles(fileFilter);
-		JSONObject homeBoxProcessingResultJSONObject,homeoBoxJSONObject,actionJSONObject;
-		JSONArray homeBoxProcessingActionsJSONArray;
+		
 		
 		if(files.length>0) {
 			StringBuffer data1=new StringBuffer();;
@@ -119,8 +130,14 @@ public class Sertoli
 					
 					for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
 						actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
-						actionsJSONArray.put(actionJSONObject);
-						currentActionValue++;
+						newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
+						newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET);
+						newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
+						
+						if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
+							actionsJSONArray.put(actionJSONObject);
+							currentActionValue++;
+						}
 					}
 					
 					
