@@ -203,12 +203,10 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				// do the purpose:sensor data
 				
-				if( sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER) ||
-						sensorValueDataType.equals(TeleonomeConstants.DATATYPE_DOUBLE)
-						) {
+				
 				reportingValueDeneWord = Utils.createDeneWordJSONObject(valueName, sensorValueInitialValue, sensorValueUnits, sensorValueDataType, true);
 				existingDeneWordCarrierForDeneWords.put(reportingValueDeneWord);
-				}
+				
 				
 				
 				//
