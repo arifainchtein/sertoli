@@ -18,12 +18,12 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 
 	Logger logger;
 	
-	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement) {
+	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex) {
 			//
 			// Getting the data
 			//
 		logger = Logger.getLogger(getClass());
-		
+		int nextActionValue=currentActionIndex;
 		JSONObject sensorValueDene;
 			String homeBoxName  = homeboxSourceDataElement.getString("Homeobox Name");
 			String sensorName = homeboxSourceDataElement.getString("Sensor Name");
@@ -36,7 +36,18 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			//
 			// processing
 			//
+			
+			
+			JSONObject homeBoxProcessingResultJSONObject = new JSONObject();
 			JSONObject homeBoxJSONObject = new JSONObject();
+			homeBoxProcessingResultJSONObject.put("Homeobox", homeBoxJSONObject);
+			
+			
+			JSONArray actionJSONArray = new JSONArray();
+			homeBoxProcessingResultJSONObject.put("Actions", actionJSONArray);
+			
+			
+			
 			homeBoxJSONObject.put("Name", homeBoxName);
 			JSONArray denesJSONArray = new JSONArray();
 			homeBoxJSONObject.put("Denes", denesJSONArray);
@@ -204,6 +215,36 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					String humanInterfacePanel = value.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
 					int inPanelPosition = value.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION);
 					String uiDisplayName = value.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
+					
+					
+					//
+					// create an action that creates a denechain
+					//
+					JSONObject actionDene = new JSONObject();
+					actionJSONArray.put(actionDene);
+					JSONArray actionsDeneWordsJSONArray = new JSONArray();
+					actionDene.put("DeneWords", actionsDeneWordsJSONArray);
+					
+					actionDene.put(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE, "Create "+humanInterfacePanel +" DeneChain");
+					actionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "@Egg:Human Interface");
+					actionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.SPERM_DENE_TYPE_CREATE_DENE_CHAIN);
+					
+					deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+					actionsDeneWordsJSONArray.put(deneword);
+					nextActionValue++;
+					deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POSITION, nextActionValue, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+					actionsDeneWordsJSONArray.put(deneword);
+
+					deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POINT,TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POINT_PRE_HOMEBOX, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+					actionsDeneWordsJSONArray.put(deneword);
+
+					deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_DENECHAIN_NAME,humanInterfacePanel, null, TeleonomeConstants.DATATYPE_STRING, true);
+					actionsDeneWordsJSONArray.put(deneword);
+		                       
+					
+					//
+					// now do the ui
+					//
 					JSONObject uiDene = new JSONObject();
 					denesJSONArray.put(uiDene);
 					
@@ -264,7 +305,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			
 			denesJSONArray.put(homeoboxDene);
 			
-		return homeBoxJSONObject;
+		return homeBoxProcessingResultJSONObject;
 	}
 
 }

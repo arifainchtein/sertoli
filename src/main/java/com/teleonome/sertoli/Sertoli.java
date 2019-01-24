@@ -64,15 +64,26 @@ public class Sertoli
 			System.exit(0);
 		}
 		JSONObject spermJSONObject = new JSONObject(stringFormSperm);
-		JSONObject purposeJSONObject = spermJSONObject.getJSONObject("Sperm").getJSONObject("Purpose");
-
+		JSONObject purposeJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_PURPOSE);
+		JSONObject hypothalamusJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_HYPOTHALAMUS);
+		JSONObject medulaJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_MEDULA);
+		
+		
+		JSONArray actionsJSONArray = hypothalamusJSONObject.getJSONArray(TeleonomeConstants.SPERM_HYPOTHALAMUS_ACTIONS);
+		int currentActionValue=actionsJSONArray.length();
+		
 		String teleonomeName = purposeJSONObject.getString("Teleonome Name");
 
+		
+		
 		String stringFormHDS="";
 		moveFiles(selectedSpermFileName);
 		File dir = new File(dataDirectory );
 		FileFilter fileFilter = new WildcardFileFilter("*.hsd");
 		File[] files = dir.listFiles(fileFilter);
+		JSONObject homeBoxProcessingResultJSONObject,homeoBoxJSONObject,actionJSONObject;
+		JSONArray homeBoxProcessingActionsJSONArray;
+		
 		if(files.length>0) {
 			StringBuffer data1=new StringBuffer();;
 			logger.info("found "+ files.length +" hsd files" );
@@ -94,16 +105,24 @@ public class Sertoli
 					clazz = Class.forName(homeboxDefinitionType);
 					Constructor<?> constructor = clazz.getConstructor();
 					HomeboxGenerator anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
-					JSONObject homeBoxJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement);
-
-
+					homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
+					homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
+					homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
 					//
 					// now add the homebox to the sperm
 
-					JSONObject hypothalamusJSONObject = spermJSONObject.getJSONObject("Sperm").getJSONObject("Hypothalamus");
-
 					JSONArray homeoboxes = hypothalamusJSONObject.getJSONArray("Homeoboxes");
-					homeoboxes.put(homeBoxJSONObject);
+					homeoboxes.put(homeoBoxJSONObject);
+					
+					JSONArray actions = hypothalamusJSONObject.getJSONArray("Actions");
+					
+					for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
+						actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
+						actionsJSONArray.put(actionJSONObject);
+						currentActionValue++;
+					}
+					
+					
 					FileUtils.writeStringToFile(selectedSpermFile, spermJSONObject.toString(4));
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
