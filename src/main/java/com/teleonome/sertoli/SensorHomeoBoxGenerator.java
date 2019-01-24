@@ -210,6 +210,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				//
 				// finally check to see if there is Human Interface info
 				//
+				logger.debug("has hip=" + value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) + " has pip " + value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION));
 				if(value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) && value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION)) {
 					logger.debug("found ui info, processing");
 					String humanInterfacePanel = value.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
