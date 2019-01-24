@@ -19,6 +19,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -37,7 +38,7 @@ public class Sertoli
 	public Sertoli() {
 	}
 
-	public void process(String selectedSpermFileName) {
+	public void process(String selectedSpermFileName, String teleonomeName) {
 		//
 		// Load the Sperm
 		//String selectedDenomeFileName = "/home/pi/Teleonome.denome";
@@ -72,7 +73,7 @@ public class Sertoli
 		JSONArray actionsJSONArray = hypothalamusJSONObject.getJSONArray(TeleonomeConstants.SPERM_HYPOTHALAMUS_ACTIONS);
 		int currentActionValue=actionsJSONArray.length();
 		
-		String teleonomeName = purposeJSONObject.getString("Teleonome Name");
+		purposeJSONObject.put("Teleonome Name", teleonomeName);
 
 		
 		
@@ -123,7 +124,7 @@ public class Sertoli
 					}
 					
 					
-					FileUtils.writeStringToFile(selectedSpermFile, spermJSONObject.toString(4));
+					
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -145,10 +146,15 @@ public class Sertoli
 				} catch (InvocationTargetException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
+			}
+			
+			try {
+				File newSpermFile = new File(dataDirectory + teleonomeName + ".sperm");
+				FileUtils.writeStringToFile(newSpermFile, spermJSONObject.toString(4));
+			} catch (JSONException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		logger.warn("Process Completed");
@@ -249,8 +255,8 @@ public class Sertoli
 		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
 		
 		
-		if(args.length!=1){
-			System.out.println("Usage: Sertoli localSpermFileName ");
+		if(args.length!=2){
+			System.out.println("Usage: Sertoli localSpermFileName TeleonomeName");
 			System.exit(-1);
 		}
 		
@@ -275,13 +281,15 @@ public class Sertoli
 			scanner.close();
 		}else {
 			String spermFileName=args[0];
+			String teleonomeName=args[1];
+			
 			File f = new File(dataDirectory + spermFileName);
 			if(!f.isFile()){
 				System.out.println("Sperm file is invalid: " + dataDirectory + spermFileName);
 				System.exit(-1);
 			}
 			
-			new Sertoli().process(spermFileName);
+			new Sertoli().process(spermFileName, teleonomeName);
 		}
 	}
 }
