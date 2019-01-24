@@ -82,9 +82,7 @@ public class Sertoli
 			newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
 			newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET);
 			newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
-			existing.add(newActionName + newActionTarget + newActionDeneType);
-			actionsJSONArray.put(actionJSONObject);
-			currentActionValue++;
+			existing.add(newActionName.trim() + newActionTarget.trim() + newActionDeneType.trim());
 		}
 		
 		
@@ -130,13 +128,14 @@ public class Sertoli
 					
 					for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
 						actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
-						newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
-						newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET);
-						newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
+						newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
+						newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET).trim();
+						newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE).trim();
 						
 						if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
 							actionsJSONArray.put(actionJSONObject);
 							currentActionValue++;
+							existing.add(newActionName + newActionTarget + newActionDeneType);
 						}
 					}
 					
