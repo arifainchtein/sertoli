@@ -321,9 +321,13 @@ public class Sertoli
 //        "Visible":true,
 		//"Panel Target Pointer":"@Egg:Human interface:Home Page"
 		//
+		JSONObject homeBoxJSONObject = new JSONObject();
+		homeBoxJSONObject.put("Name", containerName);
+		JSONArray denesJSONArray = new JSONArray();
+		homeBoxJSONObject.put("Denes", denesJSONArray);
 		
 		JSONObject newContainerDene = new JSONObject();
-		//denesJSONArray.put(newContainerDene);
+		denesJSONArray.put(newContainerDene);
 		newContainerDene.put(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE, containerName);
 		newContainerDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, containerTarget);
 		JSONArray newContainerDeneDeneWordsJSONArray = new JSONArray();
@@ -347,7 +351,7 @@ public class Sertoli
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, containerDeneChainPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
 		newContainerDeneDeneWordsJSONArray.put(deneword);
-		return newContainerDene;
+		return homeBoxJSONObject;
 	}
 
 	private void moveFiles(String spermFileName) {
