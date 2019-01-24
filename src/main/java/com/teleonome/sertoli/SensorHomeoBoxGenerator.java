@@ -121,6 +121,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			
 			for(int i=0;i<values.length();i++){
 				value = values.getJSONObject(i);
+				logger.debug(value);
 				//
 				// first the data
 				//
