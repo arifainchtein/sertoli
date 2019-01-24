@@ -334,7 +334,7 @@ public class Sertoli
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
 		newContainerDeneDeneWordsJSONArray.put(deneword);
 		
-		int panelInPagePosition = container.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION);
+		int panelInPagePosition = container.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, panelInPagePosition, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
 		newContainerDeneDeneWordsJSONArray.put(deneword);
