@@ -117,7 +117,10 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			double sensorValueRangeMaximum=0;
 			double sensorValueRangeMinimum=0;
 			double sensorValueInitialValue=0;
-			String reportingValueDeneName="";
+			String reportingValueDeneName="",containerTarget, visualizationStyle;
+			
+			boolean visible=false;
+			int panelInPagePosition=0;
 			
 			for(int i=0;i<values.length();i++){
 				value = values.getJSONObject(i);
@@ -215,7 +218,24 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				logger.debug("has hip=" + value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) + " has pip " + value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION));
 				if(value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) && value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION)) {
 					logger.debug("found ui info, processing");
+					//
+					// get  "Human Interface Container":"@Egg:Human Interface:Home Page" ,
+					// the container is the denechain, ie Home Page or Search Panel or System Info
+					// where the panel stored in "Human Interface Panel" will be viewed
+					// so if you want the "Internal Power Daily Stats" panel to show in the home page
+					// then in the hsd 
+//					 "Human Interface Container":"@Egg:Human Interface:Home Page" ,
+//			         "Human Interface Panel":"Internal Power Daily Stats" ,
+			         
+					// so get the denechain, and create a dene with the 4 denewords
+					
+					
+		            	
 					String humanInterfacePanel = value.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
+					
+					
+		            //
+					//
 					int inPanelPosition = value.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION);
 					String uiDisplayName = value.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
 					logger.debug("humanInterfacePanel=" + humanInterfacePanel + " inPanelPosition=" + inPanelPosition + " uiDisplayName=" + uiDisplayName);
@@ -248,6 +268,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					//
 					// now do the ui
 					//
+					
 					JSONObject uiDene = new JSONObject();
 					denesJSONArray.put(uiDene);
 					
