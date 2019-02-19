@@ -447,12 +447,6 @@ public class Sertoli
 		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
 		
 		
-		if(args.length!=2){
-			System.out.println("Usage: Sertoli localSpermFileName TeleonomeName");
-			System.exit(-1);
-		}
-		
-		
 		if(args.length>0 && args[0].equals("-v")) {
 			System.out.println("Sertoli Build " + BUILD_NUMBER);
 			System.exit(0);
@@ -472,6 +466,11 @@ public class Sertoli
 			}
 			scanner.close();
 		}else {
+			if(args.length!=2){
+				System.out.println("Usage: Sertoli localSpermFileName TeleonomeName");
+				System.exit(-1);
+			}
+			
 			String spermFileName=args[0];
 			String teleonomeName=args[1];
 			
