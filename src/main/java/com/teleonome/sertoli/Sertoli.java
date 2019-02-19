@@ -35,6 +35,9 @@ public class Sertoli
 	static Logger logger;
 	static String dataDirectory = Utils.getLocalDirectory() + "avocado/";
 	static String hsdDirectoryName = Utils.getLocalDirectory() + "avocado/hsd/";
+	static String spermDirectoryName = Utils.getLocalDirectory() + "avocado/sperm/";
+	static String sertoliDirectoryName = Utils.getLocalDirectory() + "avocado/sertoli/";
+	
 	public Sertoli() {
 	}
 
@@ -46,7 +49,7 @@ public class Sertoli
 		String stringFormSperm="";
 		
 		
-		File selectedSpermFile = new File(dataDirectory + selectedSpermFileName);
+		File selectedSpermFile = new File(spermDirectoryName + selectedSpermFileName);
 		try {
 
 			logger.debug("reading sperm from " +selectedSpermFileName);
@@ -95,7 +98,7 @@ public class Sertoli
 		//
 		// now read the .sertoli file which will contain the Containers definition and the HmeBoxDefinition
 		//
-		File sertoliFile = new File(dataDirectory + "sertoli/" + teleonomeName + ".sertoli");
+		File sertoliFile = new File(sertoliDirectoryName + teleonomeName + ".sertoli");
 		String stringFormSertoli="";
 		try {
 
