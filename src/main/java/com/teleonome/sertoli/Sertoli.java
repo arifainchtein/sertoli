@@ -34,7 +34,7 @@ public class Sertoli
 	public final static String BUILD_NUMBER="14/05/2018 08:26";
 	static Logger logger;
 	static String dataDirectory = Utils.getLocalDirectory() + "avocado/";
-	
+	static String hsdDirectoryName = Utils.getLocalDirectory() + "avocado/hsd/";
 	public Sertoli() {
 	}
 
@@ -89,13 +89,13 @@ public class Sertoli
 		purposeJSONObject.put("Teleonome Name", teleonomeName);
 		String stringFormHDS="";
 		moveFiles(selectedSpermFileName);
-		File dir = new File(dataDirectory );
+		//File dir = new File(dataDirectory );
 		
 		
 		//
 		// now read the .sertoli file which will contain the Containers definition and the HmeBoxDefinition
 		//
-		File sertoliFile = new File(dataDirectory + teleonomeName + ".sertoli");
+		File sertoliFile = new File(dataDirectory + "sertoli/" + teleonomeName + ".sertoli");
 		String stringFormSertoli="";
 		try {
 
@@ -147,7 +147,7 @@ public class Sertoli
 			
 			
 			try {
-				hsdFileName=dataDirectory + sensorsHomeBoxDefiitions.getString(i);
+				hsdFileName=hsdDirectoryName + sensorsHomeBoxDefiitions.getString(i);
 				logger.debug("reading  " +hsdFileName);
 				stringFormHDS = FileUtils.readFileToString(new File(hsdFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
@@ -212,14 +212,14 @@ public class Sertoli
 			}
 		}
 		//
-		// Now Process the Sensor Definitions
+		// Now Process the Action Definitions
 		//
 		String hadFileName="", stringFormHAS="";
 		for(int i=0;i<actionsHomeBoxDefiitions.length();i++) {
 			
 			
 			try {
-				hadFileName=dataDirectory + actionsHomeBoxDefiitions.getString(i);
+				hadFileName=hsdDirectoryName + actionsHomeBoxDefiitions.getString(i);
 				logger.debug("reading  " +hadFileName);
 				stringFormHAS = FileUtils.readFileToString(new File(hadFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
