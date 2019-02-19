@@ -362,7 +362,7 @@ public class Sertoli
 		String destFolderName=dataDirectory + "Sertolization/" + dateFormat.format(new Timestamp(System.currentTimeMillis())) + "/";
 		File destFolder = new File(destFolderName);
 		destFolder.mkdirs();
-		File srcFile = new File(dataDirectory + spermFileName);
+		File srcFile = new File(spermDirectoryName + spermFileName);
 		File destFile =  new File(destFolderName + "PreSertoli_" + spermFileName );
 		try {
 			FileUtils.copyFile(srcFile, destFile);
