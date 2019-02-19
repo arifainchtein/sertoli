@@ -150,7 +150,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		for(int i=0;i<cases.length();i++){
 			caseSourceInfo = cases.getJSONObject(i);
 			caseName = caseSourceInfo.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
-			expression = caseSourceInfo.getString(TeleonomeConstants.DENEWORD_ACTION_EXPRESSION);
+			expression = caseSourceInfo.getString(TeleonomeConstants.DENEWORD_EXPRESSION);
 			conditionName = caseSourceInfo.getString(TeleonomeConstants.CONDITION_NAME);
 			evalPos = caseSourceInfo.getInt(TeleonomeConstants.EVALUATION_POSITION);
 			caseThreshold=caseSourceInfo.getString("Threshold");
