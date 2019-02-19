@@ -477,7 +477,7 @@ public class Sertoli
 			String spermFileName=args[0];
 			String teleonomeName=args[1];
 			
-			File f = new File(dataDirectory + spermFileName);
+			File f = new File(spermDirectoryName + spermFileName);
 			if(!f.isFile()){
 				System.out.println("Sperm file is invalid: " + dataDirectory + spermFileName);
 				System.exit(-1);
