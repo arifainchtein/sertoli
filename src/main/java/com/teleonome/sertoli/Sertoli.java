@@ -116,7 +116,9 @@ public class Sertoli
 		}
 		JSONObject sertoliJSONObject = new JSONObject(stringFormSertoli);
 		JSONArray containers = sertoliJSONObject.getJSONArray("Containers");
-		JSONArray homeBoxDefinitions = sertoliJSONObject.getJSONArray("HomeBoxDefinitions");
+		JSONObject homeBoxDefinitions = sertoliJSONObject.getJSONObject("HomeBoxDefinitions");
+		JSONArray sensorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Sensors");
+		JSONArray actionsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Actuators");
 		String hsdFileName;
 		String homeboxDefinitionType;
 		Class<?> clazz;
@@ -138,13 +140,14 @@ public class Sertoli
 			homeoBoxJSONObject = renderContainer(container);
 			hypothalamusHomeoboxes.put(homeoBoxJSONObject);
 		}
-		
-		
-		for(int i=0;i<homeBoxDefinitions.length();i++) {
+		//
+		// Now Process the Sensor Definitions
+		//
+		for(int i=0;i<sensorsHomeBoxDefiitions.length();i++) {
 			
 			
 			try {
-				hsdFileName=dataDirectory + homeBoxDefinitions.getString(i);
+				hsdFileName=dataDirectory + sensorsHomeBoxDefiitions.getString(i);
 				logger.debug("reading  " +hsdFileName);
 				stringFormHDS = FileUtils.readFileToString(new File(hsdFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
@@ -208,87 +211,83 @@ public class Sertoli
 				e.printStackTrace();
 			}
 		}
+		//
+		// Now Process the Sensor Definitions
+		//
+		String hadFileName="", stringFormHAS="";
+		for(int i=0;i<actionsHomeBoxDefiitions.length();i++) {
+			
+			
+			try {
+				hadFileName=dataDirectory + actionsHomeBoxDefiitions.getString(i);
+				logger.debug("reading  " +hadFileName);
+				stringFormHAS = FileUtils.readFileToString(new File(hadFileName));
+				//logger.debug("stringFormHDS  " +stringFormHDS);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.warn(Utils.getStringException(e));
+			}
+			 homeboxSourceDataElement = new JSONObject(stringFormHAS);
+			 homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
+			try {
+				clazz = Class.forName(homeboxDefinitionType);
+				 constructor = clazz.getConstructor();
+				 anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
+				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
+				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
+				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
+				//
+				// now add the homebox to the sperm
+
+				
+				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
+				
+				actions = hypothalamusJSONObject.getJSONArray("Actions");
+				
+				for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
+					actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
+					newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
+					newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET).trim();
+					newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE).trim();
+					
+					if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
+						actionsJSONArray.put(actionJSONObject);
+						currentActionValue=actionsJSONArray.length();
+						
+						existing.add(newActionName + newActionTarget + newActionDeneType);
+					}
+				}
+				
+				
+				
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		
 		
 		
-		
-		
-//		FileFilter fileFilter = new WildcardFileFilter("*.hsd");
-//		File[] files = dir.listFiles(fileFilter);
-//		File destFile;
-		
-//		if(files.length>0) {
-//			StringBuffer data1=new StringBuffer();;
-//			logger.info("found "+ files.length +" hsd files" );
-//			
-//			for(int i=0;i<files.length;i++) {
-//				
-//				try {
-//					logger.debug("reading  " +files[i]);
-//					stringFormHDS = FileUtils.readFileToString(files[i]);
-//					//logger.debug("stringFormHDS  " +stringFormHDS);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					logger.warn(Utils.getStringException(e));
-//				}
-//				JSONObject homeboxSourceDataElement = new JSONObject(stringFormHDS);
-//				String homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
-//				Class<?> clazz;
-//				try {
-//					clazz = Class.forName(homeboxDefinitionType);
-//					Constructor<?> constructor = clazz.getConstructor();
-//					HomeboxGenerator anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
-//					homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
-//					homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
-//					homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
-//					//
-//					// now add the homebox to the sperm
-//
-//					JSONArray homeoboxes = hypothalamusJSONObject.getJSONArray("Homeoboxes");
-//					homeoboxes.put(homeoBoxJSONObject);
-//					
-//					JSONArray actions = hypothalamusJSONObject.getJSONArray("Actions");
-//					
-//					for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
-//						actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
-//						newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
-//						newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET).trim();
-//						newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE).trim();
-//						
-//						if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
-//							actionsJSONArray.put(actionJSONObject);
-//							currentActionValue=actionsJSONArray.length();
-//							
-//							existing.add(newActionName + newActionTarget + newActionDeneType);
-//						}
-//					}
-//					
-//					
-//					
-//				} catch (ClassNotFoundException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				} catch (NoSuchMethodException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (SecurityException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (InstantiationException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (IllegalAccessException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (IllegalArgumentException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} catch (InvocationTargetException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
+
 			
 			try {
 				File newSpermFile = new File(dataDirectory + teleonomeName + ".sperm");
