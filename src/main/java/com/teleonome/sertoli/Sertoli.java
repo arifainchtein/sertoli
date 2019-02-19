@@ -37,7 +37,7 @@ public class Sertoli
 	static String hsdDirectoryName = Utils.getLocalDirectory() + "avocado/hsd/";
 	static String spermDirectoryName = Utils.getLocalDirectory() + "avocado/sperm/";
 	static String sertoliDirectoryName = Utils.getLocalDirectory() + "avocado/sertoli/";
-	
+
 	public Sertoli() {
 	}
 
@@ -45,10 +45,10 @@ public class Sertoli
 		//
 		// Load the Sperm
 		//String selectedDenomeFileName = "/home/pi/Teleonome.denome";
-		
+
 		String stringFormSperm="";
-		
-		
+
+
 		File selectedSpermFile = new File(spermDirectoryName + selectedSpermFileName);
 		try {
 
@@ -71,15 +71,15 @@ public class Sertoli
 		JSONObject purposeJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_PURPOSE);
 		JSONObject hypothalamusJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_HYPOTHALAMUS);
 		JSONObject medulaJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_MEDULA);
-		
-		
+
+
 		JSONArray actionsJSONArray = hypothalamusJSONObject.getJSONArray(TeleonomeConstants.SPERM_HYPOTHALAMUS_ACTIONS);
 		int currentActionValue=actionsJSONArray.length();
 		JSONObject homeBoxProcessingResultJSONObject,homeoBoxJSONObject,actionJSONObject;
 		JSONArray homeBoxProcessingActionsJSONArray;
 		String newActionName="", newActionTarget="", newActionDeneType="";
 		ArrayList<String> existing = new ArrayList();
-		
+
 		for(int j=0;j<actionsJSONArray.length();j++) {
 			actionJSONObject = actionsJSONArray.getJSONObject(j);
 			newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
@@ -87,14 +87,14 @@ public class Sertoli
 			newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
 			existing.add(newActionName.trim() + newActionTarget.trim() + newActionDeneType.trim());
 		}
-		
-		
+
+
 		purposeJSONObject.put("Teleonome Name", teleonomeName);
 		String stringFormHDS="";
 		moveFiles(selectedSpermFileName);
 		//File dir = new File(dataDirectory );
-		
-		
+
+
 		//
 		// now read the .sertoli file which will contain the Containers definition and the HmeBoxDefinition
 		//
@@ -125,19 +125,19 @@ public class Sertoli
 		String hsdFileName;
 		String homeboxDefinitionType;
 		Class<?> clazz;
-		
+
 		JSONObject homeboxSourceDataElement;
-		
+
 		Constructor<?> constructor;
 		HomeboxGenerator anHomeboxGenerator;
-		
+
 
 		JSONArray hypothalamusHomeoboxes = hypothalamusJSONObject.getJSONArray("Homeoboxes");
 		JSONArray actions;
 		//
 		// first process each container and store the resulting homeobox
 		JSONObject container;
-		
+
 		for(int i=0;i<containers.length();i++) {
 			container = containers.getJSONObject(i);
 			homeoBoxJSONObject = renderContainer(container);
@@ -147,8 +147,8 @@ public class Sertoli
 		// Now Process the Sensor Definitions
 		//
 		for(int i=0;i<sensorsHomeBoxDefiitions.length();i++) {
-			
-			
+
+
 			try {
 				hsdFileName=hsdDirectoryName + sensorsHomeBoxDefiitions.getString(i).trim();
 				logger.debug("reading  " +hsdFileName);
@@ -158,39 +158,39 @@ public class Sertoli
 				// TODO Auto-generated catch block
 				logger.warn(Utils.getStringException(e));
 			}
-			 homeboxSourceDataElement = new JSONObject(stringFormHDS);
-			 homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
+			homeboxSourceDataElement = new JSONObject(stringFormHDS);
+			homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
 			try {
 				clazz = Class.forName(homeboxDefinitionType);
-				 constructor = clazz.getConstructor();
-				 anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
+				constructor = clazz.getConstructor();
+				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
 				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
 				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
 				//
 				// now add the homebox to the sperm
 
-				
+
 				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
-				
+
 				actions = hypothalamusJSONObject.getJSONArray("Actions");
-				
+
 				for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
 					actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
 					newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
 					newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET).trim();
 					newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE).trim();
-					
+
 					if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
 						actionsJSONArray.put(actionJSONObject);
 						currentActionValue=actionsJSONArray.length();
-						
+
 						existing.add(newActionName + newActionTarget + newActionDeneType);
 					}
 				}
-				
-				
-				
+
+
+
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -219,8 +219,8 @@ public class Sertoli
 		//
 		String hadFileName="", stringFormHAS="";
 		for(int i=0;i<actionsHomeBoxDefiitions.length();i++) {
-			
-			
+
+
 			try {
 				hadFileName=hsdDirectoryName + actionsHomeBoxDefiitions.getString(i);
 				logger.debug("reading  " +hadFileName);
@@ -230,39 +230,39 @@ public class Sertoli
 				// TODO Auto-generated catch block
 				logger.warn(Utils.getStringException(e));
 			}
-			 homeboxSourceDataElement = new JSONObject(stringFormHAS);
-			 homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
+			homeboxSourceDataElement = new JSONObject(stringFormHAS);
+			homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
 			try {
 				clazz = Class.forName(homeboxDefinitionType);
-				 constructor = clazz.getConstructor();
-				 anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
+				constructor = clazz.getConstructor();
+				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
 				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
 				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
 				//
 				// now add the homebox to the sperm
 
-				
+
 				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
-				
+
 				actions = hypothalamusJSONObject.getJSONArray("Actions");
-				
+
 				for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
 					actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
 					newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
 					newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET).trim();
 					newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE).trim();
-					
+
 					if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
 						actionsJSONArray.put(actionJSONObject);
 						currentActionValue=actionsJSONArray.length();
-						
+
 						existing.add(newActionName + newActionTarget + newActionDeneType);
 					}
 				}
-				
-				
-				
+
+
+
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -286,69 +286,81 @@ public class Sertoli
 				e.printStackTrace();
 			}
 		}
-		
-		
-		
-		
 
-			
-			try {
-				File newSpermFile = new File(dataDirectory + teleonomeName + ".sperm");
-				FileUtils.writeStringToFile(newSpermFile, spermJSONObject.toString(4));
-			} catch (JSONException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	//	}
+
+
+
+
+
+		try {
+			File newSpermFile = new File(dataDirectory + teleonomeName + ".sperm");
+			FileUtils.writeStringToFile(newSpermFile, spermJSONObject.toString(4));
+		} catch (JSONException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		hypothalamusJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_HYPOTHALAMUS);
+		medulaJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_MEDULA);
+		int actionsLength = hypothalamusJSONObject.getJSONArray("Actions").length();
+		int homeoBoxesLength = hypothalamusJSONObject.getJSONArray("HomeoBoxes").length();
+
+		logger.info("Sperm Analysis");
+		logger.info(" ");
+		logger.info("Hypothalamus:");
+		logger.info("\tActions:" + actionsLength);
+		logger.info("\tHomeoBoxes:" + homeoBoxesLength);
+		logger.info(" ");
 		logger.warn("Process Completed");
 	}
+
+
 
 	private JSONObject renderContainer(JSONObject container) {
 		//
 		// now look at containers for a container that has the name equal to the value of humanInterfacePanel
 		//
-		
+
 		String containerTarget = container.getString("Target");
 		String containerName = container.getString("Name");
 		//
 		// now check to see if this exists already in the container target
-		
-		
+
+
 		//
 		// the container information to create 4 denewords, 
-		
+
 		//
-//		"Panel Visualization Style":"Single Value Complete Width",
-//        "Panel In Page Position ":1,
-//        "Visible":true,
+		//		"Panel Visualization Style":"Single Value Complete Width",
+		//        "Panel In Page Position ":1,
+		//        "Visible":true,
 		//"Panel Target Pointer":"@Egg:Human interface:Home Page"
 		//
 		JSONObject homeBoxJSONObject = new JSONObject();
 		homeBoxJSONObject.put("Name", containerName);
 		JSONArray denesJSONArray = new JSONArray();
 		homeBoxJSONObject.put("Denes", denesJSONArray);
-		
+
 		JSONObject newContainerDene = new JSONObject();
 		denesJSONArray.put(newContainerDene);
 		newContainerDene.put(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE, containerName);
 		newContainerDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, containerTarget);
 		JSONArray newContainerDeneDeneWordsJSONArray = new JSONArray();
 		newContainerDene.put("DeneWords", newContainerDeneDeneWordsJSONArray);
-		
+
 		String visualizationStyle = container.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
 		JSONObject deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, visualizationStyle, null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
 		newContainerDeneDeneWordsJSONArray.put(deneword);
-		
+
 		int panelInPagePosition = container.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, panelInPagePosition, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
 		newContainerDeneDeneWordsJSONArray.put(deneword);
-		
+
 		boolean visible = container.getBoolean(TeleonomeConstants.DENEWORD_VISIBLE);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_VISIBLE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 		newContainerDeneDeneWordsJSONArray.put(deneword);
-		
+
 		String containerDeneChainPointer=container.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, containerDeneChainPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
@@ -358,7 +370,7 @@ public class Sertoli
 
 	private void moveFiles(String spermFileName) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(TeleonomeConstants.SPERM_DATE_FORMAT);
-		
+
 		String destFolderName=dataDirectory + "Sertolization/" + dateFormat.format(new Timestamp(System.currentTimeMillis())) + "/";
 		File destFolder = new File(destFolderName);
 		destFolder.mkdirs();
@@ -371,43 +383,43 @@ public class Sertoli
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static String getLastSertolizationDate() {
 		File srcFolder= new File( dataDirectory +"Sertolization");
 		File[] files = srcFolder.listFiles();
 		Arrays.sort(files, new Comparator<File>(){
-		    public int compare(File f1, File f2)
-		    {
-		        return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
-		    } });
-		
+			public int compare(File f1, File f2)
+			{
+				return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
+			} });
+
 		// take the first element of the array
 		SimpleDateFormat dateFormat = new SimpleDateFormat(TeleonomeConstants.SPERM_DATE_FORMAT);
 		return files[0].getName();
-		
+
 	}
-	
-	
+
+
 	private static void undoSertolization(String spermFileName) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(TeleonomeConstants.SPERM_DATE_FORMAT);
 		String destFolderName=dataDirectory;//"/home/pi/Teleonome/" ;
-		
+
 		//
 		// first identify the folrders 
 		File srcFolder= new File(dataDirectory + "Sertolization"); //"/home/pi/Teleonome/Sperm_Fert");
-				
+
 		File[] files = srcFolder.listFiles();
 
 		Arrays.sort(files, new Comparator<File>(){
-		    public int compare(File f1, File f2)
-		    {
-		        return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
-		    } });
-		
+			public int compare(File f1, File f2)
+			{
+				return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified());
+			} });
+
 		// take the first element of the array
 		File selectedSourceFolder = files[0];
 		String srcFolderName=selectedSourceFolder.getAbsolutePath();
-		
+
 		logger.debug("The last Sertolization is " + selectedSourceFolder.getAbsolutePath());
 		File destFolder = new File(destFolderName);
 		//
@@ -421,17 +433,17 @@ public class Sertoli
 			logger.debug("Erasing existing " + spermFileName);
 			destFile.delete();
 		}
-		
+
 		try {
 			FileUtils.copyFile(srcFile, destFile);
 			logger.debug("copying " +  srcFile + " " + destFile);
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		//
 		// finally remove the directory
 		logger.debug("Erasing Sertolization directory " + selectedSourceFolder.getAbsolutePath());
@@ -441,15 +453,15 @@ public class Sertoli
 			// TODO Auto-generated catch block
 			logger.warn(Utils.getStringException(e));
 		}
-		
+
 	}
 	public static void main( String[] args )
 	{
 		String fileName =  Utils.getLocalDirectory() + "lib/Log4J.properties";
 		PropertyConfigurator.configure(fileName);
 		logger = Logger.getLogger(com.teleonome.sertoli.Sertoli.class);
-		
-		
+
+
 		if(args.length>0 && args[0].equals("-v")) {
 			System.out.println("Sertoli Build " + BUILD_NUMBER);
 			System.exit(0);
@@ -459,7 +471,7 @@ public class Sertoli
 			System.out.println("Type the sperm file name and enter  ");
 			String spermFileName = scanner.nextLine();
 			String line;
-			
+
 			if(spermFileName.length()>0) {
 				System.out.println("Reverting to previous state");
 				undoSertolization(spermFileName);
@@ -473,16 +485,16 @@ public class Sertoli
 				System.out.println("Usage: Sertoli localSpermFileName TeleonomeName");
 				System.exit(-1);
 			}
-			
+
 			String spermFileName=args[0];
 			String teleonomeName=args[1];
-			
+
 			File f = new File(spermDirectoryName + spermFileName);
 			if(!f.isFile()){
 				System.out.println("Sperm file is invalid: " + dataDirectory + spermFileName);
 				System.exit(-1);
 			}
-			
+
 			new Sertoli().process(spermFileName, teleonomeName);
 		}
 	}
