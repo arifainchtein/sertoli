@@ -302,7 +302,7 @@ public class Sertoli
 		hypothalamusJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_HYPOTHALAMUS);
 		medulaJSONObject = spermJSONObject.getJSONObject(TeleonomeConstants.SPERM).getJSONObject(TeleonomeConstants.SPERM_MEDULA);
 		int actionsLength = hypothalamusJSONObject.getJSONArray("Actions").length();
-		int homeoBoxesLength = hypothalamusJSONObject.getJSONArray("HomeoBoxes").length();
+		int homeoBoxesLength = hypothalamusJSONObject.getJSONArray("Homeoboxes").length();
 
 		logger.info("Sperm Analysis");
 		logger.info(" ");
