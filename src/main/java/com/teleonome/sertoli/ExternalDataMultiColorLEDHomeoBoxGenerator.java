@@ -100,12 +100,16 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		denewordCarrierForThresholdsDene.put("DeneWords", deneWordsJSONArray);
 		JSONObject threshold;
 		String thresholdName;
-		double thresholdValue;
+		
+		Object thresholdValue;
+		
+		
 		Hashtable<String, JSONObject> thresholdNameIndex = new Hashtable();
 		for(int i=0;i<thresholds.length();i++){
 			threshold = thresholds.getJSONObject(i);
 			thresholdName = threshold.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
-			thresholdValue = threshold.getDouble("Threshold Value");
+			thresholdValue = threshold.get("Threshold Value");
+			
 			thresholdNameIndex.put(thresholdName, threshold);
 			deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, units, TeleonomeConstants.DATATYPE_DOUBLE, true);
 			deneWordsJSONArray.put(deneword);
