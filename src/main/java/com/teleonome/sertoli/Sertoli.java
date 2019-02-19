@@ -150,7 +150,7 @@ public class Sertoli
 			
 			
 			try {
-				hsdFileName=hsdDirectoryName + sensorsHomeBoxDefiitions.getString(i);
+				hsdFileName=hsdDirectoryName + sensorsHomeBoxDefiitions.getString(i).trim();
 				logger.debug("reading  " +hsdFileName);
 				stringFormHDS = FileUtils.readFileToString(new File(hsdFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
