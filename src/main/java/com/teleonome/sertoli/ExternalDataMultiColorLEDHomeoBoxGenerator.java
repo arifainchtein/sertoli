@@ -129,12 +129,6 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		 *  The first three are required by the spec for all External Data denes
 		 */
 		
-		String dataSourcePointer = dataSourceJSONObject.getString("Data Source Pointer");
-		String dataSourceUnits = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_UNIT_ATTRIBUTE);
-		String dataSourceValueType = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_VALUETYPE_ATTRIBUTE);
-		
-		
-		
 		JSONObject externalDataDeneJSONObject = new JSONObject();
 		denesJSONArray.put(externalDataDeneJSONObject);
 		JSONArray externalDataDeneWordsJSONArray = new JSONArray();
@@ -150,7 +144,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		// the status, pulsetimestamp and pulsetimestamp millis always have the same address
 		//
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_STATUS, "NA", null, TeleonomeConstants.DATATYPE_STRING, true);
-	    String statusDataLocationPointer = (new Identity(externalTeleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_OPERATIONAL_DATA, TeleonomeConstants.DENE_VITAL, TeleonomeConstants.DENEWORD_STATUS ).toString();
+	    String statusDataLocationPointer = (new Identity(externalTeleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_OPERATIONAL_DATA, TeleonomeConstants.DENE_VITAL, TeleonomeConstants.DENEWORD_STATUS )).toString();
 		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
 		deneWordsJSONArray.put(deneword);
 		
