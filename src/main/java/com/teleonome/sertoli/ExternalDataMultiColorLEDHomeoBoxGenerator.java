@@ -30,7 +30,10 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		String actionGroupName = homeboxSourceDataElement.getString("Action Group Name");
 		//
 		// where the exteral data lives in the denome, ie "@Egg:Purpose:External Data:Ra:BatteryVoltage"
-		String dataSourcePointer = homeboxSourceDataElement.getString("Data Source Pointer");
+		JSONObject dataSourceJSONObject = homeboxSourceDataElement.getJSONObject("Data Source");
+		String dataSourcePointer = dataSourceJSONObject.getString("Data Source Pointer");
+		String dataSourceUnits = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_UNIT_ATTRIBUTE);
+		String dataSourceValueType = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_VALUETYPE_ATTRIBUTE);
 		//
 		// use the dataSourcePointer to extract one of the comparators, which will be the deneword of the pointer
 		// ie if datapointer is  "@Egg:Purpose:External Data:Ra:BatteryVoltage", then the maincomparator will be BatteryVoltage
@@ -47,7 +50,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		String sourceAddress = homeboxSourceDataElement.getString("Provider");
 		JSONArray thresholds = homeboxSourceDataElement.getJSONArray("Thresholds");
 		JSONArray cases = homeboxSourceDataElement.getJSONArray("Cases");
-		String units = homeboxSourceDataElement.getString(TeleonomeConstants.DENEWORD_UNIT_ATTRIBUTE);
+		
 		//
 		// processing
 		//
@@ -111,9 +114,84 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			thresholdValue = threshold.get("Threshold Value");
 			
 			thresholdNameIndex.put(thresholdName, threshold);
-			deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, units, TeleonomeConstants.DATATYPE_DOUBLE, true);
+			deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
 			deneWordsJSONArray.put(deneword);
 		}
+		/*
+		 * Create the Dene that will have the dataSource, which will be in Egg:Purpose:External Data:$externalTeleonomeName:$mainComparator
+		 * ie @Cleo:Purpose:External Data:Ra:BatteryVoltage
+		 * The dene will have the following  denewords
+		 * 1)ExternalDataStatus 
+		 * 2)Pulse Timestamp
+		 * 3)Pulse Timestamp Millis
+		 * 4) the actual value $mainComparator
+		 * 
+		 *  The first three are required by the spec for all External Data denes
+		 */
+		
+		String dataSourcePointer = dataSourceJSONObject.getString("Data Source Pointer");
+		String dataSourceUnits = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_UNIT_ATTRIBUTE);
+		String dataSourceValueType = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_VALUETYPE_ATTRIBUTE);
+		
+		
+		
+		JSONObject externalDataDeneJSONObject = new JSONObject();
+		denesJSONArray.put(externalDataDeneJSONObject);
+		JSONArray externalDataDeneWordsJSONArray = new JSONArray();
+		externalDataDeneJSONObject.put("DeneWords", externalDataDeneWordsJSONArray);
+		String externalDataDeneChainTargetPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName ).toString();
+		externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalTeleonomeName);
+		externalDataDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, externalDataDeneChainTargetPointer);
+		
+
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EXTERNAL_DATA_STATUS, TeleonomeConstants.BOOTSTRAP_DANGER, null, TeleonomeConstants.DATATYPE_STRING, true);
+		deneWordsJSONArray.put(deneword);
+		
+		// the status, pulsetimestamp and pulsetimestamp millis always have the same address
+		//
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_STATUS, "NA", null, TeleonomeConstants.DATATYPE_STRING, true);
+	    String statusDataLocationPointer = (new Identity(externalTeleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_OPERATIONAL_DATA, TeleonomeConstants.DENE_VITAL, TeleonomeConstants.DENEWORD_STATUS ).toString();
+		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+		deneWordsJSONArray.put(deneword);
+		
+		
+		
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP,"", null, TeleonomeConstants.DATATYPE_STRING, true);
+		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP).toString();
+		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+		deneWordsJSONArray.put(deneword);
+		
+		
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS, 0, null, TeleonomeConstants.DATATYPE_LONG, true);
+		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
+		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+		deneWordsJSONArray.put(deneword);
+		
+		
+		//
+		// the main value represented by $mainComparator with a data location of externalDataSourcePointer
+		Object initial;
+		if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
+			initial=0.0;
+		}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_INTEGER)) {
+			initial=0;
+		}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_LONG)) {
+			initial=0;
+		}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_STRING)) {
+			initial="";
+		}else {
+			initial="";
+		}
+		deneword = Utils.createDeneWordJSONObject(mainComparator, initial, dataSourceUnits, dataSourceValueType, true);
+		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
+		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+		deneWordsJSONArray.put(deneword);
+		
+		
+		
+		
+		
+		
 		
 		
 		/*
