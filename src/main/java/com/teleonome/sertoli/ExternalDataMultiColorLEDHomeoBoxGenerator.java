@@ -127,11 +127,14 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		 * 4) the actual value $mainComparator
 		 * 
 		 *  The first three are required by the spec for all External Data denes
+		 *  
+		 *  finally a deneword has to be 
 		 */
 		
 		JSONObject externalDataDeneJSONObject = new JSONObject();
 		denesJSONArray.put(externalDataDeneJSONObject);
 		JSONArray externalDataDeneWordsJSONArray = new JSONArray();
+		externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_EXTERNAL_DATA_SOURCE);
 		externalDataDeneJSONObject.put("DeneWords", externalDataDeneWordsJSONArray);
 		String externalDataDeneChainTargetPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName ).toString();
 		externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalTeleonomeName);
@@ -177,8 +180,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			initial="";
 		}
 		deneword = Utils.createDeneWordJSONObject(mainComparator, initial, dataSourceUnits, dataSourceValueType, true);
-		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
-		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,externalDataSourcePointer);
 		externalDataDeneWordsJSONArray.put(deneword);
 		
 		
