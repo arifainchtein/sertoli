@@ -139,27 +139,27 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		
 
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EXTERNAL_DATA_STATUS, TeleonomeConstants.BOOTSTRAP_DANGER, null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
+		externalDataDeneWordsJSONArray.put(deneword);
 		
 		// the status, pulsetimestamp and pulsetimestamp millis always have the same address
 		//
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_STATUS, "NA", null, TeleonomeConstants.DATATYPE_STRING, true);
 	    String statusDataLocationPointer = (new Identity(externalTeleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_OPERATIONAL_DATA, TeleonomeConstants.DENE_VITAL, TeleonomeConstants.DENEWORD_STATUS )).toString();
 		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		deneWordsJSONArray.put(deneword);
+		externalDataDeneWordsJSONArray.put(deneword);
 		
 		
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP,"", null, TeleonomeConstants.DATATYPE_STRING, true);
 		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP).toString();
 		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		deneWordsJSONArray.put(deneword);
+		externalDataDeneWordsJSONArray.put(deneword);
 		
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS, 0, null, TeleonomeConstants.DATATYPE_LONG, true);
 		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
 		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		deneWordsJSONArray.put(deneword);
+		externalDataDeneWordsJSONArray.put(deneword);
 		
 		
 		//
