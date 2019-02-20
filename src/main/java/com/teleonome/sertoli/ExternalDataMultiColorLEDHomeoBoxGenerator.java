@@ -179,7 +179,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		deneword = Utils.createDeneWordJSONObject(mainComparator, initial, dataSourceUnits, dataSourceValueType, true);
 		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
 		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		deneWordsJSONArray.put(deneword);
+		externalDataDeneWordsJSONArray.put(deneword);
 		
 		
 		
