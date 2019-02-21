@@ -52,7 +52,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		String sourceAddress = homeboxSourceDataElement.getString("Provider");
 		JSONArray thresholds = homeboxSourceDataElement.getJSONArray("Thresholds");
 		JSONArray cases = homeboxSourceDataElement.getJSONArray("Cases");
-		
+
 		//
 		// processing
 		//
@@ -93,10 +93,10 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 
 		   The Thresholds become Control Parameters
 		   at @Egg:Internal:Descriptive:Control Parameters
-		   
+
 		   If the thresholdValue is a pointer, ie @Egg:...
 		   dont add it to the control parameters
-			
+
 		 */	
 		JSONObject denewordCarrierForThresholdsDene = new JSONObject();
 		denesJSONArray.put(denewordCarrierForThresholdsDene);
@@ -108,10 +108,10 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		denewordCarrierForThresholdsDene.put("DeneWords", deneWordsJSONArray);
 		JSONObject threshold;
 		String thresholdName;
-		
+
 		Object thresholdValue;
-		
-		
+
+
 		Hashtable<String, JSONObject> thresholdNameIndex = new Hashtable();
 		for(int i=0;i<thresholds.length();i++){
 			threshold = thresholds.getJSONObject(i);
@@ -123,8 +123,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			// if the threshold value is a pointer dont create the deneword
 			if(!(thresholdValue instanceof String)    || !((String)thresholdValue).startsWith("@Egg")){
 				logger.info("line 124 thresholdValue=" + thresholdValue);
-					deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
-					deneWordsJSONArray.put(deneword);
+				deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
+				deneWordsJSONArray.put(deneword);
 			}
 		}
 		/*
@@ -148,24 +148,24 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		 */
 		JSONObject externalDataDeneJSONObject;
 		if(externalDataDenesCreated.contains(externalTeleonomeName)) {
-			
+
 			/*
 			   Create the DeneWordCarrier Dene to store the actual value $mainComparator
 				Every Dene of type action needs to have a deneword added to the 
 				actuatorActionListPointer
-				
+
 			 */	
 
 			JSONObject denewordCarrierForMainComparatorDene = new JSONObject();
 			denesJSONArray.put(denewordCarrierForMainComparatorDene);
 			JSONArray mainComparatorDeneWordsJSONArray = new JSONArray();
 			denewordCarrierForMainComparatorDene.put("DeneWords", mainComparatorDeneWordsJSONArray);
-			
+
 			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for " + externalTeleonomeName + " " + mainComparator);
 			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
 			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, externalDataDeneIdentity.toString());
-			
-			
+
+
 			//
 			// the main value represented by $mainComparator with a data location of externalDataSourcePointer
 			Object initial;
@@ -184,9 +184,12 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,externalDataSourcePointer);
 			mainComparatorDeneWordsJSONArray.put(deneword);
 
-			
-			
+
+
 		}else {
+			//
+			// this is the first time , so create the dene
+			//
 			externalDataDeneJSONObject= new JSONObject();
 			denesJSONArray.put(externalDataDeneJSONObject);
 			JSONArray externalDataDeneWordsJSONArray = new JSONArray();
@@ -239,36 +242,36 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			externalDataDeneWordsJSONArray.put(deneword);
 
 		}
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		/*
 		   Create the DeneWordCarrier Dene for the ActionList
 			Every Dene of type action needs to have a deneword added to the 
 			actuatorActionListPointer
-			
+
 		 */	
 
 		JSONObject denewordCarrierForActionListDene = new JSONObject();
 		denesJSONArray.put(denewordCarrierForActionListDene);
-		
+
 		denewordCarrierForActionListDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for ActionList");
 		denewordCarrierForActionListDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
 		denewordCarrierForActionListDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorActionListPointer);
 		JSONArray actionListDeneWordsJSONArray= new JSONArray();
 		denewordCarrierForActionListDene.put("DeneWords", actionListDeneWordsJSONArray);
-		
+
 		//
 		// The cases, every case produces 
 		// three denes, an action dene, ansuccess task and a condition
-		
+
 		JSONObject caseSourceInfo, actionDeneJSONObject, successTaskDeneJSONObject, conditionDeneJSONObject;
 		String caseName, expression, conditionName, conditionDeneName, conditionDenePointer, actionSuccessTaskDenePointer, actionSuccessTaskDeneName;
 		int evalPos;
-		
+
 		String actuatorsDeneChainTargetPointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS ).toString();
 		String microControllerCommand = null, caseValue, caseThreshold;
 		JSONObject caseThresholdJSONObject;
@@ -287,7 +290,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			conditionDeneName = caseName+ "Condition";
 			actionSuccessTaskDeneName = caseName + " Success Tasks";
 			conditionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, conditionDeneName ).toString();
-			
+
 			actionSuccessTaskDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actionSuccessTaskDeneName ).toString();
 			actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, caseName ).toString();
 
@@ -296,15 +299,15 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			//
 			actionDeneJSONObject = new JSONObject();
 			denesJSONArray.put(actionDeneJSONObject);
-			
+
 			//
 			// add this dene as a deneword to the action list
 			//
-            deneword = Utils.createDeneWordJSONObject(caseName, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword = Utils.createDeneWordJSONObject(caseName, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION);
 			actionListDeneWordsJSONArray.put(deneword); 	
-			
-			
+
+
 			actionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, caseName);
 			actionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION);
 			actionDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
@@ -325,11 +328,11 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			deneword = Utils.createDeneWordJSONObject(conditionName, conditionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_CONDITION_POINTER);
 			deneWordsJSONArray.put(deneword);
-			
+
 			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASK_TRUE_EXPRESSION, actionSuccessTaskDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASKS);
 			deneWordsJSONArray.put(deneword);
-			
+
 			//
 			// create the Success tasks
 			//
@@ -346,8 +349,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			updateDeneIdentityPointer =  (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS,"Update " + externalTeleonomeName+" "  + mainComparator, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION)).toString();
 			deneword.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, updateDeneIdentityPointer);
 			deneWordsJSONArray.put(deneword);
-			
-			
+
+
 			//
 			// create the Condition tasks
 			//
@@ -360,10 +363,10 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			conditionDeneJSONObject.put("DeneWords", deneWordsJSONArray);
 			deneword = Utils.createDeneWordJSONObject("Codon", caseName, null, TeleonomeConstants.DATATYPE_STRING, true);
 			deneWordsJSONArray.put(deneword);
-			
+
 			deneword = Utils.createDeneWordJSONObject("Expression", expression, null, TeleonomeConstants.DATATYPE_STRING, true);
 			deneWordsJSONArray.put(deneword);
-			
+
 			deneword = Utils.createDeneWordJSONObject("On Lack Of Data", false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 			deneWordsJSONArray.put(deneword);
 			//
@@ -371,7 +374,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			// by design the expression will be of the form
 			//
 			//     "Expression":"BatteryVoltage>YellowVoltageThreshold && BatteryVoltage<GreenVoltageThreshold"  
-            //
+			//
 			// you need to identify every one of the elements in the expression and create a deneword.  One element is always
 			// the mainComparator defined above (in this example the maincomparator is BatteryVoltage
 			//
@@ -385,16 +388,16 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			caseThresholdJSONObject = (JSONObject)thresholdNameIndex.get(caseThreshold);
 			logger.debug("line 331 caseThreshold=" + caseThreshold);
 			logger.debug("line 331 caseThresholdJSONObject=" + caseThresholdJSONObject.toString(4));
-			
+
 			for(Enumeration<String> keys = thresholdNameIndex.keys();keys.hasMoreElements();) {
-				
+
 				thresholdName = keys.nextElement();
 				threshold = thresholdNameIndex.get(thresholdName);
 				thresholdValue = threshold.get("Threshold Value");
 				// if the threshold value is a pointer dont create the deneword
-				
-					
-				
+
+
+
 				logger.debug("line 335 thresholdName=" + thresholdName + " expression=" + expression);
 				if(expression.contains(thresholdName)) {
 					logger.debug("line 339 Creating extra");
@@ -412,10 +415,143 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			}
 		}
 		String updateCodon = (new Identity(pointerToMicroController)).deneWordName;
-		
-		
-		
-		
+
+
+		//
+		// because this is the external data, there are three  more denes needed to account for when the data is stale
+		// an action dene, a condition dene and a success tasks false expression dene, 
+		// the stale data denes should only be added once per external teleonome, therefore only add if
+		// this is the first time we are doing an external data for the teleonome 
+
+		if(externalDataDenesCreated.contains(externalTeleonomeName)) {
+
+			//
+			// do the action first
+			//
+			JSONObject staleDataActionDeneJSONObject = new JSONObject();
+			denesJSONArray.put(staleDataActionDeneJSONObject);
+
+
+			String staleDataActionDeneName = externalTeleonomeName  + " " + mainComparator + " Is Stale Action";
+
+			//
+			// add this dene as a deneword to the action list
+			//
+			actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, staleDataActionDeneName ).toString();
+			deneword = Utils.createDeneWordJSONObject(staleDataActionDeneName, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION);
+			actionListDeneWordsJSONArray.put(deneword); 	
+
+
+			staleDataActionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, staleDataActionDeneName);
+			staleDataActionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION);
+			staleDataActionDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
+			deneWordsJSONArray = new JSONArray();
+			staleDataActionDeneJSONObject.put("DeneWords", deneWordsJSONArray);
+			deneword = Utils.createDeneWordJSONObject("Codon", staleDataActionDeneName, null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+			deneWordsJSONArray.put(deneword);
+
+			//
+			// this action should be the last one of the group to be executed
+			// therefore it should be equal to 1 + total cases
+			evalPos = 1 + cases.length();
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION,evalPos, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+			deneWordsJSONArray.put(deneword);
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION, TeleonomeConstants.COMMANDS_DO_NOTHING, null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_FALSE_EXPRESSION, TeleonomeConstants.COMMANDS_DO_NOTHING, null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+			//
+			// the expression is made out f externalTeleonomeName and ExternalDataStatusCondition
+			conditionName = externalTeleonomeName +"_ExternalDataStatusCondition";
+			deneword = Utils.createDeneWordJSONObject("Expression", "("+conditionName +")", null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+			String externalDataStatusConditionDeneName = externalTeleonomeName  + " External Data Status Condition";
+
+			conditionDenePointer=thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, externalDataStatusConditionDeneName ).toString();
+			deneword = Utils.createDeneWordJSONObject(conditionName, conditionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_CONDITION_POINTER);
+			deneWordsJSONArray.put(deneword);
+
+			String actionSuccessFalseExpressionDeneName = staleDataActionDeneName + " Success Tasks False Expression";
+			actionSuccessTaskDenePointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actionSuccessFalseExpressionDeneName ).toString();
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASK_FALSE_EXPRESSION, actionSuccessTaskDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASKS);
+			deneWordsJSONArray.put(deneword);
+
+
+			//
+			// next the condition dene
+			//
+			conditionDeneJSONObject = new JSONObject();
+			denesJSONArray.put(conditionDeneJSONObject);
+			// the condition name needs to be:
+			// $externalteleonomeName External Data Status Condition"
+			//
+			// the conditionDeneName
+
+
+			conditionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalDataStatusConditionDeneName);
+			conditionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTUATOR_CONDITION);
+			conditionDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
+			deneWordsJSONArray = new JSONArray();
+			conditionDeneJSONObject.put("DeneWords", deneWordsJSONArray);
+			deneword = Utils.createDeneWordJSONObject("Codon", updateCodon, null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+
+			deneword = Utils.createDeneWordJSONObject("Expression", "(ExternalDataStatus== SuccessValue)", null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+
+			deneword = Utils.createDeneWordJSONObject("On Lack Of Data", false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+			deneWordsJSONArray.put(deneword);
+
+			//
+			//Since the condition expression is always the same, ie  ExternalDataStatus==SuccessValue) crearte denewords for each term
+			// For ExternalDataStatus the dataSourcePointer would be something like @Egg:Purpose:External Data:XXX:ExternalDataStatus
+			// where XXX would be the external teleonome name which is given by the variable externalTeleonomeName
+			dataSourcePointer = thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName, TeleonomeConstants.EXTERNAL_DATA_STATUS ).toString();
+			deneword = Utils.createDeneWordJSONObject("ExternalDataStatus", dataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
+			deneWordsJSONArray.put(deneword);
+			//
+			//succesvalue
+			//
+			dataSourcePointer = thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_REFERENCE, TeleonomeConstants.DENE_STATUS, TeleonomeConstants.BOOTSTRAP_SUCCESS ).toString();
+			deneword = Utils.createDeneWordJSONObject("SuccessValue", dataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
+			deneWordsJSONArray.put(deneword);
+
+
+			//
+			// finally the action success tass false expression
+			//
+
+			successTaskDeneJSONObject = new JSONObject();
+			denesJSONArray.put(successTaskDeneJSONObject);
+			successTaskDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, actionSuccessFalseExpressionDeneName);
+			successTaskDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
+			deneWordsJSONArray = new JSONArray();
+			successTaskDeneJSONObject.put("DeneWords", deneWordsJSONArray);
+			String microControllerCommandValue = microControllerBaseCommand + "#" + ledPosition + "#stale#Ok";
+
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASK_FALSE_EXPRESSION, microControllerCommandValue, null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_UPDATE_DENEWORD_VALUE);
+			//
+			// the target attribute is "Update " + mainComparator
+			updateDeneIdentityPointer =  (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS,"Update " + externalTeleonomeName +" " + mainComparator, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION)).toString();
+			deneword.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, updateDeneIdentityPointer);
+			deneWordsJSONArray.put(deneword);
+		}
+
+
+		//
+		// end of denes for stale data condition
+		//
+
+
 		//
 		// After the cases, add one more dene
 		// for the one that actually updates the 
@@ -427,23 +563,23 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		updateMicroControllerActionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
 		updateMicroControllerActionDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "Update " + externalTeleonomeName +" "  + mainComparator);
 		updateMicroControllerActionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION);
-		
+
 		//
 		// add this dene as a deneword to the action list
 		//
 		actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, "Update " + externalTeleonomeName+" "  + mainComparator ).toString();
-        deneword = Utils.createDeneWordJSONObject("Update " + externalTeleonomeName+" "  + mainComparator, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		deneword = Utils.createDeneWordJSONObject("Update " + externalTeleonomeName+" "  + mainComparator, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		actionListDeneWordsJSONArray.put(deneword); 
-		
-		
+
+
 		deneWordsJSONArray = new JSONArray();
 		updateMicroControllerActionDene.put("DeneWords", deneWordsJSONArray);
 		//
 		// in this the codon is the deneword of the MicroController
 		//
-		
-		
+
+
 		deneword = Utils.createDeneWordJSONObject("Codon", updateCodon, null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneWordsJSONArray.put(deneword);
 		//
@@ -458,13 +594,13 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		// so the value here is just something to start with, so using the variable microControllerCommand
 		// which was calculated for every case means that the deneword below will have the expression of the last case
 		// which by convention is the data is stale
-	
+
 		deneword = Utils.createDeneWordJSONObject("Actuator Command Code True Expression", microControllerCommand, null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneWordsJSONArray.put(deneword);
 		deneword = Utils.createDeneWordJSONObject("Expression", "1==1", null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneWordsJSONArray.put(deneword);
-		
-		
+
+
 
 		//
 		// create the homeobox index dene
