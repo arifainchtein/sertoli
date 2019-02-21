@@ -287,8 +287,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			deneword = Utils.createDeneWordJSONObject(actionSuccessTaskDeneName, microControllerCommand, null, TeleonomeConstants.DATATYPE_STRING, true);
 			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_UPDATE_DENEWORD_VALUE);
 			//
-			// the target attribute is "Update " + mainComparator
-			updateDeneIdentityPointer =  (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS,"Update " + mainComparator, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION)).toString();
+			// the target attribute is "Update " +  + externalTeleonomeName + mainComparator
+			updateDeneIdentityPointer =  (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS,"Update " + externalTeleonomeName + mainComparator, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION)).toString();
 			deneword.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, updateDeneIdentityPointer);
 			deneWordsJSONArray.put(deneword);
 			
@@ -485,14 +485,14 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		JSONObject updateMicroControllerActionDene = new JSONObject();
 		denesJSONArray.put(updateMicroControllerActionDene);
 		updateMicroControllerActionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
-		updateMicroControllerActionDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "Update " + mainComparator);
+		updateMicroControllerActionDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "Update " + externalTeleonomeName + mainComparator);
 		updateMicroControllerActionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION);
 		
 		//
 		// add this dene as a deneword to the action list
 		//
-		actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, "Update " + mainComparator ).toString();
-        deneword = Utils.createDeneWordJSONObject("Update " + mainComparator, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, "Update " + externalTeleonomeName + mainComparator ).toString();
+        deneword = Utils.createDeneWordJSONObject("Update " + externalTeleonomeName + mainComparator, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		actionListDeneWordsJSONArray.put(deneword); 
 		
