@@ -2,6 +2,7 @@ package com.teleonome.sertoli;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -19,7 +20,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 
 	Logger logger;
 
-	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex) {
+	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex, ArrayList externalDataDenesCreated) {
 		//
 		// Getting the data
 		//
@@ -86,12 +87,15 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		deneword = Utils.createDeneWordJSONObject("Description", "", null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneWordsJSONArray.put(deneword);
 
-		//
-		// Create the DeneWordCarrier Dene for the Thresholds
+		/*
+		 Create the DeneWordCarrier Dene for the Thresholds
 
-		/* The Thresholds become Control Parameters
-			//  at @Egg:Internal:Descriptive:Control Parameters
-			//
+		   The Thresholds become Control Parameters
+		   at @Egg:Internal:Descriptive:Control Parameters
+		   
+		   If the thresholdValue is a pointer, ie @Egg:...
+		   dont add it to the control parameters
+			
 		 */	
 		JSONObject denewordCarrierForThresholdsDene = new JSONObject();
 		denesJSONArray.put(denewordCarrierForThresholdsDene);
@@ -114,8 +118,12 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			thresholdValue = threshold.get("Threshold Value");
 			
 			thresholdNameIndex.put(thresholdName, threshold);
-			deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
-			deneWordsJSONArray.put(deneword);
+			//
+			// if the threshold value is a pointer dont create the deneword
+			if(!(thresholdValue instanceof String)    || !((String)thresholdValue).startsWith("@Egg")){
+					deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
+					deneWordsJSONArray.put(deneword);
+			}
 		}
 		/*
 		 * Create the Dene that will have the dataSource, which will be in Egg:Purpose:External Data:$externalTeleonomeName:$mainComparator
@@ -128,62 +136,107 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		 * 
 		 *  The first three are required by the spec for all External Data denes
 		 *  
-		 *  finally a deneword has to be 
+		 *  Because a .sertoli file can have more than one .had that writes to the external data denechain of a teleonome,
+		 *  ie you can have an .had that looks at Sento's tub temperature and anther .had that looks at Sento's
+		 *  pump status, and both have to ednd up in the same external data:sento dene, keep tracks of the ones 
+		 *  already created to avoid creating duplicates, check if it has already been created
+		 *   if the dene has been created,then do a deneword carrier to add the value deneword to the existing 
+		 *   dene
+		 *   if it has not been created, create it
 		 */
-		
-		JSONObject externalDataDeneJSONObject = new JSONObject();
-		denesJSONArray.put(externalDataDeneJSONObject);
-		JSONArray externalDataDeneWordsJSONArray = new JSONArray();
-		externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_EXTERNAL_DATA_SOURCE);
-		externalDataDeneJSONObject.put("DeneWords", externalDataDeneWordsJSONArray);
-		String externalDataDeneChainTargetPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName ).toString();
-		externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalTeleonomeName);
-		externalDataDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, externalDataDeneChainTargetPointer);
-		
+		JSONObject externalDataDeneJSONObject;
+		if(externalDataDenesCreated.contains(externalTeleonomeName)) {
+			
+			/*
+			   Create the DeneWordCarrier Dene to store the actual value $mainComparator
+				Every Dene of type action needs to have a deneword added to the 
+				actuatorActionListPointer
+				
+			 */	
 
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EXTERNAL_DATA_STATUS, TeleonomeConstants.BOOTSTRAP_DANGER, null, TeleonomeConstants.DATATYPE_STRING, true);
-		externalDataDeneWordsJSONArray.put(deneword);
-		
-		// the status, pulsetimestamp and pulsetimestamp millis always have the same address
-		//
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_STATUS, "NA", null, TeleonomeConstants.DATATYPE_STRING, true);
-	    String statusDataLocationPointer = (new Identity(externalTeleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_OPERATIONAL_DATA, TeleonomeConstants.DENE_VITAL, TeleonomeConstants.DENEWORD_STATUS )).toString();
-		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		externalDataDeneWordsJSONArray.put(deneword);
-		
-		
-		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP,"", null, TeleonomeConstants.DATATYPE_STRING, true);
-		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP).toString();
-		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		externalDataDeneWordsJSONArray.put(deneword);
-		
-		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS, 0, null, TeleonomeConstants.DATATYPE_LONG, true);
-		statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
-		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
-		externalDataDeneWordsJSONArray.put(deneword);
-		
-		
-		//
-		// the main value represented by $mainComparator with a data location of externalDataSourcePointer
-		Object initial;
-		if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
-			initial=0.0;
-		}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_INTEGER)) {
-			initial=0;
-		}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_LONG)) {
-			initial=0;
-		}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_STRING)) {
-			initial="";
+			JSONObject denewordCarrierForMainComparatorDene = new JSONObject();
+			denesJSONArray.put(denewordCarrierForMainComparatorDene);
+			JSONArray mainComparatorDeneWordsJSONArray = new JSONArray();
+			denewordCarrierForMainComparatorDene.put("DeneWords", mainComparatorDeneWordsJSONArray);
+			
+			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for ActionList");
+			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
+			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorActionListPointer);
+			
+			
+			//
+			// the main value represented by $mainComparator with a data location of externalDataSourcePointer
+			Object initial;
+			if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
+				initial=0.0;
+			}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_INTEGER)) {
+				initial=0;
+			}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_LONG)) {
+				initial=0;
+			}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_STRING)) {
+				initial="";
+			}else {
+				initial="";
+			}
+			deneword = Utils.createDeneWordJSONObject(mainComparator, initial, dataSourceUnits, dataSourceValueType, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,externalDataSourcePointer);
+			mainComparatorDeneWordsJSONArray.put(deneword);
+
+			
+			
 		}else {
-			initial="";
+			externalDataDeneJSONObject= new JSONObject();
+			denesJSONArray.put(externalDataDeneJSONObject);
+			JSONArray externalDataDeneWordsJSONArray = new JSONArray();
+			externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_EXTERNAL_DATA_SOURCE);
+			externalDataDeneJSONObject.put("DeneWords", externalDataDeneWordsJSONArray);
+			String externalDataDeneChainTargetPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName ).toString();
+			externalDataDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalTeleonomeName);
+			externalDataDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, externalDataDeneChainTargetPointer);
+
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EXTERNAL_DATA_STATUS, TeleonomeConstants.BOOTSTRAP_DANGER, null, TeleonomeConstants.DATATYPE_STRING, true);
+			externalDataDeneWordsJSONArray.put(deneword);
+
+			// the status, pulsetimestamp and pulsetimestamp millis always have the same address
+			//
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_STATUS, "NA", null, TeleonomeConstants.DATATYPE_STRING, true);
+			String statusDataLocationPointer = (new Identity(externalTeleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_OPERATIONAL_DATA, TeleonomeConstants.DENE_VITAL, TeleonomeConstants.DENEWORD_STATUS )).toString();
+			deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+			externalDataDeneWordsJSONArray.put(deneword);
+
+
+
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP,"", null, TeleonomeConstants.DATATYPE_STRING, true);
+			statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP).toString();
+			deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+			externalDataDeneWordsJSONArray.put(deneword);
+
+
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS, 0, null, TeleonomeConstants.DATATYPE_LONG, true);
+			statusDataLocationPointer = new Identity(externalTeleonomeName, TeleonomeConstants.PULSE_TIMESTAMP_MILLISECONDS).toString();
+			deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,statusDataLocationPointer);
+			externalDataDeneWordsJSONArray.put(deneword);
+
+
+			//
+			// the main value represented by $mainComparator with a data location of externalDataSourcePointer
+			Object initial;
+			if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
+				initial=0.0;
+			}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_INTEGER)) {
+				initial=0;
+			}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_LONG)) {
+				initial=0;
+			}else if(dataSourceValueType.equals(TeleonomeConstants.DATATYPE_STRING)) {
+				initial="";
+			}else {
+				initial="";
+			}
+			deneword = Utils.createDeneWordJSONObject(mainComparator, initial, dataSourceUnits, dataSourceValueType, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,externalDataSourcePointer);
+			externalDataDeneWordsJSONArray.put(deneword);
+
 		}
-		deneword = Utils.createDeneWordJSONObject(mainComparator, initial, dataSourceUnits, dataSourceValueType, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DATA_LOCATION_ATTRIBUTE,externalDataSourcePointer);
-		externalDataDeneWordsJSONArray.put(deneword);
-		
-		
 		
 		
 		
@@ -203,7 +256,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		denewordCarrierForActionListDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for ActionList");
 		denewordCarrierForActionListDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
 		denewordCarrierForActionListDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorActionListPointer);
-		JSONArray actionListDeneWordsJSONArray = new JSONArray();
+		JSONArray actionListDeneWordsJSONArray= new JSONArray();
 		denewordCarrierForActionListDene.put("DeneWords", actionListDeneWordsJSONArray);
 		
 		//
@@ -345,136 +398,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			}
 		}
 		String updateCodon = (new Identity(pointerToMicroController)).deneWordName;
-		/*
-		//
-		// because this is the external data, there are three  more denes needed to account for when the data is stale
-		// an action dene, a condition dene and a success tasks false expression dene, 
-		//
-		// do the action first
-		//
-		JSONObject staleDataActionDeneJSONObject = new JSONObject();
-		denesJSONArray.put(staleDataActionDeneJSONObject);
 		
-		
-		String staleDataActionDeneName = externalTeleonomeName  + " " + mainComparator + " Is Stale Action";
-		
-		//
-		// add this dene as a deneword to the action list
-		//
-		actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, staleDataActionDeneName ).toString();
-        deneword = Utils.createDeneWordJSONObject(staleDataActionDeneName, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION);
-		actionListDeneWordsJSONArray.put(deneword); 	
-		
-		
-		staleDataActionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, staleDataActionDeneName);
-		staleDataActionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION);
-		staleDataActionDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
-		deneWordsJSONArray = new JSONArray();
-		staleDataActionDeneJSONObject.put("DeneWords", deneWordsJSONArray);
-		deneword = Utils.createDeneWordJSONObject("Codon", staleDataActionDeneName, null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
-		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
-		deneWordsJSONArray.put(deneword);
-		
-		//
-		// this action should be the last one of the group to be executed
-		// therefore it should be equal to 1 + total cases
-		evalPos = 1 + cases.length();
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION,evalPos, null, TeleonomeConstants.DATATYPE_INTEGER, true);
-		deneWordsJSONArray.put(deneword);
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION, TeleonomeConstants.COMMANDS_DO_NOTHING, null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_FALSE_EXPRESSION, TeleonomeConstants.COMMANDS_DO_NOTHING, null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
-		//
-		// the expression is made out f externalTeleonomeName and ExternalDataStatusCondition
-		conditionName = externalTeleonomeName +"ExternalDataStatusCondition";
-		deneword = Utils.createDeneWordJSONObject("Expression", "("+conditionName +")", null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
-		String externalDataStatusConditionDeneName = externalTeleonomeName  + " External Data Status Condition";
-		
-		conditionDenePointer=thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, externalDataStatusConditionDeneName ).toString();
-		deneword = Utils.createDeneWordJSONObject(conditionName, conditionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_CONDITION_POINTER);
-		deneWordsJSONArray.put(deneword);
-		
-		String actionSuccessFalseExpressionDeneName = staleDataActionDeneName + " Success Tasks False Expression";
-		actionSuccessTaskDenePointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actionSuccessFalseExpressionDeneName ).toString();
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASK_FALSE_EXPRESSION, actionSuccessTaskDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASKS);
-		deneWordsJSONArray.put(deneword);
-		
-		
-		//
-		// next the condition dene
-		//
-		conditionDeneJSONObject = new JSONObject();
-		denesJSONArray.put(conditionDeneJSONObject);
-		// the condition name needs to be:
-		// $externalteleonomeName External Data Status Condition"
-		//
-		// the conditionDeneName
-		
-		
-		conditionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalDataStatusConditionDeneName);
-		conditionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTUATOR_CONDITION);
-		conditionDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
-		deneWordsJSONArray = new JSONArray();
-		conditionDeneJSONObject.put("DeneWords", deneWordsJSONArray);
-		deneword = Utils.createDeneWordJSONObject("Codon", updateCodon, null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
-		
-		deneword = Utils.createDeneWordJSONObject("Expression", "(ExternalDataStatus== SuccessValue)", null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneWordsJSONArray.put(deneword);
-		
-		deneword = Utils.createDeneWordJSONObject("On Lack Of Data", false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
-		deneWordsJSONArray.put(deneword);
-		
-		//
-		//Since the condition expression is always the same, ie  ExternalDataStatus==SuccessValue) crearte denewords for each term
-		// For ExternalDataStatus the dataSourcePointer would be something like @Egg:Purpose:External Data:XXX:ExternalDataStatus
-		// where XXX would be the external teleonome name which is given by the variable externalTeleonomeName
-		dataSourcePointer = thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName, TeleonomeConstants.EXTERNAL_DATA_STATUS ).toString();
-		deneword = Utils.createDeneWordJSONObject("ExternalDataStatus", dataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
-		deneWordsJSONArray.put(deneword);
-		//
-		//succesvalue
-		//
-		dataSourcePointer = thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_REFERENCE, TeleonomeConstants.DENE_STATUS, TeleonomeConstants.BOOTSTRAP_SUCCESS ).toString();
-		deneword = Utils.createDeneWordJSONObject("SuccessValue", dataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
-		deneWordsJSONArray.put(deneword);
-		
-		
-		//
-		// finally the action success tass false expression
-		//
-		
-		successTaskDeneJSONObject = new JSONObject();
-		denesJSONArray.put(successTaskDeneJSONObject);
-		successTaskDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, actionSuccessFalseExpressionDeneName);
-		successTaskDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainTargetPointer);
-		deneWordsJSONArray = new JSONArray();
-		successTaskDeneJSONObject.put("DeneWords", deneWordsJSONArray);
-		String microControllerCommandValue = microControllerBaseCommand + "#" + ledPosition + "#stale#Ok";
-		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_ACTION_SUCCESS_TASK_FALSE_EXPRESSION, microControllerCommandValue, null, TeleonomeConstants.DATATYPE_STRING, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_UPDATE_DENEWORD_VALUE);
-		//
-		// the target attribute is "Update " + mainComparator
-		updateDeneIdentityPointer =  (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS,"Update " + externalTeleonomeName +" " + mainComparator, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION)).toString();
-		deneword.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, updateDeneIdentityPointer);
-		deneWordsJSONArray.put(deneword);
-		
-		
-		
-		//
-		// end of denes for stale data condition
-		//
-		*/
 		
 		
 		

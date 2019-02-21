@@ -2,6 +2,7 @@ package com.teleonome.sertoli;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
@@ -18,7 +19,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 
 	Logger logger;
 	
-	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex) {
+	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex, ArrayList externalDataDenesCreated) {
 			//
 			// Getting the data
 			//

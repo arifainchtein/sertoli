@@ -146,6 +146,8 @@ public class Sertoli
 		//
 		// Now Process the Sensor Definitions
 		//
+		ArrayList<String> externalDataDenesCreated = new ArrayList();
+		
 		for(int i=0;i<sensorsHomeBoxDefiitions.length();i++) {
 
 
@@ -164,7 +166,7 @@ public class Sertoli
 				clazz = Class.forName(homeboxDefinitionType);
 				constructor = clazz.getConstructor();
 				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
-				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
+				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue, externalDataDenesCreated);
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
 				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
 				//
@@ -218,6 +220,7 @@ public class Sertoli
 		// Now Process the Action Definitions
 		//
 		String hadFileName="", stringFormHAS="";
+		
 		for(int i=0;i<actionsHomeBoxDefiitions.length();i++) {
 
 
@@ -236,7 +239,20 @@ public class Sertoli
 				clazz = Class.forName(homeboxDefinitionType);
 				constructor = clazz.getConstructor();
 				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
-				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue);
+				
+				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue, externalDataDenesCreated);
+				//
+				// After processing, check to see if externalDataDenesCreated needs to be updated
+				
+				if(anHomeboxGenerator instanceof ExternalDataMultiColorLEDHomeoBoxGenerator) {
+					String externalDataSourcePointer = homeboxSourceDataElement.getString("External Data Source Pointer");
+					Identity externalDataSourceIdentity = new Identity(externalDataSourcePointer);
+					String externalTeleonomeName= externalDataSourceIdentity.getTeleonomeName();
+					if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
+						externalDataDenesCreated.add(externalTeleonomeName);
+					}
+				}
+				
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
 				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
 				//
