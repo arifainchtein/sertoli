@@ -486,7 +486,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			//
 			// next the condition dene only create one per external teleonome
 			//
-			if(externalDataDenesCreated.contains(externalTeleonomeName)) {
+			if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
 				conditionDeneJSONObject = new JSONObject();
 				denesJSONArray.put(conditionDeneJSONObject);
 				// the condition name needs to be:
