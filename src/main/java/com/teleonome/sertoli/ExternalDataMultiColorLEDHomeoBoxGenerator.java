@@ -206,13 +206,6 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		JSONArray actionListDeneWordsJSONArray = new JSONArray();
 		denewordCarrierForActionListDene.put("DeneWords", actionListDeneWordsJSONArray);
 		
-		
-	
-		
-		
-		
-		
-		
 		//
 		// The cases, every case produces 
 		// three denes, an action dene, ansuccess task and a condition
@@ -335,9 +328,14 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			//
 			// now loop over all the thresholds and see if the expression contains those terms, if so add a deneword
 			caseThresholdJSONObject = (JSONObject)thresholdNameIndex.get(caseThreshold);
+			logger.info("line 331 caseThreshold=" + caseThreshold);
+			logger.info("line 331 caseThresholdJSONObject=" + caseThresholdJSONObject.toString(4));
+			
 			for(Enumeration<String> keys = thresholdNameIndex.keys();keys.hasMoreElements();) {
+				
 				thresholdName = keys.nextElement();
-				if(expression.equals(thresholdName)) {
+				logger.info("line 335 thresholdName=" + thresholdName + " expression=" + expression);
+				if(expression.contains(thresholdName)) {
 					thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_DESCRIPTIVE, TeleonomeConstants.DENE_CONTROL_PARAMETERS, thresholdName ).toString();
 					deneword = Utils.createDeneWordJSONObject(thresholdName, thresholdTargetPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 					deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
