@@ -116,11 +116,12 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			threshold = thresholds.getJSONObject(i);
 			thresholdName = threshold.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
 			thresholdValue = threshold.get("Threshold Value");
-			
+			logger.info("line 119 thresholdValue=" + thresholdValue);
 			thresholdNameIndex.put(thresholdName, threshold);
 			//
 			// if the threshold value is a pointer dont create the deneword
 			if(!(thresholdValue instanceof String)    || !((String)thresholdValue).startsWith("@Egg")){
+				logger.info("line 124 thresholdValue=" + thresholdValue);
 					deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
 					deneWordsJSONArray.put(deneword);
 			}
