@@ -388,10 +388,22 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			for(Enumeration<String> keys = thresholdNameIndex.keys();keys.hasMoreElements();) {
 				
 				thresholdName = keys.nextElement();
+				threshold = thresholdNameIndex.get(thresholdName);
+				thresholdValue = threshold.get("Threshold Value");
+				// if the threshold value is a pointer dont create the deneword
+				
+					
+				
 				logger.debug("line 335 thresholdName=" + thresholdName + " expression=" + expression);
 				if(expression.contains(thresholdName)) {
 					logger.debug("line 339 Creating extra");
-					thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_DESCRIPTIVE, TeleonomeConstants.DENE_CONTROL_PARAMETERS, thresholdName ).toString();
+					//
+					// the threshold target pointer will depend on whether 
+					if(!(thresholdValue instanceof String)    || !((String)thresholdValue).startsWith("@Egg")){
+						thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_DESCRIPTIVE, TeleonomeConstants.DENE_CONTROL_PARAMETERS, thresholdName ).toString();
+					}else {
+						thresholdTargetPointer=(String)thresholdValue;
+					}
 					deneword = Utils.createDeneWordJSONObject(thresholdName, thresholdTargetPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 					deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
 					deneWordsJSONArray.put(deneword);
