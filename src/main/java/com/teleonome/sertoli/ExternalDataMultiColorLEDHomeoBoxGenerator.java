@@ -42,8 +42,9 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		String externalDataSourcePointer = homeboxSourceDataElement.getString("External Data Source Pointer");
 		Identity externalDataSourceIdentity = new Identity(externalDataSourcePointer);
 		String externalTeleonomeName= externalDataSourceIdentity.getTeleonomeName();
-		String mainComparator = (new Identity(dataSourcePointer)).deneWordName;
-		
+		Identity dataSourcePointerIdentity = new Identity(dataSourcePointer);
+		String mainComparator = dataSourcePointerIdentity.deneWordName;
+		Identity externalDataDeneIdentity = new Identity(dataSourcePointerIdentity.getTeleonomeName(), dataSourcePointerIdentity.getNucleusName(), dataSourcePointerIdentity.getDenechainName(), dataSourcePointerIdentity.getDeneName());
 		int ledPosition = homeboxSourceDataElement.getInt("LED Position");
 		String pointerToMicroController = homeboxSourceDataElement.getString("Microcontroller Pointer");
 		String actuatorActionListPointer = homeboxSourceDataElement.getString("Actuator Action List Pointer");
@@ -160,9 +161,9 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			JSONArray mainComparatorDeneWordsJSONArray = new JSONArray();
 			denewordCarrierForMainComparatorDene.put("DeneWords", mainComparatorDeneWordsJSONArray);
 			
-			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for ActionList");
+			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for " + externalTeleonomeName + " " + mainComparator);
 			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
-			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorActionListPointer);
+			denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, externalDataDeneIdentity.toString());
 			
 			
 			//
