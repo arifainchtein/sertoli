@@ -344,6 +344,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				}
 			}
 		}
+		String updateCodon = (new Identity(pointerToMicroController)).deneWordName;
+		/*
 		//
 		// because this is the external data, there are three  more denes needed to account for when the data is stale
 		// an action dene, a condition dene and a success tasks false expression dene, 
@@ -414,7 +416,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		// $externalteleonomeName External Data Status Condition"
 		//
 		// the conditionDeneName
-		String updateCodon = (new Identity(pointerToMicroController)).deneWordName;
+		
 		
 		conditionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, externalDataStatusConditionDeneName);
 		conditionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTUATOR_CONDITION);
@@ -472,7 +474,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		//
 		// end of denes for stale data condition
 		//
-		
+		*/
 		
 		
 		
