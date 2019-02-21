@@ -328,15 +328,15 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			//
 			// now loop over all the thresholds and see if the expression contains those terms, if so add a deneword
 			caseThresholdJSONObject = (JSONObject)thresholdNameIndex.get(caseThreshold);
-			logger.info("line 331 caseThreshold=" + caseThreshold);
-			logger.info("line 331 caseThresholdJSONObject=" + caseThresholdJSONObject.toString(4));
+			logger.debug("line 331 caseThreshold=" + caseThreshold);
+			logger.debug("line 331 caseThresholdJSONObject=" + caseThresholdJSONObject.toString(4));
 			
 			for(Enumeration<String> keys = thresholdNameIndex.keys();keys.hasMoreElements();) {
 				
 				thresholdName = keys.nextElement();
-				logger.info("line 335 thresholdName=" + thresholdName + " expression=" + expression);
+				logger.debug("line 335 thresholdName=" + thresholdName + " expression=" + expression);
 				if(expression.contains(thresholdName)) {
-					logger.info("line 339 Creating extra");
+					logger.debug("line 339 Creating extra");
 					thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_DESCRIPTIVE, TeleonomeConstants.DENE_CONTROL_PARAMETERS, thresholdName ).toString();
 					deneword = Utils.createDeneWordJSONObject(thresholdName, thresholdTargetPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 					deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
@@ -434,7 +434,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		//Since the condition expression is always the same, ie  ExternalDataStatus==SuccessValue) crearte denewords for each term
 		// For ExternalDataStatus the dataSourcePointer would be something like @Egg:Purpose:External Data:XXX:ExternalDataStatus
 		// where XXX would be the external teleonome name which is given by the variable externalTeleonomeName
-		dataSourcePointer = thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName, TeleonomeConstants.DENEWORD_STATUS ).toString();
+		dataSourcePointer = thresholdTargetPointer=new Identity("Egg", TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_EXTERNAL_DATA, externalTeleonomeName, TeleonomeConstants.EXTERNAL_DATA_STATUS ).toString();
 		deneword = Utils.createDeneWordJSONObject("ExternalDataStatus", dataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
 		deneWordsJSONArray.put(deneword);
