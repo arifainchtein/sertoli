@@ -492,7 +492,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		// add this dene as a deneword to the action list
 		//
 		actionDenePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, "Update " + mainComparator ).toString();
-        deneword = Utils.createDeneWordJSONObject(staleDataActionDeneName, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+        deneword = Utils.createDeneWordJSONObject("Update " + mainComparator, actionDenePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		actionListDeneWordsJSONArray.put(deneword); 
 		
