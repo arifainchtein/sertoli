@@ -117,12 +117,12 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			threshold = thresholds.getJSONObject(i);
 			thresholdName = threshold.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
 			thresholdValue = threshold.get("Threshold Value");
-			logger.info("line 119 thresholdValue=" + thresholdValue);
+			logger.debug("line 119 thresholdValue=" + thresholdValue);
 			thresholdNameIndex.put(thresholdName, threshold);
 			//
 			// if the threshold value is a pointer dont create the deneword
 			if(!(thresholdValue instanceof String)    || !((String)thresholdValue).startsWith("@Egg")){
-				logger.info("line 124 thresholdValue=" + thresholdValue);
+				logger.debug("line 124 thresholdValue=" + thresholdValue);
 				deneword = Utils.createDeneWordJSONObject(thresholdName , thresholdValue, dataSourceUnits, TeleonomeConstants.DATATYPE_DOUBLE, true);
 				deneWordsJSONArray.put(deneword);
 			}
@@ -427,7 +427,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			//
 			// finally the denes needed to generate an evaluation panel for each case
 			// that include the flag
-			logger.info("line 430 generateActionEvaluationPanel=" + generateActionEvaluationPanel);
+			logger.debug("line 430 generateActionEvaluationPanel=" + generateActionEvaluationPanel);
 			if(generateActionEvaluationPanel) {
 				/*
 				 * there are three things that need to happen in here (the other is a container and it happened earlier in the process
@@ -444,14 +444,14 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				String evaluationName = "Action Evaluation "+ caseName ;
 				String synchronousPanelDeneChainTargetPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, "Synchronous Cycle Panel")).toString();
 				
-				logger.info("line 446 synchronousPanelDeneChainTargetPointer=" + synchronousPanelDeneChainTargetPointer);
+				logger.debug("line 446 synchronousPanelDeneChainTargetPointer=" + synchronousPanelDeneChainTargetPointer);
 				synchronousPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, evaluationName);
 				synchronousPanelDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, synchronousPanelDeneChainTargetPointer);
 				JSONArray synchronousPanelDeneWordsJSONArray = new JSONArray();
 				synchronousPanelDeneJSONObject.put("DeneWords", synchronousPanelDeneWordsJSONArray);
 				
 				String panelDeneChainPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, evaluationName)).toString();
-				logger.info("line 453 panelDeneChainPointer=" + generateActionEvaluationPanel);
+				logger.debug("line 453 panelDeneChainPointer=" + generateActionEvaluationPanel);
 				
 				deneword = Utils.createDeneWordJSONObject("Action Evaluation "+ caseName +" Pointer", panelDeneChainPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
