@@ -325,6 +325,8 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		String mutationActionDeneTargetPointer = new Identity("Egg","Publish Via SFTP", "Action To Execute" ).toString();
 
 		JSONObject mutationActionDeneJSONObject= new JSONObject();
+		denesJSONArray.put(mutationActionDeneJSONObject);
+
 		JSONArray mutationActionDeneJSONObjectDeneWordsJSONArray = new JSONArray();
 		mutationActionDeneJSONObject.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, "Publish Via SFTP");
 		mutationActionDeneJSONObject.put("DeneWords", mutationActionDeneJSONObjectDeneWordsJSONArray);
