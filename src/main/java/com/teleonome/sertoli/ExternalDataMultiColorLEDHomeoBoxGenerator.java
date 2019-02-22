@@ -276,6 +276,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		String microControllerCommand = null, caseValue, caseThreshold;
 		JSONObject caseThresholdJSONObject;
 		String updateDeneIdentityPointer, actionDenePointer;
+		boolean generateActionEvaluationPanel=false;
+		int panelInPagePosition=-1;
 		for(int i=0;i<cases.length();i++){
 			caseSourceInfo = cases.getJSONObject(i);
 			caseName = caseSourceInfo.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
@@ -283,6 +285,15 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			conditionName = caseSourceInfo.getString(TeleonomeConstants.CONDITION_NAME);
 			evalPos = caseSourceInfo.getInt(TeleonomeConstants.EVALUATION_POSITION);
 			caseThreshold=caseSourceInfo.getString("Threshold");
+			generateActionEvaluationPanel=false;
+			if(caseSourceInfo.has("Generate Action Evaluation Panel")) {
+				generateActionEvaluationPanel=caseSourceInfo.getBoolean("Generate Action Evaluation Panel");
+			}
+			panelInPagePosition=-1;
+			if(caseSourceInfo.has("Generate Action Evaluation Panel")) {
+				panelInPagePosition = caseSourceInfo.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
+			}
+			
 			caseThresholdJSONObject = (JSONObject)thresholdNameIndex.get(caseThreshold);
 			caseValue=caseThresholdJSONObject.getString("Status Value");
 			microControllerCommand = microControllerBaseCommand + "#" + ledPosition + "#" +  caseValue + "#Ok";
@@ -412,6 +423,95 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 					deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_CONDITION_VARIABLE_POINTER);
 					deneWordsJSONArray.put(deneword);
 				}
+			}
+			//
+			// finally the denes needed to generate an evaluation panel for each case
+			// that include the flag
+			logger.info("line 430 generateActionEvaluationPanel=" + generateActionEvaluationPanel);
+			if(generateActionEvaluationPanel) {
+				/*
+				 * there are three things that need to happen in here (the other is a container and it happened earlier in the process
+				 * 1)Add a dene to @Egg:Human Interface:Synchronous Cycle Panel
+				 * 2)Add an Action "Create Denechain" that creates a denechain with the name "Action Evaluation " + caseName
+				 * 3)Add a Dene to the denechain created  in step 2
+				 */
+				
+				// 1) Adding Dene to @Egg:Human Interface:Synchronous Cycle Panel
+				JSONObject synchronousPanelDeneJSONObject = new JSONObject();
+				denesJSONArray.put(synchronousPanelDeneJSONObject);
+
+
+
+				String synchronousPanelDeneChainTargetPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, "Synchronous Cycle Panel")).toString();
+				logger.info("line 446 synchronousPanelDeneChainTargetPointer=" + synchronousPanelDeneChainTargetPointer);
+				synchronousPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, caseName);
+				synchronousPanelDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, synchronousPanelDeneChainTargetPointer);
+				JSONArray synchronousPanelDeneWordsJSONArray = new JSONArray();
+				synchronousPanelDeneJSONObject.put("DeneWords", synchronousPanelDeneWordsJSONArray);
+				String evaluationName = "Action Evaluation "+ caseName ;
+				String panelDeneChainPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, evaluationName+" Pointer")).toString();
+				logger.info("line 453 panelDeneChainPointer=" + panelDeneChainPointer);
+				
+				deneword = Utils.createDeneWordJSONObject("Action Evaluation "+ caseName +" Pointer", panelDeneChainPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
+				synchronousPanelDeneWordsJSONArray.put(deneword);
+				
+				
+				deneword = Utils.createDeneWordJSONObject( caseName +" Panel Style", TeleonomeConstants.PANEL_VISUALIZATION_STYLE_ACTION_EVALUATION_REPORT, null, TeleonomeConstants.DATATYPE_STRING, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
+				synchronousPanelDeneWordsJSONArray.put(deneword);
+				
+				deneword = Utils.createDeneWordJSONObject( caseName +" Panel In Page Position", panelInPagePosition, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
+				synchronousPanelDeneWordsJSONArray.put(deneword);
+				
+		
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_VISIBLE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+				synchronousPanelDeneWordsJSONArray.put(deneword);
+			
+			
+			//2)Add an Action "Create Denechain" that creates a denechain with the name "Action Evaluation " + caseName
+			
+				
+				JSONObject actionDene = new JSONObject();
+				actionJSONArray.put(actionDene);
+				JSONArray actionsDeneWordsJSONArray = new JSONArray();
+				actionDene.put("DeneWords", actionsDeneWordsJSONArray);
+				
+				actionDene.put(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE, "Create "  + evaluationName +" DeneChain");
+				actionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "@Egg:Human Interface");
+				actionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.SPERM_DENE_TYPE_CREATE_DENE_CHAIN);
+				
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+				actionsDeneWordsJSONArray.put(deneword);
+				nextActionValue++;
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POSITION, nextActionValue, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+				actionsDeneWordsJSONArray.put(deneword);
+
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POINT,TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POINT_PRE_HOMEBOX, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+				actionsDeneWordsJSONArray.put(deneword);
+
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_DENECHAIN_NAME,"Action Evaluation "+caseName , null, TeleonomeConstants.DATATYPE_STRING, true);
+				actionsDeneWordsJSONArray.put(deneword);
+			
+				// 3)Add a Dene to the denechain created  in step 2
+			
+				
+				JSONObject uiPanelDeneJSONObject = new JSONObject();
+				denesJSONArray.put(uiPanelDeneJSONObject);
+				String uiPanelDeneChainTargetPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, evaluationName)).toString();
+				uiPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, caseName);
+				uiPanelDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, uiPanelDeneChainTargetPointer);
+				JSONArray uiPanelDeneWordsJSONArray = new JSONArray();
+				uiPanelDeneJSONObject.put("DeneWords", uiPanelDeneWordsJSONArray);
+				
+				String panelDataSourcePointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, caseName)).toString();
+				
+				deneword = Utils.createDeneWordJSONObject( caseName , panelDataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_SOURCE_POINTER);
+				synchronousPanelDeneWordsJSONArray.put(deneword);
+				
+			
 			}
 		}
 		String updateCodon = (new Identity(pointerToMicroController)).deneWordName;
@@ -602,6 +702,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		deneword = Utils.createDeneWordJSONObject("Expression", "1==1", null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneWordsJSONArray.put(deneword);
 
+		
+		
 
 
 		//
