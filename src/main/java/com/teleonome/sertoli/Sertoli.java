@@ -119,6 +119,7 @@ public class Sertoli
 		}
 		JSONObject sertoliJSONObject = new JSONObject(stringFormSertoli);
 		JSONArray containers = sertoliJSONObject.getJSONArray("Containers");
+		
 		JSONObject homeBoxDefinitions = sertoliJSONObject.getJSONObject("HomeBoxDefinitions");
 		JSONArray sensorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Sensors");
 		JSONArray actionsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Actuators");

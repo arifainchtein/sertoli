@@ -500,14 +500,14 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				JSONObject uiPanelDeneJSONObject = new JSONObject();
 				denesJSONArray.put(uiPanelDeneJSONObject);
 				String uiPanelDeneChainTargetPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, evaluationName)).toString();
-				uiPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, caseName);
+				uiPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "UI Panel for " + caseName);
 				uiPanelDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, uiPanelDeneChainTargetPointer);
 				JSONArray uiPanelDeneWordsJSONArray = new JSONArray();
 				uiPanelDeneJSONObject.put("DeneWords", uiPanelDeneWordsJSONArray);
 				
 				String panelDataSourcePointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, caseName)).toString();
 				
-				deneword = Utils.createDeneWordJSONObject( caseName , panelDataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+				deneword = Utils.createDeneWordJSONObject( "UI Panel for " + caseName , panelDataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_SOURCE_POINTER);
 				uiPanelDeneWordsJSONArray.put(deneword);
 				
