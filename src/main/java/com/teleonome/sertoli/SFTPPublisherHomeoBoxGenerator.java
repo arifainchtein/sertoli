@@ -237,19 +237,19 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
-		actuatorDeneWordsJSONArray.put(deneword);
+		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION, 1, null, TeleonomeConstants.DATATYPE_INTEGER, true);
-		actuatorDeneWordsJSONArray.put(deneword);
+		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Publish", null, TeleonomeConstants.DATATYPE_STRING, true);
-		actuatorDeneWordsJSONArray.put(deneword);
+		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "1==1", null, TeleonomeConstants.DATATYPE_STRING, true);
-		actuatorDeneWordsJSONArray.put(deneword);
+		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_CODE_TYPE, TeleonomeConstants.TELEONOME_SECURITY_CODE , null, TeleonomeConstants.DATATYPE_STRING, true);
-		actuatorDeneWordsJSONArray.put(deneword);
+		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		
 		//
