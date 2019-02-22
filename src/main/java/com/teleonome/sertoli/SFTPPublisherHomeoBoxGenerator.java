@@ -147,9 +147,33 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		microControllerConfigParamDeneJSONObject = getConfigParamDene(componentsDeneChainTargetPointer,controllerName, "Processing Queue Position",processingQueuePosition);
 		denesJSONArray.put(microControllerConfigParamDeneJSONObject);
 
-		microControllerConfigParamDeneJSONObject = getConfigParamDene(componentsDeneChainTargetPointer,controllerName, "Settings Update",false);
-		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_UPDATE_DENEWORD_VALUE);
-		String target =  new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE,TeleonomeConstants.DENECHAIN_TYPE_HUMAN_INTERFACE_CONTROL_PARAMETERS, TeleonomeConstants.PANEL_VISUALIZATION_STYLE_SETTINGS_INFO, TeleonomeConstants.DENEWORD_TYPE_HUMAN_INTERFACE_WEB_PAGE_INCLUDE_IN_NAVIGATION ).toString();
+		// dont use getConfigParams with Settings update because one of the denewords needs a target attribute
+		// and also it has a denetype
+		
+		
+		
+		microControllerConfigParamDeneJSONObject= new JSONObject();
+		JSONArray microControllerConfigParamDeneWordsJSONArray = new JSONArray();
+		microControllerConfigParamDeneJSONObject.put("DeneWords", microControllerConfigParamDeneWordsJSONArray);
+		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneChainTargetPointer);
+		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, controllerName);
+		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_CONDITION_DENOMIC_OPERATION);
+		
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, controllerName, null, TeleonomeConstants.DATATYPE_STRING, true);
+		microControllerConfigParamDeneWordsJSONArray.put(deneword);
+		
+		deneword = Utils.createDeneWordJSONObject( "Settings Update", false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_UPDATE_DENEWORD_VALUE);
+		microControllerConfigParamDeneWordsJSONArray.put(deneword);
+		
+		denesJSONArray.put(microControllerConfigParamDeneJSONObject);
+
+		
+		
+		
+		
+		
+		String target =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, TeleonomeConstants.PANEL_VISUALIZATION_STYLE_SETTINGS_INFO, TeleonomeConstants.DENEWORD_TYPE_HUMAN_INTERFACE_WEB_PAGE_INCLUDE_IN_NAVIGATION ).toString();
 		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE,target);
 		denesJSONArray.put(microControllerConfigParamDeneJSONObject);
 		/*
