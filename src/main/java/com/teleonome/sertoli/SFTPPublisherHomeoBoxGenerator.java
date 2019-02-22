@@ -150,14 +150,12 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		// dont use getConfigParams with Settings update because one of the denewords needs a target attribute
 		// and also it has a denetype
 		
-		
-		
 		microControllerConfigParamDeneJSONObject= new JSONObject();
 		JSONArray microControllerConfigParamDeneWordsJSONArray = new JSONArray();
 		microControllerConfigParamDeneJSONObject.put("DeneWords", microControllerConfigParamDeneWordsJSONArray);
 		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneChainTargetPointer);
-		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, controllerName);
-		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_CONDITION_DENOMIC_OPERATION);
+		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "Settings Update");
+		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_DENOMIC_OPERATION);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, controllerName, null, TeleonomeConstants.DATATYPE_STRING, true);
 		microControllerConfigParamDeneWordsJSONArray.put(deneword);
