@@ -158,7 +158,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		String actuatorName = "SFTP Publisher Actuator";
 		String actionInPulseName = "SFTP Publisher Prepare Publish";
 		String actionByMutationName = "SFTP Publisher Publish Pulse";
-		String actuatorActionList = "DigitalGeppetto Publisher Actuator Actions";
+		String actuatorActionList = "SFTP Publisher Actuator Actions";
 
 		String actuatorsDeneChainPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL, TeleonomeConstants.DENECHAIN_ACTUATORS).toString();
 		//
@@ -208,7 +208,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		actionListDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTION_LIST);
 		actionListDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainPointer);
 
-		String actionPointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, actionInPulseName ).toString();
+		String actionPointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actionInPulseName ).toString();
 		deneword = Utils.createDeneWordJSONObject(actuatorActionList, actionPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		actionListDeneWordsJSONArray.put(deneword);
