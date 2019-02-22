@@ -151,7 +151,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_UPDATE_DENEWORD_VALUE);
 		String target =  new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE,TeleonomeConstants.DENECHAIN_TYPE_HUMAN_INTERFACE_CONTROL_PARAMETERS, TeleonomeConstants.PANEL_VISUALIZATION_STYLE_SETTINGS_INFO, TeleonomeConstants.DENEWORD_TYPE_HUMAN_INTERFACE_WEB_PAGE_INCLUDE_IN_NAVIGATION ).toString();
 		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE,target);
-
+		denesJSONArray.put(microControllerConfigParamDeneJSONObject);
 		/*
 		 *  create the actuator and the actions
 		 */
@@ -289,7 +289,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 
 
 		//
-		// create an action that iwll create a mutation
+		// create an action that will create a mutation
 		//
 		JSONObject actionDene = new JSONObject();
 		actionJSONArray.put(actionDene);
