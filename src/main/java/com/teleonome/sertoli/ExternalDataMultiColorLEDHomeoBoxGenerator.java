@@ -450,7 +450,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				synchronousPanelDeneJSONObject.put("DeneWords", synchronousPanelDeneWordsJSONArray);
 				String evaluationName = "Action Evaluation "+ caseName ;
 				String panelDeneChainPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, evaluationName+" Pointer")).toString();
-				logger.info("line 453 panelDeneChainPointer=" + panelDeneChainPointer);
+				logger.info("line 453 panelDeneChainPointer=" + generateActionEvaluationPanel);
 				
 				deneword = Utils.createDeneWordJSONObject("Action Evaluation "+ caseName +" Pointer", panelDeneChainPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
@@ -509,7 +509,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				
 				deneword = Utils.createDeneWordJSONObject( caseName , panelDataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_SOURCE_POINTER);
-				synchronousPanelDeneWordsJSONArray.put(deneword);
+				uiPanelDeneJSONObject.put(deneword);
 				
 			
 			}
