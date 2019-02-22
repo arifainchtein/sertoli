@@ -162,17 +162,11 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		
 		deneword = Utils.createDeneWordJSONObject( "Settings Update", false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_UPDATE_DENEWORD_VALUE);
+		String target =  new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE,TeleonomeConstants.DENECHAIN_TYPE_HUMAN_INTERFACE_CONTROL_PARAMETERS, "Settings", TeleonomeConstants.DENEWORD_TYPE_HUMAN_INTERFACE_WEB_PAGE_INCLUDE_IN_NAVIGATION ).toString();
+		deneword.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE,target);
+		
 		microControllerConfigParamDeneWordsJSONArray.put(deneword);
-		
-		denesJSONArray.put(microControllerConfigParamDeneJSONObject);
-
-		
-		
-		
-		
-		
-		String target =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, TeleonomeConstants.PANEL_VISUALIZATION_STYLE_SETTINGS_INFO, TeleonomeConstants.DENEWORD_TYPE_HUMAN_INTERFACE_WEB_PAGE_INCLUDE_IN_NAVIGATION ).toString();
-		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE,target);
+			
 		denesJSONArray.put(microControllerConfigParamDeneJSONObject);
 		/*
 		 *  create the actuator and the actions
