@@ -441,14 +441,14 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				denesJSONArray.put(synchronousPanelDeneJSONObject);
 
 
-
+				String evaluationName = "Action Evaluation "+ caseName ;
 				String synchronousPanelDeneChainTargetPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, "Synchronous Cycle Panel")).toString();
 				logger.info("line 446 synchronousPanelDeneChainTargetPointer=" + synchronousPanelDeneChainTargetPointer);
-				synchronousPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, caseName);
+				synchronousPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, evaluationName);
 				synchronousPanelDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, synchronousPanelDeneChainTargetPointer);
 				JSONArray synchronousPanelDeneWordsJSONArray = new JSONArray();
 				synchronousPanelDeneJSONObject.put("DeneWords", synchronousPanelDeneWordsJSONArray);
-				String evaluationName = "Action Evaluation "+ caseName ;
+				
 				String panelDeneChainPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, evaluationName+" Pointer")).toString();
 				logger.info("line 453 panelDeneChainPointer=" + generateActionEvaluationPanel);
 				
