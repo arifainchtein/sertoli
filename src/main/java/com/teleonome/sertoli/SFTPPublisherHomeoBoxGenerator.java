@@ -313,7 +313,11 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_MUTATION_NAME,"Publish Via SFTP" , null, TeleonomeConstants.DATATYPE_STRING, true);
 		actionsDeneWordsJSONArray.put(deneword);
 
-
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.MUTATION_TYPE_ATTRIBUTE,TeleonomeConstants.MUTATION_TYPE_STATE , null, TeleonomeConstants.DATATYPE_STRING, true);
+		actionsDeneWordsJSONArray.put(deneword);
+		deneword = Utils.createDeneWordJSONObject("Execution Mode",TeleonomeConstants.MUTATION_EXECUTION_MODE_IMMEDIATE , null, TeleonomeConstants.DATATYPE_STRING, true);
+		actionsDeneWordsJSONArray.put(deneword);
+		
 		/*
 		 * finally create a dene where the target is 
 		 */
@@ -328,13 +332,13 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 
 		String mutationActuatorPointer = new Identity("Egg",TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actuatorName).toString();
 		deneword = Utils.createDeneWordJSONObject( actuatorName, mutationActuatorPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		actionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_POINTER);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_POINTER);
 		mutationActionDeneJSONObjectDeneWordsJSONArray.put(deneword);
 
 
 		String mutationActionPointer = new Identity("Egg",TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actionByMutationName ).toString();
 		deneword = Utils.createDeneWordJSONObject("SFTP Publisher Publish", mutationActionPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		actionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTION);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		mutationActionDeneJSONObjectDeneWordsJSONArray.put(deneword);
 
 
