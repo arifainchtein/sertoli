@@ -64,7 +64,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		//
 		// Create the Microcontroller Dene
 		//
-		String controllerName="SFTP Publishing Controller";
+		String controllerName="SFTP Publisher Controller";
 		JSONObject microControllerDeneJSONObject= new JSONObject();
 		denesJSONArray.put(microControllerDeneJSONObject);
 		JSONArray microControllerDeneWordsJSONArray = new JSONArray();
