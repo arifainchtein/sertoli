@@ -509,7 +509,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 				
 				deneword = Utils.createDeneWordJSONObject( caseName , panelDataSourcePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_SOURCE_POINTER);
-				uiPanelDeneJSONObject.put(deneword);
+				uiPanelDeneWordsJSONArray.put(deneword);
 				
 			
 			}
