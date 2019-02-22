@@ -443,6 +443,7 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 
 				String evaluationName = "Action Evaluation "+ caseName ;
 				String synchronousPanelDeneChainTargetPointer = (new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE, "Synchronous Cycle Panel")).toString();
+				
 				logger.info("line 446 synchronousPanelDeneChainTargetPointer=" + synchronousPanelDeneChainTargetPointer);
 				synchronousPanelDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, evaluationName);
 				synchronousPanelDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, synchronousPanelDeneChainTargetPointer);
