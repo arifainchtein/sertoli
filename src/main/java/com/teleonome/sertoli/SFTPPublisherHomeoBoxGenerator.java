@@ -258,7 +258,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION, 1, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Publish", null, TeleonomeConstants.DATATYPE_STRING, true);
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Publish Via SFTP", null, TeleonomeConstants.DATATYPE_STRING, true);
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "1==1", null, TeleonomeConstants.DATATYPE_STRING, true);
