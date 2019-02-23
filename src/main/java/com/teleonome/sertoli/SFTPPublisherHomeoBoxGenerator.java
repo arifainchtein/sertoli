@@ -347,7 +347,8 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		mutationActionDeneJSONObject.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, "Publish Via SFTP");
 		mutationActionDeneJSONObject.put("DeneWords", mutationActionDeneJSONObjectDeneWordsJSONArray);
 		mutationActionDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, mutationActionDeneTargetPointer);
-
+		mutationActionDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION_LIST);
+		
 		String mutationActuatorPointer = new Identity("Egg",TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actuatorName).toString();
 		deneword = Utils.createDeneWordJSONObject( actuatorName, mutationActuatorPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_POINTER);
