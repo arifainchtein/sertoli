@@ -290,7 +290,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION, 5, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		actionByMutationDeneWordsJSONArray.put(deneword);
 		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Publish", null, TeleonomeConstants.DATATYPE_STRING, true);
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Publish Via SFTP", null, TeleonomeConstants.DATATYPE_STRING, true);
 		actionByMutationDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "1==1", null, TeleonomeConstants.DATATYPE_STRING, true);
@@ -338,7 +338,7 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		 * finally create a dene where the target is 
 		 */
 
-		String mutationActionDeneTargetPointer = new Identity("Egg","Publish Via SFTP", "Action To Execute" ).toString();
+		String mutationActionDeneTargetPointer = new Identity("Egg","Publish Via SFTP", "Actions To Execute" ).toString();
 
 		JSONObject mutationActionDeneJSONObject= new JSONObject();
 		denesJSONArray.put(mutationActionDeneJSONObject);
