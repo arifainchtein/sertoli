@@ -25,7 +25,7 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 		// read data in
 		//
 		String homeBoxName  = homeboxSourceDataElement.getString("Homeobox Name");
-		String homeBoxPageIdentity  = homeboxSourceDataElement.getString("Page Identity");
+		String containerPageIdentity  = homeboxSourceDataElement.getString("Container Page Identity");
 		JSONArray panels = homeboxSourceDataElement.getJSONArray("Panels");
 		
 		
@@ -75,7 +75,7 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 			panelStyle = panel.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
 			panelInPagePosition = panel.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
 			panelDeneChainPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE,panelName ).toString();
-			pageIdentity = panel.getString("Page Identity");
+			
 			
 			if(panel.has("Values")) {
 				panelValues = panel.getJSONArray("Values");
@@ -86,13 +86,12 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 			
 			JSONObject data = new JSONObject();
 			
-			data.put("Page Identity", pageIdentity);
+			
 			data.put(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER, panelDeneChainPointer);
 			data.put(TeleonomeConstants.DENE_TYPE_VISUALIZATION_STYLE, panelStyle);
 			data.put(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION, panelInPagePosition);
 			data.put(TeleonomeConstants.DENEWORD_VISIBLE, visible);
-			data.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, homeBoxPageIdentity);
-			data.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, homeBoxPageIdentity);
+			data.put("Container Page Identity", containerPageIdentity);
 			data.put(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME, panelName);
 			data.put("Values", panelValues);
 			//

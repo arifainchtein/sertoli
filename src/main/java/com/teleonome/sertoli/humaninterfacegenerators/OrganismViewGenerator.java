@@ -22,7 +22,7 @@ public class OrganismViewGenerator extends HumanInterfaceGenerator{
 		homeBoxProcessingResultJSONObject.put("Denes", denes);
 		homeBoxProcessingResultJSONObject.put("Actions", actions);
 		
-		String pageIdentity = data.getString("Page Identity");
+		String containerPageIdentity = data.getString("Container Page Identity");
 		String panelName = data.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
 		
 		String pageDeneTarget = data.getString(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE);
@@ -34,7 +34,7 @@ public class OrganismViewGenerator extends HumanInterfaceGenerator{
 		JSONArray values = data.getJSONArray("Values"); 
 		//
 		// Create the Dene that goes in the home Page
-		JSONObject pageDene = getPageDene( pageIdentity,  panelName,  panelDeneChainPointer,  visualizationStyle,  panelInPagePosition,  visible);
+		JSONObject pageDene = getPageDene( containerPageIdentity,  panelName,  panelDeneChainPointer,  visualizationStyle,  panelInPagePosition,  visible);
 		
 		denes.put(pageDene);
 		
