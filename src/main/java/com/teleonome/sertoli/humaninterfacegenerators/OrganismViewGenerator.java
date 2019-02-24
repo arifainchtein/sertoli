@@ -23,7 +23,7 @@ public class OrganismViewGenerator extends HumanInterfaceGenerator{
 		
 		
 		
-		String target = data.getString("Target");
+		String target = data.getString(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE);
 		String panelName = data.getString("Panel Name");
 		String panelDeneChainPointer = data.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
 		String visualizationStyle = data.getString(TeleonomeConstants.DENE_TYPE_VISUALIZATION_STYLE);

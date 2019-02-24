@@ -82,7 +82,7 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 			data.put(TeleonomeConstants.DENE_TYPE_VISUALIZATION_STYLE, panelStyle);
 			data.put(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION, panelInPagePosition);
 			data.put(TeleonomeConstants.DENEWORD_VISIBLE, visible);
-			
+			data.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE, homeBoxPageIdentity);
 			//
 			// invoke the generarator
 			//
