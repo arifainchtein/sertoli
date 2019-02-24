@@ -137,7 +137,7 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 		}
 		
 		
-		return homeBoxJSONObject;
+		return homeBoxProcessingResultJSONObject;
 		
 	}
 
