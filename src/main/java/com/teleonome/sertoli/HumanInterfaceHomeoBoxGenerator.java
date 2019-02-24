@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.teleonome.framework.TeleonomeConstants;
+import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
 import com.teleonome.sertoli.humaninterfacegenerators.HumanInterfaceGenerator;
 
@@ -72,7 +73,8 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 			panelName = panel.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE);
 			panelStyle = panel.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
 			panelInPagePosition = panel.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
-			panelDeneChainPointer = panel.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
+			panelDeneChainPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_HUMAN_INTERFACE,panelName ).toString();
+			
 			processor =  panel.getString("Processor");
 			
 			JSONObject data = new JSONObject();
