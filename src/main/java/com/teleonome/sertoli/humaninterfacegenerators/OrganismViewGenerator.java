@@ -22,7 +22,7 @@ public class OrganismViewGenerator extends HumanInterfaceGenerator{
 		homeBoxProcessingResultJSONObject.put("Denes", denes);
 		homeBoxProcessingResultJSONObject.put("Actions", actions);
 		
-		String pageIdentity = new Identity("Egg",TeleonomeConstants.DENECHAIN_HUMAN_INTERFACE,TeleonomeConstants.DENECHAIN_TYPE_HUMAN_INTERFACE_CONTROL_PARAMETERS).toString();
+		String pageIdentity = data.getString("Page Identity");
 		String panelName = data.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
 		
 		String pageDeneTarget = data.getString(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE);

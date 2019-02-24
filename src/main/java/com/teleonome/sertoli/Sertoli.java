@@ -340,11 +340,11 @@ public class Sertoli
 				//
 				// now add the homebox to the sperm
 
-
+				logger.info("line 343, homeoBoxJSONObject=" + homeoBoxJSONObject.toString(4));
 				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
 
 				actions = hypothalamusJSONObject.getJSONArray("Actions");
-
+				logger.info("line 347, actions=" + actions.toString(4));
 				for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
 					actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
 					newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
