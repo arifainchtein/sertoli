@@ -25,7 +25,7 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 		//
 		String homeBoxName  = homeboxSourceDataElement.getString("Homeobox Name");
 		String homeBoxPageIdentity  = homeboxSourceDataElement.getString("Page Identity");
-		JSONArray panels = homeboxSourceDataElement.getJSONArray("Panel");
+		JSONArray panels = homeboxSourceDataElement.getJSONArray("Panels");
 		
 		
 		// get the
