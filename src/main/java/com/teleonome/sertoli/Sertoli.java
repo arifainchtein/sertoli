@@ -123,6 +123,9 @@ public class Sertoli
 		JSONObject homeBoxDefinitions = sertoliJSONObject.getJSONObject("HomeBoxDefinitions");
 		JSONArray sensorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Sensors");
 		JSONArray actionsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Actuators");
+		JSONArray humanInterfaceHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Human Interface");
+		
+		
 		String hsdFileName;
 		String homeboxDefinitionType;
 		Class<?> clazz;
@@ -304,7 +307,95 @@ public class Sertoli
 			}
 		}
 
+			//
+		// now process the human interface elements
+		//
+		//
+		// Now Process the Action Definitions
+		//
+		String hudFileName="", stringFormHUS="";
+		
+		for(int i=0;i<humanInterfaceHomeBoxDefiitions.length();i++) {
 
+
+			try {
+				hudFileName=hsdDirectoryName + humanInterfaceHomeBoxDefiitions.getString(i);
+				logger.debug("reading  " +hudFileName);
+				stringFormHUS = FileUtils.readFileToString(new File(hudFileName));
+				//logger.debug("stringFormHDS  " +stringFormHDS);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.warn(Utils.getStringException(e));
+			}
+			homeboxSourceDataElement = new JSONObject(stringFormHUS);
+			homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
+			try {
+				clazz = Class.forName(homeboxDefinitionType);
+				constructor = clazz.getConstructor();
+				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
+				
+				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue, externalDataDenesCreated);
+				//
+				// After processing, check to see if externalDataDenesCreated needs to be updated
+				
+				if(anHomeboxGenerator instanceof ExternalDataMultiColorLEDHomeoBoxGenerator) {
+					String externalDataSourcePointer = homeboxSourceDataElement.getString("External Data Source Pointer");
+					Identity externalDataSourceIdentity = new Identity(externalDataSourcePointer);
+					String externalTeleonomeName= externalDataSourceIdentity.getTeleonomeName();
+					if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
+						externalDataDenesCreated.add(externalTeleonomeName);
+					}
+				}
+				
+				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
+				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
+				//
+				// now add the homebox to the sperm
+
+
+				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
+
+				actions = hypothalamusJSONObject.getJSONArray("Actions");
+
+				for(int j=0;j<homeBoxProcessingActionsJSONArray.length();j++) {
+					actionJSONObject = homeBoxProcessingActionsJSONArray.getJSONObject(j);
+					newActionName = actionJSONObject.getString(TeleonomeConstants.DENEWORD_NAME_ATTRIBUTE).trim();
+					newActionTarget = actionJSONObject.getString(TeleonomeConstants.SPERM_HOX_DENE_TARGET).trim();
+					newActionDeneType = actionJSONObject.getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE).trim();
+
+					if(!existing.contains(newActionName + newActionTarget + newActionDeneType)) {
+						actionsJSONArray.put(actionJSONObject);
+						currentActionValue=actionsJSONArray.length();
+
+						existing.add(newActionName + newActionTarget + newActionDeneType);
+					}
+				}
+
+
+
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 
 
