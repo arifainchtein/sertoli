@@ -56,7 +56,7 @@ public class SingleValuePanelCompleteWidthGenerator extends HumanInterfaceGenera
 			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POINT,TeleonomeConstants.SPERM_ACTION_DENEWORD_EXECUTION_POINT_PRE_HOMEBOX, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 			actionsDeneWordsJSONArray.put(deneword);
 
-			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_DENECHAIN_NAME,"Action Evaluation "+panelName , null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SPERM_ACTION_DENEWORD_DENECHAIN_NAME,panelName , null, TeleonomeConstants.DATATYPE_STRING, true);
 			actionsDeneWordsJSONArray.put(deneword);
 			
 			return homeBoxProcessingResultJSONObject;
