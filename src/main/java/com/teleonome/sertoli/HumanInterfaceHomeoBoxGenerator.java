@@ -59,7 +59,7 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 		deneword = Utils.createDeneWordJSONObject("Description", "", null, TeleonomeConstants.DATATYPE_STRING, true);
 		deneWordsJSONArray.put(deneword);
 		
-		JSONObject panel;
+		JSONObject panel,processingResultJSONObject;
 		String panelName, panelStyle, panelDeneChainPointer, processor;
 		int panelInPagePosition;
 		boolean visible=false;
@@ -99,14 +99,10 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 				constructor = clazz.getConstructor();
 				anHumanInterfaceGenerator = (HumanInterfaceGenerator) constructor.newInstance();
 				
-				homeBoxProcessingResultJSONObject = anHumanInterfaceGenerator.process(data, nextActionValue);
-			
+				processingResultJSONObject = anHumanInterfaceGenerator.process(data, nextActionValue);
 				nextActionValue++;
-				
-				
-						
-				JSONArray denes = homeBoxProcessingResultJSONObject.getJSONArray("Denes");
-				JSONArray actions = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
+				JSONArray denes = processingResultJSONObject.getJSONArray("Denes");
+				JSONArray actions = processingResultJSONObject.getJSONArray("Actions");
 				
 				for(int j=0;j<denes.length();j++) {
 					denesJSONArray.put(denes.get(j));
