@@ -335,18 +335,6 @@ public class Sertoli
 				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
 				
 				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue, externalDataDenesCreated);
-				//
-				// After processing, check to see if externalDataDenesCreated needs to be updated
-				
-				if(anHomeboxGenerator instanceof ExternalDataMultiColorLEDHomeoBoxGenerator) {
-					String externalDataSourcePointer = homeboxSourceDataElement.getString("External Data Source Pointer");
-					Identity externalDataSourceIdentity = new Identity(externalDataSourcePointer);
-					String externalTeleonomeName= externalDataSourceIdentity.getTeleonomeName();
-					if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
-						externalDataDenesCreated.add(externalTeleonomeName);
-					}
-				}
-				
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
 				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");
 				//

@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.teleonome.framework.TeleonomeConstants;
+import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
 
 public class OrganismViewGenerator extends HumanInterfaceGenerator{
@@ -21,10 +22,11 @@ public class OrganismViewGenerator extends HumanInterfaceGenerator{
 		homeBoxProcessingResultJSONObject.put("Denes", denes);
 		homeBoxProcessingResultJSONObject.put("Actions", actions);
 		
-		
-		
-		String target = data.getString(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE);
+		String pageIdentity = new Identity("Egg",TeleonomeConstants.DENECHAIN_HUMAN_INTERFACE,TeleonomeConstants.DENECHAIN_TYPE_HUMAN_INTERFACE_CONTROL_PARAMETERS).toString();
 		String panelName = data.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME);
+		
+		String pageDeneTarget = data.getString(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE);
+		
 		String panelDeneChainPointer = data.getString(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
 		String visualizationStyle = data.getString(TeleonomeConstants.DENE_TYPE_VISUALIZATION_STYLE);
 		int panelInPagePosition = data.getInt(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
@@ -32,7 +34,7 @@ public class OrganismViewGenerator extends HumanInterfaceGenerator{
 		JSONArray values = data.getJSONArray("Values"); 
 		//
 		// Create the Dene that goes in the home Page
-		JSONObject pageDene = getPageDene( target,  panelName,  panelDeneChainPointer,  visualizationStyle,  panelInPagePosition,  visible);
+		JSONObject pageDene = getPageDene( pageIdentity,  panelName,  panelDeneChainPointer,  visualizationStyle,  panelInPagePosition,  visible);
 		
 		denes.put(pageDene);
 		

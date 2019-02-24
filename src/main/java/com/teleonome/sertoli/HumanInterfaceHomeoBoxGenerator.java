@@ -82,6 +82,9 @@ public class HumanInterfaceHomeoBoxGenerator extends HomeboxGenerator {
 			processor =  panel.getString("Processor");
 			
 			JSONObject data = new JSONObject();
+			String pageIdentity = new Identity("Egg",TeleonomeConstants.DENECHAIN_HUMAN_INTERFACE,TeleonomeConstants.DENECHAIN_TYPE_HUMAN_INTERFACE_CONTROL_PARAMETERS).toString();
+			
+			data.put("Page Identity", pageIdentity);
 			data.put(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER, panelDeneChainPointer);
 			data.put(TeleonomeConstants.DENE_TYPE_VISUALIZATION_STYLE, panelStyle);
 			data.put(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION, panelInPagePosition);
