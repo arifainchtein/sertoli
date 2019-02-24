@@ -328,7 +328,7 @@ public class Sertoli
 				logger.warn(Utils.getStringException(e));
 			}
 			homeboxSourceDataElement = new JSONObject(stringFormHUS);
-			homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
+			homeboxDefinitionType = "com.teleonome.sertoli.HumanInterfaceHomeoBoxGenerator";
 			try {
 				clazz = Class.forName(homeboxDefinitionType);
 				constructor = clazz.getConstructor();
