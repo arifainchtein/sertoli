@@ -300,7 +300,8 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 displayVariableName = dataSourcePointerIdentity.deneWordName;
 			 
 			if(!externalDataDenesCreated.contains(externalTeleonomeName) &&  !newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
-
+				newExternalTeleonomeNames.add(externalTeleonomeName);
+				logger.debug("line 304, adding external teleonome=" + newExternalTeleonomeNames);
 				/*
 			   Create the DeneWordCarrier Dene to store the actual value $mainComparator
 				Every Dene of type action needs to have a deneword added to the 
