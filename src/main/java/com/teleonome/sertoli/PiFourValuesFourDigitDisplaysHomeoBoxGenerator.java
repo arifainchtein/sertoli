@@ -284,7 +284,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		Identity externalDataDeneIdentity, dataSourcePointerIdentity, externalDataSourcePointerIdentity;
 		String dataSourcePointer, externalDataSourcePointer, dataSourceUnits, dataSourceValueType;
 		String displayVariableName;
-		
+		logger.debug("line 287, displays=" + displays.length());
 		for(int i=0;i<displays.length();i++){
 			display = displays.getJSONObject(i);
 			logger.debug("line 290, display=" + display.getString("Name"));
