@@ -333,4 +333,10 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 		return homeBoxProcessingResultJSONObject;
 	}
 
+	@Override
+	public ArrayList getExternalTeleonomeNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

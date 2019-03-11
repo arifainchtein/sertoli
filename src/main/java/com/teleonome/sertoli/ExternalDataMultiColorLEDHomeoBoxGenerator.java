@@ -19,7 +19,7 @@ import com.teleonome.framework.utils.Utils;
 public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator {
 
 	Logger logger;
-
+	ArrayList<String> newExternalTeleonomeNames = new ArrayList<String>();
 	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex, ArrayList externalDataDenesCreated) {
 		//
 		// Getting the data
@@ -587,7 +587,8 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 			//
 			// next the condition dene only create one per external teleonome
 			//
-			if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
+			if(!externalDataDenesCreated.contains(externalTeleonomeName) && !newExternalTeleonomeNames.contains(externalTeleonomeName)) {
+				newExternalTeleonomeNames.add(externalTeleonomeName);
 				conditionDeneJSONObject = new JSONObject();
 				denesJSONArray.put(conditionDeneJSONObject);
 				// the condition name needs to be:
@@ -741,6 +742,11 @@ public class ExternalDataMultiColorLEDHomeoBoxGenerator extends HomeboxGenerator
 		denesJSONArray.put(homeoboxDene);
 
 		return homeBoxProcessingResultJSONObject;
+	}
+	@Override
+	public ArrayList getExternalTeleonomeNames() {
+		// TODO Auto-generated method stub
+		return newExternalTeleonomeNames;
 	}
 
 }

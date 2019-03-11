@@ -409,4 +409,10 @@ public class SFTPPublisherHomeoBoxGenerator extends HomeboxGenerator{
 		microControllerConfigParamDeneWordsJSONArray.put(deneword);
 		return microControllerConfigParamDeneJSONObject;
 	}
+
+	@Override
+	public ArrayList getExternalTeleonomeNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

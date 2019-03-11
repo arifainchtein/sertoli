@@ -224,7 +224,8 @@ public class Sertoli
 		// Now Process the Action Definitions
 		//
 		String hadFileName="", stringFormHAS="";
-		
+		ArrayList newExternalTeleonomeNames;
+		String externalTeleonomeName;
 		for(int i=0;i<actionsHomeBoxDefiitions.length();i++) {
 
 
@@ -248,14 +249,16 @@ public class Sertoli
 				//
 				// After processing, check to see if externalDataDenesCreated needs to be updated
 				
-				if(anHomeboxGenerator instanceof ExternalDataMultiColorLEDHomeoBoxGenerator) {
-					String externalDataSourcePointer = homeboxSourceDataElement.getString("External Data Source Pointer");
-					Identity externalDataSourceIdentity = new Identity(externalDataSourcePointer);
-					String externalTeleonomeName= externalDataSourceIdentity.getTeleonomeName();
-					if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
-						externalDataDenesCreated.add(externalTeleonomeName);
+				newExternalTeleonomeNames = anHomeboxGenerator.getExternalTeleonomeNames();
+				if(newExternalTeleonomeNames!=null && newExternalTeleonomeNames.size()>0) {
+					for(int j=0;j<newExternalTeleonomeNames.size();j++) {
+						externalTeleonomeName = (String)newExternalTeleonomeNames.get(j);
+						if(!externalDataDenesCreated.contains(externalTeleonomeName)) {
+							externalDataDenesCreated.add(externalTeleonomeName);
+						}
 					}
 				}
+				
 				
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
 				homeBoxProcessingActionsJSONArray = homeBoxProcessingResultJSONObject.getJSONArray("Actions");

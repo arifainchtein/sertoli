@@ -14,7 +14,8 @@ import com.teleonome.framework.utils.Utils;
 
 public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGenerator{
 	Logger logger;
-
+	ArrayList<String> newExternalTeleonomeNames = new ArrayList<String>();
+	
 	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex, ArrayList externalDataDenesCreated) {
 		//
 		// Getting the data
@@ -457,5 +458,11 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		microControllerConfigParamDeneWordsJSONArray.put(deneword);
 		
 		return microControllerConfigParamDeneJSONObject;
+	}
+
+	@Override
+	public ArrayList<String> getExternalTeleonomeNames() {
+		// TODO Auto-generated method stub
+		return  newExternalTeleonomeNames;
 	}
 }
