@@ -299,7 +299,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 dataSourcePointerIdentity = new Identity(dataSourcePointer);
 			 displayVariableName = dataSourcePointerIdentity.deneWordName;
 			 
-			if(externalDataDenesCreated.contains(externalTeleonomeName)) {
+			if(!externalDataDenesCreated.contains(externalTeleonomeName) &&  !newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
 
 				/*
 			   Create the DeneWordCarrier Dene to store the actual value $mainComparator
