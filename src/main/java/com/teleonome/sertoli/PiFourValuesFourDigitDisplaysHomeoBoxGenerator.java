@@ -397,7 +397,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 				externalDataDeneWordsJSONArray.put(deneword);
 
 			}
-			
+		}
 			
 			//
 			// create the homeobox index dene
@@ -410,7 +410,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			homeoboxDene.put("DeneWords", deneWordsJSONArray);
 			String denePointer = "@Sperm:Hypothalamus:" ;
 			String deneName, deneType;
-			for( i=0;i<denesJSONArray.length();i++) {
+			for(int i=0;i<denesJSONArray.length();i++) {
 				deneName = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE);
 
 				deneType="";
@@ -431,7 +431,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			}
 
 			denesJSONArray.put(homeoboxDene);
-		}
+		
 		return homeBoxProcessingResultJSONObject;
 
 	}
