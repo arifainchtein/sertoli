@@ -28,7 +28,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		String provider = homeboxSourceDataElement.getString("Provider");
 		JSONArray displays = homeboxSourceDataElement.getJSONArray("Displays");
 		int processingQueuePosition = homeboxSourceDataElement.getInt("Processing Queue Position");
-
+		logger.debug("line 31, displays=" + displays.toString(4));
 		// get the
 		JSONObject homeBoxProcessingResultJSONObject = new JSONObject();
 		JSONObject homeBoxJSONObject = new JSONObject();
