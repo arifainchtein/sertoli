@@ -12,7 +12,7 @@ import com.teleonome.framework.TeleonomeConstants;
 import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
 
-public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator {
+public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGenerator{
 	Logger logger;
 
 	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndex, ArrayList externalDataDenesCreated) {
