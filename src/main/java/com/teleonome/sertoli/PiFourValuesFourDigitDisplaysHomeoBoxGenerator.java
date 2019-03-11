@@ -186,7 +186,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 
 		String actuatorActionsPointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actuatorActionList ).toString();
-		deneword = Utils.createDeneWordJSONObject(actuatorActionsPointer, actuatorActionsPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		deneword = Utils.createDeneWordJSONObject(actuatorActionList, actuatorActionsPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTION_LIST);
 		actuatorDeneWordsJSONArray.put(deneword);
 
@@ -228,8 +228,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTION_EXECUTION_POINT, TeleonomeConstants.DENEWORD_ACTION_EXECUTION_POINT_POST_PULSE, null, TeleonomeConstants.DATATYPE_STRING, true);
-		preparePublishDeneWordsJSONArray.put(deneword);
+		
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 		preparePublishDeneWordsJSONArray.put(deneword);
@@ -237,7 +236,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION, 1, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Publish Via SFTP", null, TeleonomeConstants.DATATYPE_STRING, true);
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , "Update", null, TeleonomeConstants.DATATYPE_STRING, true);
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "1==1", null, TeleonomeConstants.DATATYPE_STRING, true);
