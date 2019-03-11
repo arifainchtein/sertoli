@@ -302,7 +302,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 logger.debug("line 301, adding external teleonome=" + newExternalTeleonomeNames);
 			if(externalDataDenesCreated.contains(externalTeleonomeName) ||  newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
 				
-				logger.debug("line 304, adding external teleonome=" + newExternalTeleonomeNames);
+				logger.debug("line 304, adding DeneWordCarrier for external teleonome=" + newExternalTeleonomeNames);
 				/*
 			   Create the DeneWordCarrier Dene to store the actual value $mainComparator
 				Every Dene of type action needs to have a deneword added to the 
@@ -317,7 +317,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for " + externalTeleonomeName + " " + displayVariableName);
 				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
-				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, externalDataDeneIdentity.toString());
+				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, dataSourcePointerIdentity.toString());
 
 
 				//
@@ -341,7 +341,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 
 			}else {
-				logger.debug("line 344, display=" + display.getString("Name"));
+				logger.debug("line 344, display=" + display.getString("Name") + " externalTeleonomeName=" + externalTeleonomeName);
 				newExternalTeleonomeNames.add(externalTeleonomeName);
 				//
 				// this is the first time , so create the dene
