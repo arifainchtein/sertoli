@@ -281,7 +281,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 
 		
-		Identity externalDataDeneIdentity, dataSourceDeneIdentity, dataSourcePointerIdentity, externalDataSourcePointerIdentity;
+		Identity externalDataDeneIdentity, dataSourceDeneChainIdentity, dataSourcePointerIdentity, externalDataSourcePointerIdentity;
 		String dataSourcePointer, externalDataSourcePointer, dataSourceUnits, dataSourceValueType;
 		String displayVariableName;
 		logger.debug("line 287, displays=" + displays.length());
@@ -298,7 +298,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 dataSourceUnits = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_UNIT_ATTRIBUTE);
 			 dataSourceValueType = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_VALUETYPE_ATTRIBUTE);
 			 dataSourcePointerIdentity = new Identity(dataSourcePointer);
-			 dataSourceDeneIdentity = new Identity(dataSourcePointerIdentity.getTeleonomeName(), dataSourcePointerIdentity.getNucleusName(), dataSourcePointerIdentity.getDenechainName(), dataSourcePointerIdentity.getDeneName());
+			 dataSourceDeneChainIdentity = new Identity(dataSourcePointerIdentity.getTeleonomeName(), dataSourcePointerIdentity.getNucleusName(), dataSourcePointerIdentity.getDenechainName(), dataSourcePointerIdentity.getDeneName());
 			 displayVariableName = dataSourcePointerIdentity.deneWordName;
 			 logger.debug("line 301, adding external teleonome=" + newExternalTeleonomeNames);
 			if(externalDataDenesCreated.contains(externalTeleonomeName) ||  newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
@@ -318,7 +318,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, "DeneWord Carrier for " + externalTeleonomeName + " " + displayVariableName);
 				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_DENEWORD_CARRIER);
-				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, dataSourceDeneIdentity.toString());
+				denewordCarrierForMainComparatorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, dataSourceDeneChainIdentity.toString());
 
 
 				//
