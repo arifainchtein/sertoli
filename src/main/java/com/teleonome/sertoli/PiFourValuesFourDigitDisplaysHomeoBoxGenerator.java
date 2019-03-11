@@ -287,6 +287,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		
 		for(int i=0;i<displays.length();i++){
 			display = displays.getJSONObject(i);
+			logger.debug("line 290, display=" + display.getString("Name"));
 			externalDataSourcePointer= display.getString("External Data Source Pointer");
 			externalDataSourcePointerIdentity = new Identity(externalDataSourcePointer);
 			externalDataDeneIdentity = new Identity(externalDataSourcePointerIdentity.getTeleonomeName(), externalDataSourcePointerIdentity.getNucleusName(), externalDataSourcePointerIdentity.getDenechainName(), externalDataSourcePointerIdentity.getDeneName());
@@ -298,7 +299,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 dataSourceValueType = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_VALUETYPE_ATTRIBUTE);
 			 dataSourcePointerIdentity = new Identity(dataSourcePointer);
 			 displayVariableName = dataSourcePointerIdentity.deneWordName;
-			 
+			 logger.debug("line 301, adding external teleonome=" + newExternalTeleonomeNames);
 			if(!externalDataDenesCreated.contains(externalTeleonomeName) &&  !newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
 				newExternalTeleonomeNames.add(externalTeleonomeName);
 				logger.debug("line 304, adding external teleonome=" + newExternalTeleonomeNames);
