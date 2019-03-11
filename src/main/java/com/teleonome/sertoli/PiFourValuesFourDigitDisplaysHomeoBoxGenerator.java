@@ -298,7 +298,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 dataSourceUnits = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_UNIT_ATTRIBUTE);
 			 dataSourceValueType = dataSourceJSONObject.getString(TeleonomeConstants.DENEWORD_VALUETYPE_ATTRIBUTE);
 			 dataSourcePointerIdentity = new Identity(dataSourcePointer);
-			 dataSourceDeneChainIdentity = new Identity(dataSourcePointerIdentity.getTeleonomeName(), dataSourcePointerIdentity.getNucleusName(), dataSourcePointerIdentity.getDenechainName(), dataSourcePointerIdentity.getDeneName());
+			 dataSourceDeneChainIdentity = new Identity(dataSourcePointerIdentity.getTeleonomeName(), dataSourcePointerIdentity.getNucleusName(), dataSourcePointerIdentity.getDenechainName());
 			 displayVariableName = dataSourcePointerIdentity.deneWordName;
 			 logger.debug("line 301, adding external teleonome=" + newExternalTeleonomeNames);
 			if(externalDataDenesCreated.contains(externalTeleonomeName) ||  newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
