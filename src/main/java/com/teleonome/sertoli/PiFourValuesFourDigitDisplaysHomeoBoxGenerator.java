@@ -300,7 +300,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 			 dataSourcePointerIdentity = new Identity(dataSourcePointer);
 			 displayVariableName = dataSourcePointerIdentity.deneWordName;
 			 logger.debug("line 301, adding external teleonome=" + newExternalTeleonomeNames);
-			if(!externalDataDenesCreated.contains(externalTeleonomeName) &&  !newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
+			if(externalDataDenesCreated.contains(externalTeleonomeName) ||  newExternalTeleonomeNames.contains(externalTeleonomeName) ) {
 				newExternalTeleonomeNames.add(externalTeleonomeName);
 				logger.debug("line 304, adding external teleonome=" + newExternalTeleonomeNames);
 				/*
@@ -341,6 +341,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 
 			}else {
+				logger.debug("line 344, display=" + display.getString("Name"));
 				//
 				// this is the first time , so create the dene
 				//
