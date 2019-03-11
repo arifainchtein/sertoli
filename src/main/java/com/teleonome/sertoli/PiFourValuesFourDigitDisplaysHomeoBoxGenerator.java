@@ -401,7 +401,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 	private JSONObject getConfigParamDene(String componentsDeneChainTargetPointer,String controllerName, JSONObject displayJSONObject ) {
 		JSONObject microControllerConfigParamDeneJSONObject= new JSONObject();
 		JSONArray microControllerConfigParamDeneWordsJSONArray = new JSONArray();
-		String configName = displayJSONObject.getString("name");
+		String configName = displayJSONObject.getString("Name");
 		microControllerConfigParamDeneJSONObject.put("DeneWords", microControllerConfigParamDeneWordsJSONArray);
 		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneChainTargetPointer);
 		microControllerConfigParamDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, configName);
