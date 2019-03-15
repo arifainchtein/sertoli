@@ -222,7 +222,7 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 		JSONArray preparePublishDeneWordsJSONArray = new JSONArray();
 		preparePublishDene.put("DeneWords", preparePublishDeneWordsJSONArray);
-
+		preparePublishDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainPointer);
 		preparePublishDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, actionInPulseName);
 		preparePublishDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTION);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, actuatorName, null, TeleonomeConstants.DATATYPE_STRING, true);
