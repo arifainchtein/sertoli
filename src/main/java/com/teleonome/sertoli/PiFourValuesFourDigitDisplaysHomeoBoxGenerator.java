@@ -131,7 +131,10 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
 		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
 
-		
+		String settingsUpdatePointer2 = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 5" ).toString();
+		deneword = Utils.createDeneWordJSONObject("Display 5",settingsUpdatePointer2, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
 		//
 		// now create the denes for each of the config param 
 		//	
@@ -222,8 +225,6 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 
 		preparePublishDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, actionInPulseName);
 		preparePublishDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTION);
-		preparePublishDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorsDeneChainPointer);
-
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, actuatorName, null, TeleonomeConstants.DATATYPE_STRING, true);
 		preparePublishDeneWordsJSONArray.put(deneword);
 		
