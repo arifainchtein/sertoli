@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import com.teleonome.framework.TeleonomeConstants;
 import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
-
+ 
 public abstract class HumanInterfaceGenerator {
 
 	public HumanInterfaceGenerator() {

@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import com.teleonome.framework.TeleonomeConstants;
 import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
-
+ 
 public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGenerator{
 	Logger logger;
 	ArrayList<String> newExternalTeleonomeNames = new ArrayList<String>();

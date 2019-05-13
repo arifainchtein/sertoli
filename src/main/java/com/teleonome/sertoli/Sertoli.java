@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 
 import com.teleonome.framework.TeleonomeConstants;
-import com.teleonome.framework.denome.Identity;
+import com.teleonome.framework.denome.Identity; 
 import com.teleonome.framework.exception.MissingDenomeException;
 import com.teleonome.framework.utils.Utils;
 
@@ -121,8 +121,10 @@ public class Sertoli
 		JSONArray containers = sertoliJSONObject.getJSONArray("Containers");
 		
 		JSONObject homeBoxDefinitions = sertoliJSONObject.getJSONObject("HomeBoxDefinitions");
+		JSONObject componentsDefinitions = homeBoxDefinitions.getJSONObject("Components");
+		
 		JSONArray sensorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Sensors");
-		JSONArray actionsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Actuators");
+		JSONArray actuatorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Actuators");
 		JSONArray humanInterfaceHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Human Interface");
 		
 		
@@ -226,11 +228,11 @@ public class Sertoli
 		String hadFileName="", stringFormHAS="";
 		ArrayList newExternalTeleonomeNames;
 		String externalTeleonomeName;
-		for(int i=0;i<actionsHomeBoxDefiitions.length();i++) {
+		for(int i=0;i<actuatorsHomeBoxDefiitions.length();i++) {
 
 
 			try {
-				hadFileName=hsdDirectoryName + actionsHomeBoxDefiitions.getString(i);
+				hadFileName=hsdDirectoryName + actuatorsHomeBoxDefiitions.getString(i);
 				logger.debug("reading  " +hadFileName);
 				stringFormHAS = FileUtils.readFileToString(new File(hadFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
