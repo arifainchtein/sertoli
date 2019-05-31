@@ -110,31 +110,38 @@ public class PiFourValuesFourDigitDisplaysHomeoBoxGenerator extends HomeboxGener
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, controllerName, null, TeleonomeConstants.DATATYPE_STRING, true);
 		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
-
-		String publishContentPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 1" ).toString();
-		deneword = Utils.createDeneWordJSONObject("Display 1",publishContentPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
-		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
-
-		String sftpKeyFileNamePointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 2" ).toString();
-		deneword = Utils.createDeneWordJSONObject("Display 2",sftpKeyFileNamePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
-		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
-
-		String sftpServerIpAddressPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 3" ).toString();
-		deneword = Utils.createDeneWordJSONObject("Display 3",sftpServerIpAddressPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
-		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
-
-		String settingsUpdatePointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 4" ).toString();
-		deneword = Utils.createDeneWordJSONObject("Display 4",settingsUpdatePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
-		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
-
-		String settingsUpdatePointer2 = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 5" ).toString();
-		deneword = Utils.createDeneWordJSONObject("Display 5",settingsUpdatePointer2, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
-		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
+		int disNum=0;
+		for(int i=0;i<displays.length();i++){
+			disNum=i+1;
+			String publishContentPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display " + disNum  ).toString();
+			deneword = Utils.createDeneWordJSONObject("Display "  + disNum,publishContentPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+			microControllerConfigParamListDeneWordsJSONArray.put(deneword);
+		}
+//		String publishContentPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 1" ).toString();
+//		deneword = Utils.createDeneWordJSONObject("Display 1",publishContentPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+//		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+//		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
+//
+//		String sftpKeyFileNamePointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 2" ).toString();
+//		deneword = Utils.createDeneWordJSONObject("Display 2",sftpKeyFileNamePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+//		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+//		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
+//
+//		String sftpServerIpAddressPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 3" ).toString();
+//		deneword = Utils.createDeneWordJSONObject("Display 3",sftpServerIpAddressPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+//		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+//		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
+//
+//		String settingsUpdatePointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 4" ).toString();
+//		deneword = Utils.createDeneWordJSONObject("Display 4",settingsUpdatePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+//		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+//		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
+//
+//		String settingsUpdatePointer2 = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS, "Display 5" ).toString();
+//		deneword = Utils.createDeneWordJSONObject("Display 5",settingsUpdatePointer2, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+//		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+//		microControllerConfigParamListDeneWordsJSONArray.put(deneword);
 		//
 		// now create the denes for each of the config param 
 		//	
