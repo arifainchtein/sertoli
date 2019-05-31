@@ -121,7 +121,7 @@ public class Sertoli
 		JSONArray containers = sertoliJSONObject.getJSONArray("Containers");
 		
 		JSONObject homeBoxDefinitions = sertoliJSONObject.getJSONObject("HomeBoxDefinitions");
-		JSONObject componentsDefinitions = homeBoxDefinitions.getJSONObject("Components");
+		JSONArray componentsDefinitions = homeBoxDefinitions.getJSONArray("Components");
 		
 		JSONArray sensorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Sensors");
 		JSONArray actuatorsHomeBoxDefiitions = homeBoxDefinitions.getJSONArray("Actuators");
