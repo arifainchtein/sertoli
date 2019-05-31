@@ -582,13 +582,13 @@ public class Sertoli
 			}
 			scanner.close();
 		}else {
-			if(args.length!=2){
-				System.out.println("Usage: Sertoli localSpermFileName TeleonomeName");
+			if(args.length!=1){
+				System.out.println("Usage: Sertoli localSpermFileName");
 				System.exit(-1);
 			}
 
 			String spermFileName=args[0];
-			String teleonomeName=args[1];
+			String teleonomeName="Egg.denome";//args[1];
 
 			File f = new File(spermDirectoryName + spermFileName);
 			if(!f.isFile()){
