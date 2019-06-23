@@ -174,7 +174,8 @@ public class Sertoli
 				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
 				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue, externalDataDenesCreated);
 				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
-			
+				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
+				
 			}catch(Exception e) {
 				logger.warn(Utils.getStringException(e));
 			}
@@ -182,8 +183,8 @@ public class Sertoli
 			
 			
 			
-			homeoBoxJSONObject = renderComponent(container);
-			hypothalamusHomeoboxes.put(homeoBoxJSONObject);
+			
+			
 		}
 		//
 		// Now Process the Sensor Definitions
