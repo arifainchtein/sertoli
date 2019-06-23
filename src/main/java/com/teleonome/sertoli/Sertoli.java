@@ -149,10 +149,45 @@ public class Sertoli
 			homeoBoxJSONObject = renderContainer(container);
 			hypothalamusHomeoboxes.put(homeoBoxJSONObject);
 		}
+		
+		//
+		// nw process compnents
+		JSONObject component;
+		String mcuFileName;
+		ArrayList<String> externalDataDenesCreated = new ArrayList();
+		
+		for(int i=0;i<componentsDefinitions.length();i++) {
+			try {
+				mcuFileName=hsdDirectoryName + componentsDefinitions.getString(i).trim();
+				logger.debug("reading  " +mcuFileName);
+				stringFormHDS = FileUtils.readFileToString(new File(mcuFileName));
+				//logger.debug("stringFormHDS  " +stringFormHDS);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.warn(Utils.getStringException(e));
+			}
+			homeboxSourceDataElement = new JSONObject(stringFormHDS);
+			homeboxDefinitionType = "com.teleonome.sertoli." + homeboxSourceDataElement.getString(TeleonomeConstants.HOMEOBOX_DEFINITION_TYPE) + "HomeoBoxGenerator";
+			try {
+				clazz = Class.forName(homeboxDefinitionType);
+				constructor = clazz.getConstructor();
+				anHomeboxGenerator = (HomeboxGenerator) constructor.newInstance();
+				homeBoxProcessingResultJSONObject = anHomeboxGenerator.process(teleonomeName, homeboxSourceDataElement,currentActionValue, externalDataDenesCreated);
+				homeoBoxJSONObject = homeBoxProcessingResultJSONObject.getJSONObject("Homeobox");
+			
+			}catch(Exception e) {
+				logger.warn(Utils.getStringException(e));
+			}
+			
+			
+			
+			
+			homeoBoxJSONObject = renderComponent(container);
+			hypothalamusHomeoboxes.put(homeoBoxJSONObject);
+		}
 		//
 		// Now Process the Sensor Definitions
 		//
-		ArrayList<String> externalDataDenesCreated = new ArrayList();
 		
 		for(int i=0;i<sensorsHomeBoxDefiitions.length();i++) {
 
