@@ -172,8 +172,12 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 			}
 			
 			if( parameterDataType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
-				parameterRangeMaximum = parameterJSONObject.getDouble("Range Maximum");
-				parameterRangeMinimum = parameterJSONObject.getDouble("Range Minimum");
+				if(parameterJSONObject.has("Range Maximum")) {
+					parameterRangeMaximum = parameterJSONObject.getDouble("Range Maximum");
+				}
+				if(parameterJSONObject.has("Range Minimum")) {
+					parameterRangeMinimum = parameterJSONObject.getDouble("Range Minimum");
+				}
 			}
 			
 			configParamDene = new JSONObject();
