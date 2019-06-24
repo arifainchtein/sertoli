@@ -137,20 +137,19 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				sensorValueRangeMaximum = -9999;
 				sensorValueRangeMinimum = -9999;
 				
+				
+				
 				if( sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER) ||
 						sensorValueDataType.equals(TeleonomeConstants.DATATYPE_DOUBLE)
 						) {
-					sensorValueRangeMaximum = value.getDouble("Range Maximum");
-					sensorValueRangeMinimum = value.getDouble("Range Minimum");
-					sensorValueInitialValue = value.getDouble("Initial Value");
-				}
-				
-				if( sensorValueDataType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
 					if(value.has("Range Maximum")) {
 						sensorValueRangeMaximum = value.getDouble("Range Maximum");
 					}
 					if(value.has("Range Minimum")) {
 						sensorValueRangeMinimum = value.getDouble("Range Minimum");
+					}
+					if(value.has("Initial Value")) {
+						sensorValueInitialValue = value.getDouble("Initial Value");
 					}
 				}
 				
