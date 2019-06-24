@@ -201,6 +201,39 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 			
 		}
 		
+		
+		//
+		// create the homeobox index dene
+		// 
+		JSONObject homeoboxDene = new JSONObject();
+		homeoboxDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, "");
+		homeoboxDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, TeleonomeConstants.SPERM_HOMEOBOX_INDEX);
+		homeoboxDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_HOMEOBOX_INDEX);
+		deneWordsJSONArray = new JSONArray();
+		homeoboxDene.put("DeneWords", deneWordsJSONArray);
+		String denePointer = "@Sperm:Hypothalamus:" ;
+		String deneName, deneType;
+		for(int i=0;i<denesJSONArray.length();i++) {
+			deneName = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE);
+			
+			deneType="";
+			if(denesJSONArray.getJSONObject(i).has(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE)) {
+				deneType = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE);
+			}
+			logger.debug("deneName="+ deneName + " deneType=" + deneType);
+			
+			if(!deneName.equals("Meta Data") &&
+				!deneType.equals(TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_CARRIER) &&
+				!deneType.equals(TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_REMOVER) 
+			) {
+				denePointer = "@Sperm:Hypothalamus:" + homeBoxName + ":" + deneName;
+				deneword = Utils.createDeneWordJSONObject(deneName, denePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_HOX_DENE_POINTER);
+				deneWordsJSONArray.put(deneword);
+			}				
+		}
+		
+		denesJSONArray.put(homeoboxDene);
 		return homeBoxProcessingResultJSONObject;
 	}
 
