@@ -31,9 +31,21 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 		int processingQueuePostion = softwareJSONObject.getInt("Processing Queue Position");
 		JSONArray parameters = softwareJSONObject.getJSONArray("Parameters");
 
-		JSONObject hardwareJSONObject = homeboxSourceDataElement.getJSONObject("Hardware");
-		String storageManager = hardwareJSONObject.getString("Storage Manager");
-		String rtc = hardwareJSONObject.getString("RTC");
+		JSONObject hardwareJSONObject=null;
+		String storageManager = null;
+		String timeManager = null;
+		if(homeboxSourceDataElement.has("Hardware")) {
+			hardwareJSONObject = homeboxSourceDataElement.getJSONObject("Hardware");
+			
+			if(hardwareJSONObject.has("Storage Manager")){
+				storageManager = hardwareJSONObject.getString("Storage Manager");
+			}
+			if(hardwareJSONObject.has("Time Manager")){
+				timeManager = hardwareJSONObject.getString("Time Manager");
+			}
+		}
+		 
+		
 
 
 
