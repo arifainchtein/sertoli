@@ -144,7 +144,7 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 			parameterName = parameterJSONObject.getString("Name");
 			configListParamAddressPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS,parameterName)).toString();	
 			deneword = Utils.createDeneWordJSONObject(parameterName, configListParamAddressPointer, null, TeleonomeConstants.DENEWORD_TYPE_POINTER, true);
-			deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER);
 				
 			deneWordsJSONArray.put(deneword);
 
