@@ -12,7 +12,7 @@ import com.teleonome.framework.TeleonomeConstants;
 import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
 
-public class ActionExecutedEveryNPulses extends HomeboxGenerator {
+public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerator {
 	Logger logger;
 	@Override
 	public JSONObject process(String teleonomeName, JSONObject homeboxSourceDataElement, int currentActionIndicator,
