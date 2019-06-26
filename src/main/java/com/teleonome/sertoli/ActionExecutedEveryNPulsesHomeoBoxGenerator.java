@@ -204,7 +204,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , TeleonomeConstants.COMMANDS_DO_NOTHING, null, TeleonomeConstants.DATATYPE_STRING, true);
 		incrementCounterActionDeneWordsJSONArray.put(deneword);
 		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "("+conditionName +")", null, TeleonomeConstants.DATATYPE_STRING, true);
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "(1==1)", null, TeleonomeConstants.DATATYPE_STRING, true);
 		incrementCounterActionDeneWordsJSONArray.put(deneword);
 		
 		String mnemosyneTrueExpressionName = incrementDeneName + " " + counterSuffix + " Mnemosyne Operations True Expression";
