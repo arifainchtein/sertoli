@@ -283,7 +283,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		mnemosyneOperationDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_COUNTER_INCREMENT, counterIncrement, null, TeleonomeConstants.DATATYPE_INTEGER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_MNEMOSYNE_OPERATION);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_COUNTER_INCREMENT);
 		mnemosyneOperationDeneWordsJSONArray.put(deneword);
 		
 		
