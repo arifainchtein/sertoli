@@ -143,6 +143,13 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		actionListDeneWordsJSONArray.put(deneword);
 		
+		String incrementDeneName = "Increment Pulse Count " + actuatorName + " Action";
+		String incrementActionPointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, incrementDeneName ).toString();
+		deneword = Utils.createDeneWordJSONObject(incrementDeneName, incrementActionPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTION);
+		actionListDeneWordsJSONArray.put(deneword);
+		
+		
 		//
 		// next the action dene represented by actionInPulseName
 		//
@@ -180,12 +187,11 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		//
 		JSONObject incrementCounterActionDene = new JSONObject();
 		denesJSONArray.put(incrementCounterActionDene);
-		String deneName = "Increment Pulse Count " + actuatorName;
 		
 		JSONArray incrementCounterActionDeneWordsJSONArray = new JSONArray();
 		incrementCounterActionDene.put("DeneWords", incrementCounterActionDeneWordsJSONArray);
 		incrementCounterActionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorDeneChainTargetPointer);
-		incrementCounterActionDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, deneName);
+		incrementCounterActionDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, incrementDeneName);
 		incrementCounterActionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTION);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, actuatorName, null, TeleonomeConstants.DATATYPE_STRING, true);
 		incrementCounterActionDeneWordsJSONArray.put(deneword);
@@ -201,7 +207,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "("+conditionName +")", null, TeleonomeConstants.DATATYPE_STRING, true);
 		incrementCounterActionDeneWordsJSONArray.put(deneword);
 		
-		String mnemosyneTrueExpressionName = deneName + " " + counterSuffix + " Mnemosyne Operations True Expression";
+		String mnemosyneTrueExpressionName = incrementDeneName + " " + counterSuffix + " Mnemosyne Operations True Expression";
 		String mnemosyneNamePointer =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, mnemosyneTrueExpressionName ).toString();
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_MNEMOSYNE_OPERATION_TRUE_EXPRESSION , mnemosyneNamePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		incrementCounterActionDeneWordsJSONArray.put(deneword);
@@ -246,7 +252,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		mnemosyneTrueExpressionDene.put("DeneWords", mnemosyneTrueExpressionDeneWordsJSONArray);
 		mnemosyneTrueExpressionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorDeneChainTargetPointer);
 		mnemosyneTrueExpressionDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, mnemosyneTrueExpressionName);
-		String mnemosyneOperationName= deneName + " " + counterSuffix;
+		String mnemosyneOperationName= incrementDeneName + " " + counterSuffix;
 		String mnemosyneOperationPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS , mnemosyneOperationName).toString();
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_MNEMOSYNE_COUNTER , mnemosyneOperationPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_MNEMOSYNE_OPERATION);
@@ -294,7 +300,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		deneWordsJSONArray = new JSONArray();
 		homeoboxDene.put("DeneWords", deneWordsJSONArray);
 		String denePointer = "@Sperm:Hypothalamus:" ;
-		String  deneType;
+		String  deneType, deneName;
 		for(int i=0;i<denesJSONArray.length();i++) {
 			deneName = denesJSONArray.getJSONObject(i).getString(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE);
 
