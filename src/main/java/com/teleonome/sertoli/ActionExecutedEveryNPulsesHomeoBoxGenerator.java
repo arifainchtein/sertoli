@@ -267,8 +267,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		mnemosyneOperationDene.put("DeneWords", mnemosyneOperationDeneWordsJSONArray);
 		mnemosyneOperationDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, actuatorDeneChainTargetPointer);
 		mnemosyneOperationDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, mnemosyneOperationName);
-		
-		mnemosyneOperationDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTION);
+		mnemosyneOperationDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_MNEMOSYNE_OPERATION_UPDATE_COUNTER);
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, actuatorName, null, TeleonomeConstants.DATATYPE_STRING, true);
 		mnemosyneOperationDeneWordsJSONArray.put(deneword);
 		
