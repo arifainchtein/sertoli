@@ -32,7 +32,11 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			
 			String pointerToMicroController = homeboxSourceDataElement.getString("Microcontroller Pointer");
 			String sourceAddress = homeboxSourceDataElement.getString("Provider");
+			String containerPageIdentityPointer = homeboxSourceDataElement.getString("Container Page Identity Pointer");
+			String humanInterfacePanel = homeboxSourceDataElement.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
+			String reportingValueDeneName = homeboxSourceDataElement.getString("Reporting Value Dene Name");
 			JSONArray values = homeboxSourceDataElement.getJSONArray("Values");
+			Identity containerPageIdentity = new Identity(containerPageIdentityPointer);
 			
 			//
 			// processing
@@ -106,6 +110,43 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				
 			}
 			
+			//
+			// if we are creating a ui then add the panel to the page
+			//
+			
+			if(humanInterfacePanel!=null && 
+			!humanInterfacePanel.equals("") &&
+			containerPageIdentityPointer!=null && 
+			!containerPageIdentityPointer.equals("") ){
+				JSONObject pageDene = new JSONObject();
+				denesJSONArray.put(pageDene);
+				JSONArray pageDeneWordsJSONArray = new JSONArray();
+				pageDene.put("DeneWords", pageDeneWordsJSONArray);
+				
+				pageDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, humanInterfacePanel);
+				pageDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, containerPageIdentityPointer);
+				pageDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.SPERM_DENE_TYPE_CREATE_DENE_CHAIN);
+				
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_VISIBLE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+				pageDeneWordsJSONArray.put(deneword);
+				nextActionValue++;
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION, nextActionValue, null, TeleonomeConstants.DATATYPE_INTEGER, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PAGE_POSITION);
+				pageDeneWordsJSONArray.put(deneword);
+
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE,TeleonomeConstants.PANEL_VISUALIZATION_STYLE_SINGLE_VALUE_PANEL_COMPLETE_WIDTH, null, TeleonomeConstants.DATATYPE_STRING, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_VISUALIZATION_STYLE);
+				pageDeneWordsJSONArray.put(deneword);
+				String panelDeneChainPointer=(new Identity(teleonomeName, TeleonomeConstants.NUCLEI_HUMAN_INTERFACE,humanInterfacePanel)).toString();	
+				
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER,panelDeneChainPointer, null, TeleonomeConstants.DATATYPE_STRING, true);
+				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_PANEL_DENECHAIN_POINTER);
+				pageDeneWordsJSONArray.put(deneword);
+			}
+			
+			
+			
+			
 			String denewordValuePointer,sensorValueReportingAddressPointer, sensorValueReportingAddressDenePointer;
 			Hashtable existingDeneWordCarrierForDeneIndex = new Hashtable();
 			JSONArray sensorValueDeneWordsJSONArray;
@@ -118,7 +159,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			double sensorValueRangeMaximum=0;
 			double sensorValueRangeMinimum=0;
 			double sensorValueInitialValue=0;
-			String reportingValueDeneName="",containerTarget, visualizationStyle;
+			String containerTarget, visualizationStyle;
 			
 			boolean visible=false;
 			int panelInPagePosition=0;
@@ -153,7 +194,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					}
 				}
 				
-				reportingValueDeneName = value.getString("Reporting Value Dene Name");
+				
 				logger.debug("line 146 reportingValueDeneName=" + reportingValueDeneName);
 				sensorValueReportingAddressPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA,reportingValueDeneName, valueName)).toString();	
 				sensorValueReportingAddressDenePointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_PURPOSE,TeleonomeConstants.DENECHAIN_SENSOR_DATA, reportingValueDeneName)).toString();	
@@ -224,7 +265,11 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				// finally check to see if there is Human Interface info
 				//
 				logger.debug("has hip=" + value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) + " has pip " + value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION));
-				if(value.has(TeleonomeConstants.HUMAN_INTERFACE_PANEL) && value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION)) {
+				if(humanInterfacePanel!=null && 
+						!humanInterfacePanel.equals("") &&
+						value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_DATA_DISPLAY_NAME) && 
+						value.has(TeleonomeConstants.DENEWORD_TYPE_PANEL_IN_PANEL_POSITION)) {
+					
 					logger.debug("found ui info, processing");
 					//
 					// get  "Human Interface Container":"@Egg:Human Interface:Home Page" ,
@@ -239,7 +284,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					
 					
 		            	
-					String humanInterfacePanel = value.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
+					
 					
 					
 		            //
@@ -276,6 +321,10 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					//
 					// now do the ui
 					//
+					//
+					// create  the link to the ui
+					//
+					//containerPageIdentity
 					
 					JSONObject uiDene = new JSONObject();
 					denesJSONArray.put(uiDene);
@@ -303,6 +352,8 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					
 				}
 			} // looping ver values
+			
+			
 			
 			//
 			// create the homeobox index dene
