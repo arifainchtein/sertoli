@@ -99,6 +99,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		String actuatorDeneChainTargetPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS ).toString();
 		actuatorDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, actuatorName);
 		actuatorDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET,  actuatorDeneChainTargetPointer);
+		actuatorDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.DENE_TYPE_ACTUATOR);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_MICROCONTROLLER_POINTER, microcontrollerPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_ACTUATOR_MICROCONTROLLER_POINTER);
