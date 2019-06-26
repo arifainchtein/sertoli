@@ -228,7 +228,7 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTIVE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 		conditionnDeneWordsJSONArray.put(deneword);
 		
-		deneword = Utils.createDeneWordJSONObject("On Lack of Data", false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.ON_LACK_OF_DATA, false, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 		conditionnDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , "(Counter != 0)", null, TeleonomeConstants.DATATYPE_STRING, true);
