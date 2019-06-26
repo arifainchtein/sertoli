@@ -107,9 +107,6 @@ public class ActionExecutedEveryNPulsesHomeoBoxGenerator extends HomeboxGenerato
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXECUTION_POSITION, executionPosition, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		actuatorDeneWordsJSONArray.put(deneword);
 
-		deneword = Utils.createDeneWordJSONObject(actuatorName + " Actions", actuatorActionListPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
-		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION_LIST);
-		actuatorDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.CODON, actuatorName, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		actuatorDeneWordsJSONArray.put(deneword);
