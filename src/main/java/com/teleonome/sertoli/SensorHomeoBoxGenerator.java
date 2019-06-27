@@ -125,7 +125,6 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				
 				pageDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, humanInterfacePanel);
 				pageDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, containerPageIdentityPointer);
-				pageDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.SPERM_DENE_TYPE_CREATE_DENE_CHAIN);
 				
 				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_VISIBLE, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
 				pageDeneWordsJSONArray.put(deneword);
