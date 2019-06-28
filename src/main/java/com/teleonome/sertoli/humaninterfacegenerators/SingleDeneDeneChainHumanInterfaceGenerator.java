@@ -49,7 +49,7 @@ public class SingleDeneDeneChainHumanInterfaceGenerator extends HumanInterfaceGe
 		
 		//
 		// Create the Dene that goes in the home Page
-		JSONObject pageDene = getPageDene( containerPageIdentity,  panelName,  panelDeneChainPointer,  visualizationStyle,  panelInPagePosition,  visible);
+		JSONObject pageDene = getPageDene( containerPageIdentity,  panelName + " Panel",  panelDeneChainPointer,  visualizationStyle,  panelInPagePosition,  visible);
 
 		denes.put(pageDene);
 
