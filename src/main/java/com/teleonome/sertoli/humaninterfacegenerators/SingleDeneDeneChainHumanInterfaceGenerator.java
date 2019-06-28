@@ -14,6 +14,7 @@
  */
 package com.teleonome.sertoli.humaninterfacegenerators;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,13 +24,16 @@ import com.teleonome.framework.utils.Utils;
 
 public class SingleDeneDeneChainHumanInterfaceGenerator extends HumanInterfaceGenerator{
 
+	Logger logger;
+	
 	public SingleDeneDeneChainHumanInterfaceGenerator() {
 		// TODO Auto-generated constructor stub
+		logger = Logger.getLogger(getClass());
 	}
 	public JSONObject process( JSONObject data, int currentActionIndex) {
 		int nextActionValue=currentActionIndex;
 		JSONObject homeBoxProcessingResultJSONObject = new JSONObject();
-
+		logger.debug("SingleDeneDeneChainHumanInterfaceGenerator=" + data);
 		JSONArray denes = new JSONArray();
 		JSONArray actions= new JSONArray();
 
@@ -86,9 +90,7 @@ public class SingleDeneDeneChainHumanInterfaceGenerator extends HumanInterfaceGe
 		deneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, target);
 
 		denes.put(deneJSONObject);
-
-
-
+		logger.debug("homeBoxProcessingResultJSONObject=" + homeBoxProcessingResultJSONObject);
 
 		return homeBoxProcessingResultJSONObject;
 	}
