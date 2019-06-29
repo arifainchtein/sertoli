@@ -113,14 +113,39 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_MICROCONTROLLER_CONFIG_PARAM_LIST);
 		deneWordsJSONArray.put(deneword);
 		
+		if(isMother) {
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_MOTHER_MICROCONTROLER, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+			deneWordsJSONArray.put(deneword);
+			
+			//
+			// now remove the deneword from the simple microcontroller
+			// by Creating the DeneWord Remover
+			//
+			String removerName="DeneWord Remover For MOhter Deneword in Simple Micro Controller";
+			JSONObject removerDeneJSONObject= new JSONObject();
+			denesJSONArray.put(removerDeneJSONObject);
+			JSONArray remverDeneWordsJSONArray = new JSONArray();
+			removerDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_REMOVER);
+			removerDeneJSONObject.put("DeneWords", remverDeneWordsJSONArray);
+
+			String componentsDeneChainTargetPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS ).toString();
+			
+			removerDeneJSONObject.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, removerName);
+			removerDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneChainTargetPointer);
+			
+			
+			String removeActionDeneWordPointer = new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_COMPONENTS,"Simple Micro Controller","Mother Microcontroller"   ).toString();
+			deneword = Utils.createDeneWordJSONObject("Remove Mother DeneWord", removeActionDeneWordPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+			deneword.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneChainTargetPointer);
+			remverDeneWordsJSONArray.put(deneword);
+
+		}
 		//
 		// the ConfigParamList Dene
 		//
-		
 		JSONObject configParamListDene = new JSONObject();
 		denesJSONArray.put(configParamListDene);
 		configParamListDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneTergetPointer);
-
 
 		configParamListDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, componentName + " Config Parameter List");
 		configParamListDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_MICROCONTROLLER_CONFIG_PARAMETER_LIST);
