@@ -70,7 +70,7 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		JSONArray actionsDeneWordsJSONArray = new JSONArray();
 		actionDene.put("DeneWords", actionsDeneWordsJSONArray);
 
-		actionDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, mutationName);
+		actionDene.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, mutationName + " Mutation Action");
 		actionDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE,TeleonomeConstants.SPERM_DENE_TYPE_CREATE_MUTATION);
 		String mutationsPointer = new Identity("Egg", TeleonomeConstants.SPERM_HYPOTHALAMUS_MUTATIONS ).toString();
 		actionDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, mutationsPointer);
