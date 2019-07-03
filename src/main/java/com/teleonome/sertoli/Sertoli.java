@@ -381,7 +381,7 @@ public class Sertoli
 				//
 				// now add the homebox to the sperm
 
-				logger.info("line 343, homeoBoxJSONObject=" + homeoBoxJSONObject.length());
+				logger.debug("line 343, homeoBoxJSONObject=" + homeoBoxJSONObject.length());
 				hypothalamusHomeoboxes.put(homeoBoxJSONObject);
 
 				actions = hypothalamusJSONObject.getJSONArray("Actions");
@@ -446,6 +446,12 @@ public class Sertoli
 		logger.info("Hypothalamus:");
 		logger.info("\tActions:" + actionsLength);
 		logger.info("\tHomeoBoxes:" + homeoBoxesLength);
+		JSONArray hbs= hypothalamusJSONObject.getJSONArray("Homeoboxes");
+		JSONObject hb;
+		for(int i=0;i<hbs.length();i++) {
+			hb = hbs.getJSONObject(i);
+			logger.info("\t" + hb.getString("Name"));
+		}
 		logger.info(" ");
 		logger.warn("Process Completed");
 	}
