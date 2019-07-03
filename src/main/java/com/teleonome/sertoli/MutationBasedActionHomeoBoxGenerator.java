@@ -119,7 +119,7 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.DENEWORD_TYPE_ACTION);
 		mutationActionDeneJSONObjectDeneWordsJSONArray.put(deneword);
 		
-
+		logger.debug("mutationActionDeneJSONObject=" + mutationActionDeneJSONObject);
 	
 		
 		
