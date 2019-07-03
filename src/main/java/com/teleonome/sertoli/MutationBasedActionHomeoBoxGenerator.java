@@ -92,12 +92,33 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		deneword = Utils.createDeneWordJSONObject("Execution Mode",TeleonomeConstants.MUTATION_EXECUTION_MODE_IMMEDIATE , null, TeleonomeConstants.DATATYPE_STRING, true);
 		actionsDeneWordsJSONArray.put(deneword);
 		
+		/*
+		 * Create the dene that would go in the on Load
+		 */
+		String mutationOnLoadDeneTargetPointer = new Identity("Egg",mutationName, TeleonomeConstants.DENECHAIN_ON_LOAD_MUTATION ).toString();
+
+		JSONObject mutationOnLoadDeneJSONObject= new JSONObject();
+		denesJSONArray.put(mutationOnLoadDeneJSONObject);
+
+		JSONArray mutationOnLoadDeneJSONObjectDeneWordsJSONArray = new JSONArray();
+		mutationOnLoadDeneJSONObject.put(TeleonomeConstants.DENE_NAME_ATTRIBUTE, "Update DeneWord");
+		mutationOnLoadDeneJSONObject.put("DeneWords", mutationOnLoadDeneJSONObjectDeneWordsJSONArray);
+		mutationOnLoadDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, mutationOnLoadDeneTargetPointer);
+		mutationOnLoadDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_ACTION_LIST);
+		
+		String mutationActuatorDeneWordPointer = new Identity("Egg",TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS, actuatorName, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION).toString();
+		
+		deneword = Utils.createDeneWordJSONObject( TeleonomeConstants.MUTATION_COMMAND_SET_DENEWORD, actuatorCommandTrueExpression, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE,TeleonomeConstants.MUTATION_COMMAND_SET_DENEWORD);
+		mutationOnLoadDeneJSONObjectDeneWordsJSONArray.put(deneword);
+
+		logger.debug("mutationOnLoadDeneJSONObject=" + mutationOnLoadDeneJSONObject);
 		
 		/*
 		 *create the action list dene that will go into the Actions ToExecite denechain of the mutation 
 		 */
 
-		String mutationActionDeneTargetPointer = new Identity("Egg",mutationName, "Actions To Execute" ).toString();
+		String mutationActionDeneTargetPointer = new Identity("Egg",mutationName, TeleonomeConstants.DENECHAIN_ACTIONS_TO_EXECUTE ).toString();
 
 		JSONObject mutationActionDeneJSONObject= new JSONObject();
 		denesJSONArray.put(mutationActionDeneJSONObject);
