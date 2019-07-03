@@ -190,6 +190,7 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 					!deneType.equals(TeleonomeConstants.SPERM_DENE_TYPE_DENEWORD_REMOVER) 
 					) {
 				denePointer = "@Sperm:Hypothalamus:" + homeBoxName + ":" + deneName;
+				logger.debug("adding denePointer="+ denePointer);
 				deneword = Utils.createDeneWordJSONObject(deneName, denePointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_HOX_DENE_POINTER);
 				deneWordsJSONArray.put(deneword);
