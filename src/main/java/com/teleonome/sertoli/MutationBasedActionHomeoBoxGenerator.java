@@ -197,7 +197,7 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		}
 
 		denesJSONArray.put(homeoboxDene);
-	
+	logger.debug("line 200, returning denesJSONArray=" + denesJSONArray.length());
 	return homeBoxProcessingResultJSONObject;
 	}
 
