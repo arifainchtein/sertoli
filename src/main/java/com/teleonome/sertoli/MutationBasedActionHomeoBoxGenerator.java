@@ -31,6 +31,7 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		String actionName = homeboxSourceDataElement.getString("Action Name");
 		String actuatorCommandTrueExpression = homeboxSourceDataElement.getString(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION);
 		int evaluationPosition = homeboxSourceDataElement.getInt("Evaluation Position");
+		String expression =  homeboxSourceDataElement.getString("Expression");
 		
 		// get the
 		JSONObject homeBoxProcessingResultJSONObject = new JSONObject();
@@ -163,7 +164,7 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.EVALUATION_POSITION, evaluationPosition, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 		actuatorActionDeneWordsJSONArray.put(deneword);
 		
-		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , actuatorCommandTrueExpression, null, TeleonomeConstants.DATATYPE_STRING, true);
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_EXPRESSION , expression, null, TeleonomeConstants.DATATYPE_STRING, true);
 		actuatorActionDeneWordsJSONArray.put(deneword);
 		
 		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION , actuatorCommandTrueExpression, null, TeleonomeConstants.DATATYPE_STRING, true);
