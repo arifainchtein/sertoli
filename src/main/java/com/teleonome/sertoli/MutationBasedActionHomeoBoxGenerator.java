@@ -105,7 +105,11 @@ public class MutationBasedActionHomeoBoxGenerator extends HomeboxGenerator {
 		mutationOnLoadDeneJSONObject.put("DeneWords", mutationOnLoadDeneJSONObjectDeneWordsJSONArray);
 		mutationOnLoadDeneJSONObject.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, mutationOnLoadDeneTargetPointer);
 		mutationOnLoadDeneJSONObject.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.MUTATION_COMMAND_SET_DENEWORD);
+		String onLoadDeneWordTarget =  new Identity("Egg", TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_ACTUATORS,actionName, TeleonomeConstants.DENEWORD_ACTUATOR_COMMAND_CODE_TRUE_EXPRESSION).toString();
+		
 		deneword = Utils.createDeneWordJSONObject( TeleonomeConstants.MUTATION_COMMAND_SET_DENEWORD, actuatorCommandTrueExpression, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
+		deneword.put(TeleonomeConstants.DENEWORD_TARGET_ATTRIBUTE,onLoadDeneWordTarget);
+		
 		mutationOnLoadDeneJSONObjectDeneWordsJSONArray.put(deneword);
 		logger.debug("mutationOnLoadDeneJSONObject=" + mutationOnLoadDeneJSONObject);
 		
