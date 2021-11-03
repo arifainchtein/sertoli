@@ -77,12 +77,11 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			JSONObject sensorDene = new JSONObject();
 			denesJSONArray.put(sensorDene);
 			String sensorDeneTergetPointer = (new Identity(teleonomeName, TeleonomeConstants.NUCLEI_INTERNAL,TeleonomeConstants.DENECHAIN_SENSORS)).toString();	
+			logger.debug("line 80,sensorDeneTergetPointer=" + sensorDeneTergetPointer);
 			sensorDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, sensorDeneTergetPointer);
-			
-			
 			sensorDene.put(TeleonomeConstants.DENE_DENE_NAME_ATTRIBUTE, sensorName);
 			sensorDene.put(TeleonomeConstants.DENE_DENE_TYPE_ATTRIBUTE, TeleonomeConstants.DENE_TYPE_SENSOR);
-
+			logger.debug("line 84,sensorDene=" + sensorDene.toString(4));
 			 deneWordsJSONArray = new JSONArray();
 			sensorDene.put("DeneWords", deneWordsJSONArray);
 			 deneword = Utils.createDeneWordJSONObject("Pointer to Microcontroller", pointerToMicroController, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
