@@ -173,7 +173,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				sensorValueUnits = value.getString("Units");
 				
 				sensorValueDataType = value.getString("Value Type");
-				sensorValueRequestPosition = value.getInt(TeleonomeConstants.DENEWORD_SENSOR_REQUEST_QUEUE_POSITION);
+				sensorValueRequestPosition =  value.getInt(TeleonomeConstants.DENEWORD_SENSOR_REQUEST_QUEUE_POSITION);
 				sensorValueRangeMaximum = -9999;
 				sensorValueRangeMinimum = -9999;
 				sensorValueInitialValue=0;

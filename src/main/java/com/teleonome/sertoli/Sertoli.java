@@ -35,6 +35,7 @@ public class Sertoli
 	static Logger logger;
 	static String dataDirectory = Utils.getLocalDirectory() + "avocado/";
 	static String hsdDirectoryName = Utils.getLocalDirectory() + "avocado/hsd/";
+	static String hadDirectoryName = Utils.getLocalDirectory() + "avocado/had/";
 	static String spermDirectoryName = Utils.getLocalDirectory() + "avocado/sperm/";
 	static String sertoliDirectoryName = Utils.getLocalDirectory() + "avocado/sertoli/";
 
@@ -268,7 +269,7 @@ public class Sertoli
 
 
 			try {
-				hadFileName=hsdDirectoryName + actuatorsHomeBoxDefiitions.getString(i);
+				hadFileName=hadDirectoryName + actuatorsHomeBoxDefiitions.getString(i);
 				logger.debug("reading  " +hadFileName);
 				stringFormHAS = FileUtils.readFileToString(new File(hadFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
@@ -348,11 +349,8 @@ public class Sertoli
 			}
 		}
 
-			//
+		//
 		// now process the human interface elements
-		//
-		//
-		// Now Process the Action Definitions
 		//
 		String hudFileName="", stringFormHUS="";
 		
@@ -426,7 +424,9 @@ public class Sertoli
 			}
 		}
 
-
+		//
+		// now process the telepathons
+		// start the counter from 
 
 
 		try {
@@ -608,7 +608,7 @@ public class Sertoli
 		if(args.length>0 && args[0].equals("-v")) {
 			System.out.println("Sertoli Build " + BUILD_NUMBER);
 			System.exit(0);
-		}else if(args[0].equals("-u")) {
+		}else if(args.length>0 && args[0].equals("-u")) {
 			String previousStateDate = getLastSertolizationDate();
 			Scanner scanner = new Scanner(System.in);
 			System.out.println("Type the sperm file name and enter  ");
