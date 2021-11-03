@@ -33,8 +33,10 @@ public class Sertoli
 {
 	public final static String BUILD_NUMBER="14/05/2018 08:26";
 	static Logger logger;
+	
 	static String dataDirectory = Utils.getLocalDirectory() + "avocado/";
 	static String hsdDirectoryName = Utils.getLocalDirectory() + "avocado/hsd/";
+	static String mcuDirectoryName = Utils.getLocalDirectory() + "avocado/mcu/";
 	static String hadDirectoryName = Utils.getLocalDirectory() + "avocado/had/";
 	static String spermDirectoryName = Utils.getLocalDirectory() + "avocado/sperm/";
 	static String sertoliDirectoryName = Utils.getLocalDirectory() + "avocado/sertoli/";
@@ -159,7 +161,7 @@ public class Sertoli
 		
 		for(int i=0;i<componentsDefinitions.length();i++) {
 			try {
-				mcuFileName=hsdDirectoryName + componentsDefinitions.getString(i).trim();
+				mcuFileName=mcuDirectoryName + componentsDefinitions.getString(i).trim();
 				logger.debug("reading  " +mcuFileName);
 				stringFormHDS = FileUtils.readFileToString(new File(mcuFileName));
 				//logger.debug("stringFormHDS  " +stringFormHDS);
