@@ -32,11 +32,11 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			
 			String pointerToMicroController = homeboxSourceDataElement.getString("Microcontroller Pointer");
 			String sourceAddress = homeboxSourceDataElement.getString("Provider");
-			String containerPageIdentityPointer = homeboxSourceDataElement.getString("Container Page Identity Pointer");
-			String humanInterfacePanel = homeboxSourceDataElement.getString(TeleonomeConstants.HUMAN_INTERFACE_PANEL);
+			// 2026-10-31: both optional; without them the sensor gets no panel on a page (checked below)
+			String containerPageIdentityPointer = homeboxSourceDataElement.optString("Container Page Identity Pointer", "");
+			String humanInterfacePanel = homeboxSourceDataElement.optString(TeleonomeConstants.HUMAN_INTERFACE_PANEL, "");
 			String reportingValueDeneName = homeboxSourceDataElement.getString("Reporting Value Dene Name");
 			JSONArray values = homeboxSourceDataElement.getJSONArray("Values");
-			Identity containerPageIdentity = new Identity(containerPageIdentityPointer);
 			
 			//
 			// processing
@@ -156,7 +156,7 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 			int sensorValueRequestPosition;
 			double sensorValueRangeMaximum=0;
 			double sensorValueRangeMinimum=0;
-			double sensorValueInitialValue=0;
+			Object sensorValueInitialValue=0;
 			String containerTarget, visualizationStyle;
 			
 			boolean visible=false;
@@ -175,7 +175,11 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				sensorValueRequestPosition =  value.getInt(TeleonomeConstants.DENEWORD_SENSOR_REQUEST_QUEUE_POSITION);
 				sensorValueRangeMaximum = -9999;
 				sensorValueRangeMinimum = -9999;
-				sensorValueInitialValue=0;
+				// 2026-10-31: a boolean starts false, not 0; any type may give its own Initial Value
+				sensorValueInitialValue = sensorValueDataType.equals(TeleonomeConstants.DATATYPE_BOOLEAN) ? (Object) false : (Object) 0;
+				if(value.has("Initial Value")) {
+					sensorValueInitialValue = value.get("Initial Value");
+				}
 				
 				
 				if( sensorValueDataType.equals(TeleonomeConstants.DATATYPE_INTEGER) ||
@@ -186,9 +190,6 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 					}
 					if(value.has("Range Minimum")) {
 						sensorValueRangeMinimum = value.getDouble("Range Minimum");
-					}
-					if(value.has("Initial Value")) {
-						sensorValueInitialValue = value.getDouble("Initial Value");
 					}
 				}
 				
@@ -238,9 +239,9 @@ public class SensorHomeoBoxGenerator extends HomeboxGenerator {
 				
 				deneword = Utils.createDeneWordJSONObject("Value Type", sensorValueDataType, null, TeleonomeConstants.DATATYPE_STRING, true);
 				sensorValueDeneWordsJSONArray.put(deneword);
-				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_SENSOR_REQUEST_QUEUE_POSITION, sensorValueRequestPosition, null, TeleonomeConstants.DATATYPE_STRING, true);
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_SENSOR_REQUEST_QUEUE_POSITION, sensorValueRequestPosition, null, TeleonomeConstants.DATATYPE_INTEGER, true);
 				sensorValueDeneWordsJSONArray.put(deneword);
-				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_REPORTING_ADDRESS, sensorValueReportingAddressPointer, null, TeleonomeConstants.DATATYPE_STRING, true);
+				deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_REPORTING_ADDRESS, sensorValueReportingAddressPointer, null, TeleonomeConstants.DATATYPE_DENE_POINTER, true);
 				sensorValueDeneWordsJSONArray.put(deneword);
 				if( sensorValueRangeMaximum>-9999) {
 					deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.SENSOR_VALUE_RANGE_MAXIMUM, sensorValueRangeMaximum, null, TeleonomeConstants.DATATYPE_STRING, true);

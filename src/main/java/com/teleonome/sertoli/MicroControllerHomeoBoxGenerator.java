@@ -113,9 +113,20 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 		deneword.put(TeleonomeConstants.DENEWORD_DENEWORD_TYPE_ATTRIBUTE, TeleonomeConstants.DENEWORD_TYPE_MICROCONTROLLER_CONFIG_PARAM_LIST);
 		deneWordsJSONArray.put(deneword);
 		
-		if(isMother) {
-			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_MOTHER_MICROCONTROLER, true, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+		// 2026-10-31: the asynchronous cycle's settings, read by the controller (AnnabelleController, and the RS485
+		// one Chinampa will have); optional in the part
+		if(softwareJSONObject.has(TeleonomeConstants.DENEWORD_MICROCONTROLLER_ASYNC_REQUEST_DELAY_MILLIS)) {
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_MICROCONTROLLER_ASYNC_REQUEST_DELAY_MILLIS, softwareJSONObject.getInt(TeleonomeConstants.DENEWORD_MICROCONTROLLER_ASYNC_REQUEST_DELAY_MILLIS), null, TeleonomeConstants.DATATYPE_INTEGER, true);
 			deneWordsJSONArray.put(deneword);
+		}
+		if(softwareJSONObject.has(TeleonomeConstants.DENEWORD_MICROCONTROLLER_ASYNC_EXECUTION_MODE)) {
+			deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_MICROCONTROLLER_ASYNC_EXECUTION_MODE, softwareJSONObject.getString(TeleonomeConstants.DENEWORD_MICROCONTROLLER_ASYNC_EXECUTION_MODE), null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneWordsJSONArray.put(deneword);
+		}
+		// written either way, as the Denomes have it (it was written only when true)
+		deneword = Utils.createDeneWordJSONObject(TeleonomeConstants.DENEWORD_MOTHER_MICROCONTROLER, isMother, null, TeleonomeConstants.DATATYPE_BOOLEAN, true);
+		deneWordsJSONArray.put(deneword);
+		if(isMother) {
 			
 			//
 			// now remove the deneword from the simple microcontroller
@@ -154,7 +165,6 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 		configParamListDene.put("DeneWords", deneWordsJSONArray);
 		String parameterName, parameterDataType, configListParamAddressPointer;
 		JSONObject parameterJSONObject;
-		double parameterRangeMaximum, parameterRangeMinimum;
 		JSONObject existingDeneWordCarrierForDene;
 		//
 		// first run this loop to get
@@ -179,7 +189,7 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 		// now run it again to create the actual denes
 		//
 		JSONObject configParamDene;
-		double paramValue;
+		Object paramValue;
 		for(int i=0;i<parameters.length();i++) {
 			parameterJSONObject = parameters.getJSONObject(i);
 			
@@ -189,25 +199,12 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 			// first the data
 			//
 			parameterName = parameterJSONObject.getString("Name");
-			paramValue = parameterJSONObject.getDouble("Value");
+			// 2026-10-31: the value as written, with its own Value Type (a Pi's microcontroller has text
+			// settings, e.g. a server address); it was read as a number and written as a String. Range Minimum
+			// and Maximum stay in the part for the factory's Avocado page; they were read here but never used.
+			paramValue = parameterJSONObject.get("Value");
 			parameterDataType = parameterJSONObject.getString("Value Type");
-			parameterRangeMaximum = -9999;
-			parameterRangeMinimum = -9999;
-			
-			if( parameterDataType.equals(TeleonomeConstants.DATATYPE_INTEGER) ) {
-				parameterRangeMaximum = parameterJSONObject.getDouble("Range Maximum");
-				parameterRangeMinimum = parameterJSONObject.getDouble("Range Minimum");
-			}
-			
-			if( parameterDataType.equals(TeleonomeConstants.DATATYPE_DOUBLE)) {
-				if(parameterJSONObject.has("Range Maximum")) {
-					parameterRangeMaximum = parameterJSONObject.getDouble("Range Maximum");
-				}
-				if(parameterJSONObject.has("Range Minimum")) {
-					parameterRangeMinimum = parameterJSONObject.getDouble("Range Minimum");
-				}
-			}
-			
+
 			configParamDene = new JSONObject();
 			denesJSONArray.put(configParamDene);
 			configParamDene.put(TeleonomeConstants.SPERM_HOX_DENE_TARGET, componentsDeneTergetPointer);
@@ -222,7 +219,7 @@ public class MicroControllerHomeoBoxGenerator extends HomeboxGenerator {
 			deneword = Utils.createDeneWordJSONObject("Codon", componentName, null, TeleonomeConstants.DATATYPE_STRING, true);
 			deneWordsJSONArray.put(deneword);
 			
-			deneword = Utils.createDeneWordJSONObject(parameterName, paramValue, null, TeleonomeConstants.DATATYPE_STRING, true);
+			deneword = Utils.createDeneWordJSONObject(parameterName, paramValue, null, parameterDataType, true);
 			deneWordsJSONArray.put(deneword);
 			
 			

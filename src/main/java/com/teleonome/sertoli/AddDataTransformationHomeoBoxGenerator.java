@@ -12,7 +12,7 @@ import com.teleonome.framework.TeleonomeConstants;
 import com.teleonome.framework.denome.Identity;
 import com.teleonome.framework.utils.Utils;
 
-public class AddDataTransformationHomeboxGenerator extends HomeboxGenerator {
+public class AddDataTransformationHomeoBoxGenerator extends HomeboxGenerator {
 
 	Logger logger;
 	@Override
