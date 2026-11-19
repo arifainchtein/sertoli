@@ -137,6 +137,13 @@ public class PartFormats {
 				opt("Panel In Page Position", INT, "the Home Page Pills Panel on the Home Page; default 3"),
 				opt("Show Map", BOOLEAN, "the Map pill (devices placed by their telepathons' Latitude and Longitude); default true"),
 				opt("Allow New Pages", BOOLEAN, "offer + New tab; default true") });
+		BY_TYPE.put("WaterNetworks", new Field[] {
+				opt("Pill Position", INT, "where the water network pills go in the Home Page Pills; default 3"),
+				opt("Allow New Water Networks", BOOLEAN, "offer + Water network; default true"),
+				opt("Balance Tolerance", NUMBER, "l/m a junction may be off before it counts as a leak; default 1.0"),
+				opt("Minimum Flow", NUMBER, "l/m below which a meter counts as still; default 0.5"),
+				opt("Alert After Seconds", INT, "how long a leak must last before an alert; default 90"),
+				opt("Alert Channel", STRING, "the Heart topic alerts go to; default Emergency Channel") });
 		BY_TYPE.put("PiFourValuesFourDigitDisplays", new Field[] {
 				req("Processing Queue Position", INT, ""), req("Action Group Name", STRING, ""), req("Provider", STRING, ""),
 				req("Displays", LIST, "",

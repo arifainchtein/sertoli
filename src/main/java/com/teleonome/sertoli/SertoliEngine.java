@@ -69,6 +69,8 @@ public class SertoliEngine {
 		JSONObject sperm = new JSONObject(emptySperm.toString());
 		JSONObject spermBody = sperm.getJSONObject(TeleonomeConstants.SPERM);
 		spermBody.getJSONObject(TeleonomeConstants.SPERM_PURPOSE).put("Teleonome Name", teleonomeName);
+		// 2026-11-19: the recipe may say what the sperm is for (shown by Fertilizer and the Avocado page)
+		if (recipe.optString("Description", "").length() > 0) spermBody.getJSONObject(TeleonomeConstants.SPERM_PURPOSE).put("Description", recipe.getString("Description"));
 		JSONObject hypothalamus = spermBody.getJSONObject(TeleonomeConstants.SPERM_HYPOTHALAMUS);
 		JSONArray actions = hypothalamus.optJSONArray(TeleonomeConstants.SPERM_HYPOTHALAMUS_ACTIONS);
 		if (actions == null) {
